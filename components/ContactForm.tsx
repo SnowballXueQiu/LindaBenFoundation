@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import ParallaxBg from "@/components/ParallaxBg";
 
 export default function ContactForm() {
   const [smsConsent, setSmsConsent] = useState(false);
@@ -16,20 +17,10 @@ export default function ContactForm() {
       id="contact"
       className="relative py-20 lg:py-28 overflow-hidden"
     >
-      {/* Background image with dark green tint */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: "url('/get_in_touch/image.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "brightness(0.3) saturate(1.2)",
-        }}
-      />
-      {/* Green overlay for brand feel + bottom gradient to fade into footer */}
-      <div
-        className="absolute inset-0"
-        style={{ background: "linear-gradient(180deg, rgba(29,67,50,0.75) 0%, rgba(29,67,50,0.9) 70%, rgba(29,67,50,1) 100%)" }}
+      <ParallaxBg
+        src="/get_in_touch/image.png"
+        overlay="linear-gradient(180deg, rgba(29,67,50,0.75) 0%, rgba(29,67,50,0.88) 70%, rgba(29,67,50,1) 100%)"
+        speed={0.12}
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">

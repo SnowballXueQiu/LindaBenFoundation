@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -20,8 +21,8 @@ const navItems = [
   },
   {
     label: "About Us",
-    href: "#about",
-    children: [{ label: "Our History", href: "#" }],
+    href: "/about-us",
+    children: [{ label: "Our History", href: "/our-history" }],
   },
   {
     label: "Join the Cause",
@@ -88,6 +89,19 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pathname = usePathname();
+
+  // Check if current path is active for a nav item
+  const isActive = (item: { label: string; href: string; children?: { label: string; href: string }[] }) => {
+    if (item.label === "Home") {
+      return pathname === "/";
+    }
+    if (item.label === "About Us") {
+      return pathname === "/about-us" || pathname === "/our-history";
+    }
+    // Add other path matching logic here if needed
+    return false;
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -139,11 +153,10 @@ export default function Header() {
               >
                 <Link
                   href={item.href}
-                  className={`flex items-center gap-1 px-3 py-2 rounded text-sm font-medium transition-colors duration-150 ${
-                    item.label === "Home"
-                      ? "text-[--green-deep]"
-                      : "text-[--text-dark] hover:text-[--green-deep]"
-                  }`}
+                  className={`flex items-center gap-1 px-3 py-2 rounded text-sm font-medium transition-colors duration-150 hover:text-[#2d6a4f]`}
+                  style={{
+                    color: isActive(item) ? "#2d6a4f" : "#1c2b20"
+                  }}
                 >
                   {item.label}
                   {item.children && (
