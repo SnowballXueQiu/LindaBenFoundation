@@ -1,26 +1,27 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 const socialIcons = [
   {
     name: "Facebook",
-    href: "#",
+    href: "https://facebook.com/LindabenFoundation",
     path: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z",
   },
   {
     name: "X (Twitter)",
-    href: "#",
+    href: "https://twitter.com/lindabenfoundationinc/",
     path: "M4 4l16 16M20 4L4 20",
   },
   {
     name: "Instagram",
-    href: "#",
+    href: "https://www.instagram.com/lindabenfoundationinc/",
     path: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zm1.5-4.87h.01M6.5 3.5h11a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3h-11a3 3 0 0 1-3-3v-11a3 3 0 0 1 3-3z",
   },
   {
     name: "YouTube",
-    href: "#",
+    href: "https://www.youtube.com/channel/UCe_VwbY0U_0pRo-NH9eSLyQ",
     path: "M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z",
   },
 ];
@@ -43,18 +44,25 @@ const programLinks = [
   { label: "Partnership Programs", href: "#" },
 ];
 
-// Placeholder recognition / affiliation badges
 const recognitionBadges = [
-  { label: "GuideStar", abbr: "GS" },
-  { label: "Charity Navigator", abbr: "CN" },
+  {
+    label: "Charity Navigator",
+    image: "/recognition/1.png",
+    url: "https://charitynavigator.org/ein/852409722/",
+  },
+  {
+    label: "GuideStar",
+    image: "/recognition/2.png",
+    url: "https://www.guidestar.org/Profile/85-2409722",
+  },
 ];
 
-const affiliationBadges = [
-  { label: "Feeding America", abbr: "FA" },
-  { label: "Maryland Nonprofits", abbr: "MN" },
-  { label: "USDA SNAP-Ed", abbr: "USDA" },
-  { label: "Maryland Food Bank", abbr: "MFB" },
-  { label: "United Way", abbr: "UW" },
+const affiliationImages = [
+  "/affiliations/1.png",
+  "/affiliations/2.png",
+  "/affiliations/3.png",
+  "/affiliations/4.png",
+  "/affiliations/5.png",
 ];
 
 export default function Footer() {
@@ -94,6 +102,8 @@ export default function Footer() {
                 <a
                   key={icon.name}
                   href={icon.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={icon.name}
                   className="w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-150"
                   style={{
@@ -232,19 +242,24 @@ export default function Footer() {
               </p>
               <div className="flex gap-4">
                 {recognitionBadges.map((b) => (
-                  <div
-                    key={b.abbr}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg"
+                  <a
+                    key={b.label}
+                    href={b.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 hover:bg-white/10"
                     style={{ background: "rgba(255,255,255,0.06)" }}
+                    title={b.label}
                   >
-                    <div
-                      className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-xs"
-                      style={{ background: "var(--green-mid)" }}
-                    >
-                      {b.abbr}
-                    </div>
+                    <Image
+                      src={b.image}
+                      alt={b.label}
+                      width={48}
+                      height={48}
+                      className="w-12 h-12 object-contain rounded"
+                    />
                     <span className="text-xs" style={{ color: "rgba(255,255,255,0.6)" }}>{b.label}</span>
-                  </div>
+                  </a>
                 ))}
               </div>
             </div>
@@ -252,20 +267,20 @@ export default function Footer() {
               <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>
                 Our Affiliations
               </p>
-              <div className="flex flex-wrap gap-3">
-                {affiliationBadges.map((b) => (
+              <div className="flex flex-wrap items-center gap-4">
+                {affiliationImages.map((src, i) => (
                   <div
-                    key={b.abbr}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg"
+                    key={i}
+                    className="flex items-center justify-center px-3 py-2 rounded-lg"
                     style={{ background: "rgba(255,255,255,0.06)" }}
                   >
-                    <div
-                      className="w-6 h-6 rounded-full flex items-center justify-center text-white font-bold"
-                      style={{ background: "var(--green-deep)", fontSize: "8px" }}
-                    >
-                      {b.abbr.slice(0, 2)}
-                    </div>
-                    <span className="text-xs" style={{ color: "rgba(255,255,255,0.55)" }}>{b.label}</span>
+                    <Image
+                      src={src}
+                      alt={`Affiliation ${i + 1}`}
+                      width={80}
+                      height={48}
+                      className="h-10 w-auto object-contain"
+                    />
                   </div>
                 ))}
               </div>
@@ -284,7 +299,7 @@ export default function Footer() {
             &copy; 2026 All Rights Reserved &mdash; LindaBen Foundation
           </p>
           <div className="flex gap-5">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+            <a href="https://irp.cdn-website.com/a6dd7f97/files/uploaded/Privacy_Policy-2.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Use</a>
           </div>
         </div>
