@@ -19,13 +19,13 @@ export const navItems = [
   },
   {
     label: "Join the Cause",
-    href: "#",
+    href: "/volunteer",
     children: [
-      { label: "Volunteer Opportunities", href: "#" },
-      { label: "Volunteer Resources", href: "#" },
-      { label: "Community Pantry Intake", href: "#" },
-      { label: "Join Us", href: "#" },
-      { label: "Volunteer Hours & Impact Log", href: "#" },
+      { label: "Volunteer Opportunities", href: "https://signup.com/group/923356834027" },
+      { label: "Volunteer Resources", href: "/volunteer" },
+      { label: "Community Pantry Intake", href: "/community-pantry-intake" },
+      { label: "Join Us", href: "/join-us" },
+      { label: "Volunteer Hours & Impact Log", href: "/volunteer-hours-impact-log" },
     ],
   },
   {

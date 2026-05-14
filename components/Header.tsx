@@ -23,16 +23,31 @@ function DropdownMenu({
       style={{ borderTopColor: "var(--green-mid)" }}
     >
       <ul className="py-2">
-        {items.map((item) => (
-          <li key={item.label}>
-            <Link
-              href={item.href}
-              className="block px-5 py-2.5 text-sm text-[--text-dark] hover:bg-[--green-pale] hover:text-[--green-deep] transition-colors duration-150 leading-snug"
-            >
-              {item.label}
-            </Link>
-          </li>
-        ))}
+        {items.map((item) => {
+          const isExternalLink = item.href.startsWith('http');
+          
+          return (
+            <li key={item.label}>
+              {isExternalLink ? (
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-5 py-2.5 text-sm text-[--text-dark] hover:bg-[--green-pale] hover:text-[--green-deep] transition-colors duration-150 leading-snug"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  href={item.href}
+                  className="block px-5 py-2.5 text-sm text-[--text-dark] hover:bg-[--green-pale] hover:text-[--green-deep] transition-colors duration-150 leading-snug"
+                >
+                  {item.label}
+                </Link>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
@@ -55,6 +70,9 @@ export default function Header() {
     }
     if (item.label === "Our Programs") {
       return pathname === "/programs" || pathname === "/food-as-medicine" || pathname === "/community-pantry" || pathname === "/new-community-resource-support-center" || pathname === "/youth-volunteerism" || pathname === "/community-outreach" || pathname === "/partnerships-programs";
+    }
+    if (item.label === "Join the Cause") {
+      return pathname === "/volunteer";
     }
     if (item.label === "Contact") {
       return pathname === "/contact";
@@ -247,17 +265,33 @@ export default function Header() {
               </Link>
               {item.children && (
                 <div className="ml-4 border-l pl-3 mt-1 space-y-1" style={{ borderColor: "var(--green-pale)" }}>
-                  {item.children.map((child) => (
-                    <Link
-                      key={child.label}
-                      href={child.href}
-                      className="block py-2 px-2 text-sm rounded"
-                      style={{ color: "var(--text-mid)" }}
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      {child.label}
-                    </Link>
-                  ))}
+                  {item.children.map((child) => {
+                    const isExternalLink = child.href.startsWith('http');
+                    
+                    return isExternalLink ? (
+                      <a
+                        key={child.label}
+                        href={child.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block py-2 px-2 text-sm rounded"
+                        style={{ color: "var(--text-mid)" }}
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        {child.label}
+                      </a>
+                    ) : (
+                      <Link
+                        key={child.label}
+                        href={child.href}
+                        className="block py-2 px-2 text-sm rounded"
+                        style={{ color: "var(--text-mid)" }}
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        {child.label}
+                      </Link>
+                    );
+                  })}
                 </div>
               )}
             </div>
