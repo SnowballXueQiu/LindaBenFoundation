@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${merriweather.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${merriweather.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="min-h-screen flex flex-col">{children}</body>
     </html>
   );

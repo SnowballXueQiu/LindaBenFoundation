@@ -24,6 +24,8 @@ export default function OurHistoryPage() {
             src="/our_history/hero.png"
             overlay="rgba(28,43,32,0.55)"
             speed={0.15}
+            position="center bottom"
+            offset="0px 800px"
           />
 
           <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-12 text-center">
@@ -78,6 +80,7 @@ export default function OurHistoryPage() {
                   alt="Anna Beavan — early years"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 320px"
                 />
               </div>
               <div
@@ -180,12 +183,13 @@ export default function OurHistoryPage() {
                   however, I still had some doubts.
                 </p>
               </div>
-              <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-lg order-1 lg:order-2">
+              <div className="relative w-full aspect-4/5 rounded-2xl overflow-hidden shadow-lg order-1 lg:order-2">
                 <Image
                   src="/our_history/2.png"
                   alt="Anna Beavan — family and foundation"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 320px"
                 />
               </div>
             </div>

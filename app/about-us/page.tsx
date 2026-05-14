@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import DonationCTA from "@/components/DonationCTA";
 import CardFlipCarousel from "@/components/CardFlipCarousel";
+import ParallaxBg from "@/components/ParallaxBg";
 import Image from "next/image";
 import type { Metadata } from "next";
 
@@ -21,22 +22,12 @@ export default function AboutUsPage() {
         <section
           className="relative pt-32 pb-20 lg:pt-44 lg:pb-28 overflow-hidden"
         >
-          {/* Background with top positioning */}
-          <div className="absolute inset-0">
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `url('/about_us/hero.png')`,
-                backgroundPosition: "center top",
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-              }}
-            />
-            <div 
-              className="absolute inset-0" 
-              style={{ background: "rgba(28,43,32,0.55)" }} 
-            />
-          </div>
+          <ParallaxBg
+            src="/about_us/hero.png"
+            overlay="rgba(28,43,32,0.55)"
+            speed={0.15}
+            offset="0px 200px"
+          />
 
           <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-12 text-center">
             <h1

@@ -295,3 +295,147 @@ Your generosity brings hope and support to those in need. Donate now to change l
 ## Contact us components
 
 ## footer
+
+# /contact
+
+## hero
+
+- Contact Us (hero图：public/contact/hero.png)
+
+## main
+
+左侧 竖直排列两个google map 地址1:10739 Tucker St #222, Beltsville, MD 20705美国 地址2:9770 Patuxent Woods Dr, Columbia, MD 21046
+右侧：
+Reach Out
+We're here to help & listen. Get in touch today!
+Phone Number:
+
++1-240-461-9442
+
+Email Address:
+
+info@lindabenfoundation.org
+
+Main Office Address:
+
+10739 Tucker St, Ste 222, Beltsville, MD 20705
+
+Other Mailing Address:
+
+9770 Patuxent Woods Dr, Ste 333, Columbia, MD 2104
+
+Connect With Us:紧接着四个按钮 fb x ins ytb（链接之前已经给过）
+
+<button text：Make an Appointment href：https://meeting.levitate.ai/#/095fd9-8h1a0r/LindaBen-Family-Resource-Support-Center--Appointment>
+
+## Donate wanted（复刻前几个页面）
+## Contact Us（复刻前几个页面）
+## footer （复刻前几个页面）
+
+# /food-as-medicine
+
+## hero
+
+Food as Medicine（image 跟以前一样 public/food-as-medicine/hero.png）
+
+## main
+
+### section1
+slogan：Nourishing Families, One Box at a Time
+title：Food as Medicine Produce Box
+content：Our Food as Medicine Produce Boxes are designed to provide families with nutritious, high-quality food that supports both their health and well-being.
+
+
+
+What We Curate: Each family receives two boxes filled with fresh fruits, vegetables, eggs, pantry staples like pasta kits, oils, seasonings, ready-to-eat meals, rice, beans, and flour. When available, premium meat and fish are also included.
+
+
+
+Customizable to Fit Your Needs: We adapt our offerings based on your budget and capacity. By listening to your feedback, we create food options that are culturally sensitive and meet the unique needs of your community.
+
+
+
+Supporting Local Agriculture: We prioritize organic, regionally sourced produce, ensuring high-quality food while supporting local farmers and promoting sustainability.
+
+
+
+Education Beyond Nutrition: Each box includes a bilingual guide with cooking tips, nutritional information, and life-skills to encourage healthier lifestyle choices for students and families.
+
+<button text:Blog href:/newsletter> <button text:Contact for Information  href:/contact>
+以上整体的左侧放一个图片 要有一个随着滚动滚上来的效果 轻量的动画 public/food-as-medicine/1.png 圆形蒙版
+
+### section2
+
+slogan：Eat Well, Feel Better, Live Fully
+title：Fuel Your Body with Nature’s Best
+content：Our Food as Medicine (FAM) Rx Program is designed to transform meals into healing moments. Tailored to meet unique nutritional needs, this program ensures every bite counts, helping you feel better and live fully.
+
+
+
+Cost: Free
+
+Mobile Market Locations: Bryant Woods, Blue Heron Ln, Columbia, MD
+
+
+
+Supported by: Howard County Innovation Grant, MyVeggieVan.org, MikeandMelCruiseIn.com, St. Francis Fulton, HCPSS, LHIC, and more.
+
+<button text:Donate href:/donations>  <button image:public/food-as-medicine/signup.png href:https://signup.com/go/QhdcRuv>
+以上整体的右侧放一个图片 要有一个随着滚动滚上来的效果 轻量的动画 public/food-as-medicine/2.png 圆形蒙版
+
+## 捐赠+contact 和其他页面一样
+
+## footer
+
+# /programs
+
+## hero 
+Our Programs
+public/programs/hero.png
+
+## main
+- Our Programs
+
+slogan：Acts of Love in Action
+title：Transforming Lives Through Compassionate Programs
+desc：At LindaBen Foundation, our programs are designed to uplift and empower our community. We provide essential services that foster stability, health, and growth for children and families in need. From offering nutritious food and housing support to promoting youth volunteerism and community outreach, our initiatives aim to create lasting, positive change. Together with our partners and volunteers, we are dedicated to building a brighter future for everyone.
+
+### section1
+title：Food as Medicine
+content：Our Food as Medicine (FAM Rx) program goes beyond simply providing food. It offers nutrition education and intervention, giving people access to fresh, nutritious produce at little to no cost, while empowering them with the knowledge to make healthier choices for lasting well-being.
+<button text:Food as Medicine href:/food-as-medicine>
+image:public/programs/1.png
+
+### section2
+title:Community Pantry
+content:Our Community Pantry partners with Howard County Schools and Prince George’s County, Maryland to provide hunger relief and healthy access to food for vulnerable families
+<button text:Community Pantry href:/community-pantry>
+image:public/programs/2.png
+
+### section3
+title:New Community Resource Support Center
+content:Our Youth and Family Stability program offers wrap around services for vulnerable parents and children effected by the loss of jobs and loved ones, eviction, transitional events, major medical illness and other difficult times.
+<button text:New Community Resource Support Center  href:/new-community-resource-support-center>
+image:public/programs/3.png
+
+### section4
+title:Youth Volunteerism
+content:LindaBen Foundation Youth Volunteers have the ability to change the world with missions like ending childhood hunger and homelessness in their school and local communities where they live.
+<button text:Youth Volunteerism href:/youth-volunteerism>
+image:public/programs/4.png
+
+### section5
+title:Community Outreach
+content:Connect with like-minded Individuals and Community-Based Organizations to share their own stories, insights, resources to provide assistance and inspire others to help and be a part of a solution in ending childhood hunger and childhood homelessness.
+<button text:Community Outreach href:/community-outreach>
+image:public/programs/5.png
+
+## section6
+title:Partnerships
+content:LindaBen Foundation has partnered with programs to provide food, supplies, and services to the vulnerable, for example the Capital Area Food Bank that helps our Community Pantry and Blessings in a Backpack that feeds school children.
+<button text:Partnerships href:/partnerships-programs>
+image:public/programs/6.png
+
+## 捐赠+contact 和其他页面一样
+
+## footer

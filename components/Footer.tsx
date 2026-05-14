@@ -74,12 +74,13 @@ export default function Footer() {
           {/* Brand column */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-5">
-              <div
-                className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg shrink-0"
-                style={{ background: "var(--green-mid)" }}
-              >
-                L
-              </div>
+              <Image
+                src="/icons/logo.svg"
+                alt="LindaBen Foundation"
+                width={40}
+                height={40}
+                className="w-10 h-10 shrink-0"
+              />
               <div>
                 <div
                   className="font-bold text-base leading-tight text-white"

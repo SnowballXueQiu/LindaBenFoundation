@@ -9,9 +9,9 @@ const navItems = [
   { label: "Home", href: "/" },
   {
     label: "Our Programs",
-    href: "#programs",
+    href: "/programs",
     children: [
-      { label: "Food as Medicine", href: "#" },
+      { label: "Food as Medicine", href: "/food-as-medicine" },
       { label: "Community Pantry", href: "#" },
       { label: "New Community Resource Support Center", href: "#" },
       { label: "Youth Volunteerism", href: "#" },
@@ -49,7 +49,7 @@ const navItems = [
       { label: "Surveys", href: "#" },
     ],
   },
-  { label: "Contact", href: "#contact" },
+  { label: "Contact", href: "/contact" },
 ];
 
 function DropdownMenu({
@@ -99,6 +99,12 @@ export default function Header() {
     if (item.label === "About Us") {
       return pathname === "/about-us" || pathname === "/our-history";
     }
+    if (item.label === "Our Programs") {
+      return pathname === "/programs" || pathname === "/food-as-medicine";
+    }
+    if (item.label === "Contact") {
+      return pathname === "/contact";
+    }
     // Add other path matching logic here if needed
     return false;
   };
@@ -135,7 +141,8 @@ export default function Header() {
               alt="LindaBen Foundation"
               width={160}
               height={48}
-              className="h-10 lg:h-12 w-auto"
+              className="h-10 lg:h-12"
+              style={{ width: "auto" }}
               priority
             />
           </Link>
