@@ -74,7 +74,7 @@ export default function OurHistoryPage() {
 
             {/* Paragraph 1 — image on left */}
             <div className="grid lg:grid-cols-[320px_1fr] gap-8 lg:gap-12 mb-16 items-start">
-              <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-lg">
+              <div className="relative w-full aspect-4/5 rounded-2xl overflow-hidden shadow-lg">
                 <Image
                   src="/our_history/1.png"
                   alt="Anna Beavan — early years"

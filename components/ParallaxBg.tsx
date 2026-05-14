@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 
 /**
  * A smooth lerp-based parallax background.
@@ -31,10 +31,8 @@ export default function ParallaxBg({
   const rafId = useRef(0);
   const ticking = useRef(false);
 
-  useEffect(() => {
-    const lerp = (a: number, b: number, f: number) => a + (b - a) * f;
-
-    // Parse offset to get x and y values in pixels
+  // Memoize parsed offset to ensure stable dependencies
+  const offsetParsed = useMemo(() => {
     const parseOffset = (offsetStr: string): { x: number; y: number } => {
       const parts = offsetStr.trim().split(/\s+/);
       let x = 0, y = 0;
@@ -49,8 +47,12 @@ export default function ParallaxBg({
       }
       return { x, y };
     };
+    
+    return parseOffset(offset);
+  }, [offset]);
 
-    const offsetParsed = parseOffset(offset);
+  useEffect(() => {
+    const lerp = (a: number, b: number, f: number) => a + (b - a) * f;
 
     const updateTransform = () => {
       currentY.current = lerp(currentY.current, targetY.current, 0.12);
@@ -122,7 +124,6 @@ export default function ParallaxBg({
 
     // Set initial background position
     if (bgRef.current) {
-      const offsetParsed = parseOffset(offset);
       const bgPosX = offsetParsed.x !== 0 ? `calc(50% + ${offsetParsed.x}px)` : '50%';
       const bgPosY = (() => {
         if (position.includes('top')) {
@@ -148,7 +149,7 @@ export default function ParallaxBg({
         cancelAnimationFrame(throttleTimer);
       }
     };
-  }, [speed]);
+  }, [speed, offsetParsed, position]);
 
   return (
     <div ref={parentRef} className="absolute inset-0 overflow-hidden">

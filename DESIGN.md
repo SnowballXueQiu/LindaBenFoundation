@@ -439,3 +439,113 @@ image:public/programs/6.png
 ## 捐赠+contact 和其他页面一样
 
 ## footer
+
+# /community-pantry
+
+## hero
+
+- Community Pantry
+- image：public/community-pantry/hero.png
+
+## main
+
+### section1
+
+slogan：Addressing Hunger Head-On
+title：Nourishing Our Community
+content：
+In the United States, hunger remains a pressing concern, with approximately one in six children at risk due to the economic impact of recent global events, including the coronavirus pandemic. It is reported by Feeding America that 84% of households are purchasing less expensive, often less nutritious food to stretch their budgets further.  At LindaBen Foundation, we respond to these challenges through direct intervention and support methodologies that are linked to community resources.
+
+**Our Impact:** With the partnership of the Capital Area Food Bank, Whole Foods, Costco, Amazon, Passion & Compassion and public-school systems in Howard and Prince George's County, Maryland, our community pantries proudly serve an average of 30,000 lbs of food monthly. This effort translates to supporting over 850 households and feeding around 3,00 individuals every month.
+
+**Location #1: LindaBen Community Food Hub**
+                         *[10739 Tucker St, ste 222, Beltsville, MD 20705](https://maps.app.goo.gl/tgsaZq7Epn5Lma2E8)
+                         Open every Tuesday: 4:30pm - 6pm
+                         Open every Wednesday: 4:30pm - 6pm
+                         Open every Saturday: 10:00am - 11:30am
+
+**Location #2: Saint Bernard Catholic Church**
+                         [5700 St Bernard Dr, Riverdale, MD 20737](https://maps.app.goo.gl/vk7ZQ6i5U1yi2TQm6)
+                         Tuesdays: 11am-1pm
+ (See 2025 Food Distribution Schedule below for details)
+
+** Supported By:** Capital Area Food Bank, Maryland Diaper Bank, MD State Community Development, Prince Georges Health Department, Celestial Manna, FDC, Central Union Mission, Amazon Local Good, UMD Ext SNAP Ed
+
+** For other community resources need in your area, contact us at [info@lindabenfoundation.org](mailto:info@lindabenfoundation.org) for accommodations
+
+<button text:Food Distribution 2025 href:https://irp.cdn-website.com/a6dd7f97/files/uploaded/TLF_Food_Distribution_Schedule_2025_Calendar.pdf below_button:*Click Here for Schedule*> <button text:Sign Up to Volunteer href:https://signup.com/mobileweb/2.0/vspot.html?activitykey=961601806038#choose_event_page>
+
+以上整体右侧放图片public/community-pantry/image.png
+
+### section2
+
+#### card1
+icon: public/community-pantry/card_icon_1.svg (green)
+Food Distribution Schedule
+LindaBen Community Food Hub
+[10739 Tucker St, ste 222, Beltsville, MD 20705](https://maps.app.goo.gl/tgsaZq7Epn5Lma2E8)
+Tuesday: 4:30pm - 6pm
+Wednesday: 4:30pm - 6pm
+Saturdays: 10:00am - 11:30am
+Saint Bernard Catholic Church
+[5700 St Bernard Dr, Riverdale, MD 20737](https://maps.app.goo.gl/vk7ZQ6i5U1yi2TQm6)
+Tuesdays: 11am - 1pm
+[Contact us](/contact) for assistance or further details.
+Offering hunger-relief with dignity, the Community Pantry welcomes vulnerable families every Tuesday for food support
+
+#### card2
+icon: public/community-pantry/card_icon_2.svg
+Diaper Distribution
+[LindaBen Community Food Hub](https://maps.app.goo.gl/tgsaZq7Epn5Lma2E8)
+10739 Tucker St, ste 222, Beltsville, MD 20705
+Tuesdays: 5pm - 6pm
+Wednesdays: 4:30pm - 6pm
+[Contact us](/contact) for assistance or further details.
+We ensure infants and toddlers have the essentials.
+
+#### card3
+icon:public/community-pantry/card_icon_3.svg
+Community Health Partners
+Every Tuesdays and Wednesdays using offsite & onsite.
+[Contact us](/contact) for assistance or further details.
+Committed to whole-person care, we collaborate with health partners for complementary support during alternate pantry sessions.
+
+## 捐赠+contact 和其他页面一样
+
+## footer
+
+# /new-community-resource-support-center
+
+## hero 
+
+- New Community Resource Support Center
+- image：public/new-community-resource-support-center/hero.png
+
+## main
+
+### section1
+
+The LindaBen Foundation (TLF) is excited to announce the opening of our new Community Resource Support Center. This innovative program aims to address food insecurity and social determinants of health in underserved communities in Prince George’s County, Howard County and beyond by providing accessible supplemental emergency food and other community-based support.
+
+Our new location will serve as a hub where individuals and families can make appointments to receive emergency food assistance tailored to their availability. In addition, our center will offer information on various community resources, events, and workshops designed to empower residents and improve their overall well-being.
+
+At the core of our mission is the belief that ending hunger requires more than just providing food; it involves educating and uplifting the community. Our Resource Center will offer access to nutrition education, cooking classes, and health workshops to help residents make healthier food choices and lead more productive lives.
+
+以上右侧放图片：public/new-community-resource-support-center/image.png
+
+### section2
+
+#### card1
+icon：public/new-community-resource-support-center/card_icon_1.svg
+title：Emergency Food Assistance
+content：Scheduled appointments for personalized support.
+
+#### card2
+icon:public/new-community-resource-support-center/card_icon_2.svg
+title:Resource Hub
+content:Access to information on local events, workshops, and community resources.
+
+#### card3
+icon:public/new-community-resource-support-center/card_icon_3.svg
+title:Access to Educational Programs
+content:Nutrition education, gardening opportunities, cooking classes, and health workshops to promote healthy living.

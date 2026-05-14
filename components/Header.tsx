@@ -12,8 +12,8 @@ const navItems = [
     href: "/programs",
     children: [
       { label: "Food as Medicine", href: "/food-as-medicine" },
-      { label: "Community Pantry", href: "#" },
-      { label: "New Community Resource Support Center", href: "#" },
+      { label: "Community Pantry", href: "/community-pantry" },
+      { label: "New Community Resource Support Center", href: "/new-community-resource-support-center" },
       { label: "Youth Volunteerism", href: "#" },
       { label: "Community Outreach", href: "#" },
       { label: "Partnership Programs", href: "#" },
@@ -100,7 +100,7 @@ export default function Header() {
       return pathname === "/about-us" || pathname === "/our-history";
     }
     if (item.label === "Our Programs") {
-      return pathname === "/programs" || pathname === "/food-as-medicine";
+      return pathname === "/programs" || pathname === "/food-as-medicine" || pathname === "/community-pantry" || pathname === "/new-community-resource-support-center";
     }
     if (item.label === "Contact") {
       return pathname === "/contact";

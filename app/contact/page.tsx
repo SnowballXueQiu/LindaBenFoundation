@@ -3,7 +3,6 @@ import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import DonationCTA from "@/components/DonationCTA";
 import ParallaxBg from "@/components/ParallaxBg";
-import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

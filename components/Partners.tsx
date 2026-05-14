@@ -50,7 +50,7 @@ function LogoItem({ partner, idx }: { partner: typeof partners[0]; idx: number }
       href={partner.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex-shrink-0 flex items-center justify-center w-28 h-20 rounded-lg bg-white/80 p-3 hover:bg-white hover:shadow-md transition-all duration-300"
+      className="shrink-0 flex items-center justify-center w-28 h-20 rounded-lg bg-white/80 p-3 hover:bg-white hover:shadow-md transition-all duration-300"
       title={partner.name}
     >
       <Image

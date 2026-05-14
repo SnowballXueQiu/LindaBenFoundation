@@ -220,7 +220,7 @@ function RadialProgramItem({
 export default function RadialProgramsSection() {
   return (
     <section
-      className="py-20 lg:py-32 min-h-[800px] relative overflow-hidden"
+      className="py-20 lg:py-32 min-h-200 relative overflow-hidden"
       style={{ background: "var(--warm-white)" }}
     >
       {/* Central Logo/Icon */}
