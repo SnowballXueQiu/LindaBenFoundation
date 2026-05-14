@@ -549,3 +549,63 @@ content:Access to information on local events, workshops, and community resource
 icon:public/new-community-resource-support-center/card_icon_3.svg
 title:Access to Educational Programs
 content:Nutrition education, gardening opportunities, cooking classes, and health workshops to promote healthy living.
+
+# /youth-volunteerism
+
+## hero
+- Title：Youth Volunteerism
+- image：public/youth-volunteerism/hero.png
+
+## main
+
+### section1
+
+slogan：Empowering the Next Generation
+title：Join a Movement of Change-makers
+content：At the LindaBen Foundation, youth volunteers are on an important mission to make a positive difference by fighting childhood hunger and homelessness in schools and local areas. With more than 30 young volunteers, making up 40% of our team, we aim to greatly reduce the difficulties faced by those in need.
+Our volunteers are crucial to our summer programs and other activities. We invite you to create lasting solutions that benefit both land and marine environments.
+<button text:Submit Hours href:/volunteer-hours-impact-log> <button text:Sign Up href:/volunteer>
+
+以上内容右侧图片：public/youth-volunteerism/image.png
+
+### section2
+
+#### card1
+
+icon：public/youth-volunteerism/card_icon_1.svg
+title：Make a Difference
+content：Volunteering offers you the unique opportunity to directly contribute to alleviating hunger and improving community well-being.
+
+#### card2
+icon：public/youth-volunteerism/card_icon_2.svg
+title：Build Your Skills
+content：Engage in diverse roles from food rescue to social media advocacy, enhancing your skill set while making meaningful contributions.
+
+#### card3
+icon：public/youth-volunteerism/card_icon_3.svg
+title：Create Impactful Connections
+content：Meet like-minded individuals, weaving a network of people dedicated to fostering growth and advancing communal well-being.
+
+## 捐赠+contact 和其他页面一样
+
+## footer
+
+# /community-outreach
+
+## hero
+- Title：Community Outreach
+- image：public/community-outreach/hero.png
+
+## main
+
+slogan：Uniting Hands and Hearts in Service
+title：Lend Your Voice to a Cause That Echoes Through Communities
+content：Our partnership with local and nonprofit agencies has been pivotal in our journey, allowing us to join forces with over 30 organizations within our inaugural year. Our common goal is to offer assistance that motivates and encourages the wider community to engage actively in the fight to end childhood hunger and homelessness.
+We extend an invitation for you to join our cause. Your participation aids us in building a formidable network ﻿to offer essential aid to those in dire need. 
+<button text:Donate Hours href:/donations> <button text:Sign Up href:/volunteer>
+
+以上内容右侧图片：public/community-outreach/image.png
+
+## 捐赠+contact 和其他页面一样
+
+## footer

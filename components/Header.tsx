@@ -14,8 +14,8 @@ const navItems = [
       { label: "Food as Medicine", href: "/food-as-medicine" },
       { label: "Community Pantry", href: "/community-pantry" },
       { label: "New Community Resource Support Center", href: "/new-community-resource-support-center" },
-      { label: "Youth Volunteerism", href: "#" },
-      { label: "Community Outreach", href: "#" },
+      { label: "Youth Volunteerism", href: "/youth-volunteerism" },
+      { label: "Community Outreach", href: "/community-outreach" },
       { label: "Partnership Programs", href: "#" },
     ],
   },
@@ -100,7 +100,7 @@ export default function Header() {
       return pathname === "/about-us" || pathname === "/our-history";
     }
     if (item.label === "Our Programs") {
-      return pathname === "/programs" || pathname === "/food-as-medicine" || pathname === "/community-pantry" || pathname === "/new-community-resource-support-center";
+      return pathname === "/programs" || pathname === "/food-as-medicine" || pathname === "/community-pantry" || pathname === "/new-community-resource-support-center" || pathname === "/youth-volunteerism" || pathname === "/community-outreach";
     }
     if (item.label === "Contact") {
       return pathname === "/contact";
