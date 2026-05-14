@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { getQuickLinks, getProgramLinks } from "@/lib/navigation";
 
 const socialIcons = [
   {
@@ -17,7 +18,7 @@ const socialIcons = [
   {
     name: "Instagram",
     href: "https://www.instagram.com/lindabenfoundationinc/",
-    path: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zm1.5-4.87h.01M6.5 3.5h11a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3h-11a3 3 0 0 1-3-3v-11a3 3 0 0 1 3-3z",
+    path: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zm1.5-4.87h.01M6.5 3.5h11a3 3 0 0 1 3 3v11a3 3 0 0 1-3-3v-11a3 3 0 0 1 3-3z",
   },
   {
     name: "YouTube",
@@ -26,23 +27,9 @@ const socialIcons = [
   },
 ];
 
-const quickLinks = [
-  { label: "Our Programs", href: "#programs" },
-  { label: "About Us", href: "#about" },
-  { label: "Volunteer", href: "#" },
-  { label: "Donate", href: "#donate" },
-  { label: "Blog", href: "#blog" },
-  { label: "Contact", href: "#contact" },
-];
-
-const programLinks = [
-  { label: "Food as Medicine", href: "#" },
-  { label: "Community Pantry", href: "#" },
-  { label: "Resource Support Center", href: "#" },
-  { label: "Youth Volunteerism", href: "#" },
-  { label: "Community Outreach", href: "#" },
-  { label: "Partnership Programs", href: "#" },
-];
+// Get navigation links from shared configuration
+const quickLinks = getQuickLinks();
+const programLinks = getProgramLinks();
 
 const recognitionBadges = [
   {
@@ -301,7 +288,6 @@ export default function Footer() {
           </p>
           <div className="flex gap-5">
             <a href="https://irp.cdn-website.com/a6dd7f97/files/uploaded/Privacy_Policy-2.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Use</a>
           </div>
         </div>
       </div>

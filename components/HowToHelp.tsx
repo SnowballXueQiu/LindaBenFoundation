@@ -5,19 +5,19 @@ const cards = [
     title: "Donate",
     text: "Giving online has never been more secure, convenient or hassle-free. We also accept cash or checks, and donations in kind. Your gift will help equip those in need with more opportunity and a brighter future.",
     img: "/you_can_help/donate.png",
-    href: "#donate",
+    href: "/donations",
   },
   {
     title: "Volunteer",
     text: "Get involved today by becoming a volunteer. Play a vital role improving the lives of people who experience food insecurity. Learn more about opportunities and ways you can help.",
     img: "/you_can_help/volunteer.png",
-    href: "#",
+    href: "/volunteer",
   },
   {
     title: "Subscribe",
     text: "Subscribe to our newsletter to stay informed about food insecurity, including news, events and articles, or donate and contribute and help us sustain programs and meet our goals.",
     img: "/you_can_help/subscribe.png",
-    href: "#",
+    href: "/newsletter",
   },
 ];
 

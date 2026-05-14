@@ -4,53 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-
-const navItems = [
-  { label: "Home", href: "/" },
-  {
-    label: "Our Programs",
-    href: "/programs",
-    children: [
-      { label: "Food as Medicine", href: "/food-as-medicine" },
-      { label: "Community Pantry", href: "/community-pantry" },
-      { label: "New Community Resource Support Center", href: "/new-community-resource-support-center" },
-      { label: "Youth Volunteerism", href: "/youth-volunteerism" },
-      { label: "Community Outreach", href: "/community-outreach" },
-      { label: "Partnership Programs", href: "#" },
-    ],
-  },
-  {
-    label: "About Us",
-    href: "/about-us",
-    children: [{ label: "Our History", href: "/our-history" }],
-  },
-  {
-    label: "Join the Cause",
-    href: "#",
-    children: [
-      { label: "Volunteer Opportunities", href: "#" },
-      { label: "Volunteer Resources", href: "#" },
-      { label: "Community Pantry Intake", href: "#" },
-      { label: "Join Us", href: "#" },
-      { label: "Volunteer Hours & Impact Log", href: "#" },
-    ],
-  },
-  {
-    label: "Resources",
-    href: "#",
-    children: [
-      { label: "Donations", href: "#donate" },
-      { label: "Blog", href: "#blog" },
-      { label: "Newsletter", href: "#" },
-      { label: "Upcoming Events", href: "#" },
-      { label: "Testimonials", href: "#testimonials" },
-      { label: "Our Partners", href: "#partners" },
-      { label: "Financials", href: "#" },
-      { label: "Surveys", href: "#" },
-    ],
-  },
-  { label: "Contact", href: "/contact" },
-];
+import { navItems } from "@/lib/navigation";
 
 function DropdownMenu({
   items,
@@ -100,7 +54,7 @@ export default function Header() {
       return pathname === "/about-us" || pathname === "/our-history";
     }
     if (item.label === "Our Programs") {
-      return pathname === "/programs" || pathname === "/food-as-medicine" || pathname === "/community-pantry" || pathname === "/new-community-resource-support-center" || pathname === "/youth-volunteerism" || pathname === "/community-outreach";
+      return pathname === "/programs" || pathname === "/food-as-medicine" || pathname === "/community-pantry" || pathname === "/new-community-resource-support-center" || pathname === "/youth-volunteerism" || pathname === "/community-outreach" || pathname === "/partnerships-programs";
     }
     if (item.label === "Contact") {
       return pathname === "/contact";
@@ -241,7 +195,7 @@ export default function Header() {
             </div>
 
             <a
-              href="#donate"
+              href="/donations"
               className="hidden sm:inline-block px-5 py-2 rounded-full text-sm font-semibold text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
               style={{ background: "var(--green-deep)" }}
             >
@@ -310,7 +264,7 @@ export default function Header() {
           ))}
           <div className="pt-3 pb-2">
             <a
-              href="#donate"
+              href="/donations"
               className="block text-center py-2.5 rounded-full text-sm font-semibold text-white"
               style={{ background: "var(--green-deep)" }}
               onClick={() => setMobileOpen(false)}

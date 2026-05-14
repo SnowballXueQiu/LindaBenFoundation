@@ -43,7 +43,7 @@ export default function DonationCTA() {
         </p>
 
         <a
-          href="#"
+          href="/donations"
           className="inline-block px-10 py-4 rounded-full font-bold text-white text-base shadow-lg transition-all duration-200 hover:scale-[1.03] hover:shadow-xl active:scale-[0.98]"
           style={{ background: "var(--green-deep)" }}
         >

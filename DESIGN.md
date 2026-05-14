@@ -609,3 +609,42 @@ We extend an invitation for you to join our cause. Your participation aids us in
 ## 捐赠+contact 和其他页面一样
 
 ## footer
+
+# /partnership-programs
+
+## Hero
+
+- title:Partnership Programs
+- image:public/partnership-programs/hero.png
+
+## main
+
+### section1
+
+slogan:Join Hands with Us in Service
+Title:Extend a Circle of Support to Those in Need
+content:
+The LindaBen Foundation works with other committed organizations to provide programs and services to help vulnerable people and those at risk. Together, we make sure that basic needs are always met, helping to build a stronger community.
+
+Find out how you can help or join our mission.
+
+<button text:Donate href:/donations> <button text:Sign Up href:/volunteer>
+
+以上内容右侧图片：public/partnership-programs/image.png（圆形蒙版）
+
+### section2
+
+#### card1
+icon:public/partnership-programs/card_icon_1.svg
+title:Blessings in a Backpack
+content:LindaBen Foundation and Blessings in a Backpack distribute essential food and supplies every Friday in Howard and Prince George’s Counties. We ensure that no child goes hungry when school meals are unavailable.
+
+#### card2
+icon:public/partnership-programs/card_icon_2.svg
+title:Capital Area Food Bank
+content:Our partnership with the Capital Area Food Bank secures high-quality food products for distribution through our Community Pantry and assists TEFAP, contributing to overall community health and wellness.
+
+#### card3
+icon:public/partnership-programs/card_icon_3.svg
+title:Greater Riverdale Cares
+content:We work alongside Greater Riverdale Cares to dispense nourishment across the greater Riverdale, MD community and surrounding areas, tackling hunger with a unified community response.

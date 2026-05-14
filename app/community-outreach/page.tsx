@@ -82,7 +82,7 @@ export default function CommunityOutreachPage() {
                       className="block w-full text-center px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90"
                       style={{ background: "var(--green-deep)" }}
                     >
-                      Donate Hours
+                      Donate
                     </Link>
                   </div>
                   <div className="flex-1">

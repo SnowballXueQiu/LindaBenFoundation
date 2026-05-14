@@ -75,7 +75,7 @@ export default function AboutUs() {
               our moral convictions into actions.
             </p>
             <a
-              href="#"
+              href="/about-us"
               className="inline-block px-7 py-3.5 rounded-full font-semibold text-white transition-all duration-200 hover:opacity-90"
               style={{ background: "var(--green-deep)" }}
             >

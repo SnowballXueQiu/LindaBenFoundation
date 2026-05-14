@@ -3,6 +3,18 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
+const smoothScrollTo = (elementId: string) => {
+  const element = document.getElementById(elementId);
+  if (element) {
+    const headerHeight = 80; // Header height (h-16 lg:h-20 = 64px on mobile, 80px on desktop)
+    const elementPosition = element.offsetTop - headerHeight;
+    window.scrollTo({
+      top: elementPosition,
+      behavior: "smooth",
+    });
+  }
+};
+
 const slides = [
   {
     id: 1,
@@ -91,15 +103,15 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-wrap gap-4">
-              <a
-                href="#programs"
+              <button
+                onClick={() => smoothScrollTo("programs")}
                 className="px-7 py-3.5 rounded-full font-semibold text-white transition-all duration-200 hover:brightness-110 hover:scale-[1.02] active:scale-[0.98]"
                 style={{ background: "var(--green-mid)" }}
               >
                 Our Programs
-              </a>
+              </button>
               <a
-                href="#donate"
+                href="/donations"
                 className="px-7 py-3.5 rounded-full font-semibold border-2 border-white text-white transition-all duration-200 hover:bg-white hover:text-[--green-deep] active:scale-[0.98]"
               >
                 Ways to Give

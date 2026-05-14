@@ -16,34 +16,52 @@ function formatNumber(n: number): string {
 }
 
 function AnimatedNumber({ target }: { target: number }) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(target); // Start with final value to prevent flash of 0
   const ref = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
+  const animationRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    // Reset for new animation
+    started.current = false;
+    
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
           started.current = true;
+          
+          // Start animation from 0
+          setCount(0);
+          
           const duration = 2000;
           const steps = 60;
           const increment = target / steps;
           let current = 0;
-          const timer = setInterval(() => {
+          
+          animationRef.current = setInterval(() => {
             current += increment;
             if (current >= target) {
               setCount(target);
-              clearInterval(timer);
+              if (animationRef.current) {
+                clearInterval(animationRef.current);
+              }
             } else {
               setCount(Math.floor(current));
             }
-          }, duration / steps);
+          }, duration / steps) as NodeJS.Timeout;
         }
       },
       { threshold: 0.3 }
     );
+    
     if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
+    
+    return () => {
+      observer.disconnect();
+      if (animationRef.current) {
+        clearInterval(animationRef.current);
+      }
+    };
   }, [target]);
 
   return <span ref={ref}>{formatNumber(count)}</span>;

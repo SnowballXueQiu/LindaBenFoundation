@@ -4,32 +4,32 @@ import Link from "next/link";
 const programs = [
   {
     title: "Community Pantry",
-    slug: "community-pantry",
+    slug: "/community-pantry",
     img: "/our_programs/1.png",
   },
   {
     title: "New Community Resource Support Center",
-    slug: "resource-center",
+    slug: "/new-community-resource-support-center",
     img: "/our_programs/2.png",
   },
   {
     title: "Youth Volunteerism",
-    slug: "youth-volunteerism",
+    slug: "/youth-volunteerism",
     img: "/our_programs/3.png",
   },
   {
     title: "Food as Medicine",
-    slug: "food-as-medicine",
+    slug: "/food-as-medicine",
     img: "/our_programs/4.png",
   },
   {
     title: "Community Outreach",
-    slug: "community-outreach",
+    slug: "/community-outreach",
     img: "/our_programs/5.png",
   },
   {
     title: "Partnership Programs",
-    slug: "partnership-programs",
+    slug: "/partnerships-programs",
     img: "/our_programs/6.png",
   },
 ];
@@ -80,7 +80,7 @@ export default function Programs() {
               </h3>
               {/* Learn more link */}
               <Link
-                href={`#${program.slug}`}
+                href={program.slug}
                 className="inline-flex items-center gap-1 text-sm font-semibold transition-colors duration-150"
                 style={{ color: "var(--green-light)" }}
               >
@@ -94,20 +94,20 @@ export default function Programs() {
         {/* CTA row */}
         <div className="flex flex-wrap justify-center gap-4 mt-14">
           <a
-            href="#donate"
+            href="/donations"
             className="px-7 py-3.5 rounded-full font-semibold text-white transition-all duration-200 hover:opacity-90 border-2 border-white"
             style={{ background: "transparent" }}
           >
             Ways to Give
           </a>
           <a
-            href="#about"
+            href="/about-us"
             className="px-7 py-3.5 rounded-full font-semibold border-2 border-white/60 text-white transition-all duration-200 hover:bg-white/10"
           >
             More About Us
           </a>
           <a
-            href="#contact"
+            href="/contact"
             className="px-7 py-3.5 rounded-full font-semibold border-2 transition-all duration-200 hover:bg-white/10"
             style={{
               borderColor: "var(--green-light)",
