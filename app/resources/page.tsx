@@ -49,9 +49,9 @@ const surveys = [
 ];
 
 const serviceImages = [
-  { name: "CAREAPP", image: "/surveys/1.png", url: null },
-  { name: "MARYLAND DIAPER BANK", image: "/surveys/2.png", url: "https://docs.google.com/forms/d/e/1FAIpQLSeI70JZPUWARA5Oqe31pQatYf64q2j0OWWmJ0rs3VGxLVM0tw/viewform" },
-  { name: "findhelp", image: "/surveys/3.png", url: "https://www.findhelp.org/" }
+  { name: "CAREAPP", image: "/resources/1.png", url: null },
+  { name: "MARYLAND DIAPER BANK", image: "/resources/2.png", url: "https://docs.google.com/forms/d/e/1FAIpQLSeI70JZPUWARA5Oqe31pQatYf64q2j0OWWmJ0rs3VGxLVM0tw/viewform" },
+  { name: "findhelp", image: "/resources/3.png", url: "https://www.findhelp.org/" }
 ];
 
 export default function SurveysPage() {
@@ -62,7 +62,7 @@ export default function SurveysPage() {
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 lg:pt-44 lg:pb-28 overflow-hidden">
         <ParallaxBg
-          src="/surveys/hero.png"
+          src="/resources/hero.png"
           overlay="rgba(28,43,32,0.55)"
           speed={0.15}
           position="center center"
@@ -181,7 +181,7 @@ export default function SurveysPage() {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url(/surveys/image.png)",
+            backgroundImage: "url(/resources/image.png)",
             filter: "brightness(0.3)",
           }}
         />

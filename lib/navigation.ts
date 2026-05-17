@@ -30,7 +30,7 @@ export const navItems = [
   },
   {
     label: "Resources",
-    href: "#",
+    href: "/resources",
     children: [
       { label: "Donations", href: "/donations" },
       { label: "Blog", href: "#blog" },
@@ -39,7 +39,7 @@ export const navItems = [
       { label: "Testimonials", href: "#testimonials" },
       { label: "Our Partners", href: "/our-partners" },
       { label: "Financials", href: "/financials" },
-      { label: "Surveys", href: "/surveys" },
+      { label: "Surveys", href: "/resources" },
     ],
   },
   { label: "Contact", href: "/contact" },
