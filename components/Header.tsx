@@ -74,6 +74,9 @@ export default function Header() {
     if (item.label === "Join the Cause") {
       return pathname === "/volunteer";
     }
+    if (item.label === "Resources") {
+      return pathname === "/donations";
+    }
     if (item.label === "Contact") {
       return pathname === "/contact";
     }

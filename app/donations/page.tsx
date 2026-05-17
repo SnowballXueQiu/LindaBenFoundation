@@ -116,13 +116,16 @@ export default function DonationsPage() {
               </a>
             </div>
             <div className="flex justify-center">
-              <Image
-                src="/donations/section1.png"
-                alt="Donation Ways"
-                width={500}
-                height={400}
-                className="rounded-lg shadow-lg"
-              />
+              <div className="w-80 h-80 rounded-full overflow-hidden shadow-lg">
+                <Image
+                  src="/donations/section1.png"
+                  alt="Donation Ways"
+                  width={320}
+                  height={320}
+                  loading="eager"
+                  className="w-full h-full object-cover"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -143,6 +146,7 @@ export default function DonationsPage() {
                     src={card.image}
                     alt={card.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                 </div>
@@ -256,13 +260,15 @@ export default function DonationsPage() {
               </p>
             </div>
             <div className="flex justify-center">
-              <Image
-                src="/donations/section5.png"
-                alt="501(c)(3) Status"
-                width={500}
-                height={400}
-                className="rounded-lg shadow-lg"
-              />
+              <div className="w-80 h-80 rounded-full overflow-hidden shadow-lg">
+                <Image
+                  src="/donations/section5.png"
+                  alt="501(c)(3) Status"
+                  width={320}
+                  height={320}
+                  className="w-full h-full object-cover"
+                />
+              </div>
             </div>
           </div>
         </div>

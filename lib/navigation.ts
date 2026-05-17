@@ -32,7 +32,7 @@ export const navItems = [
     label: "Resources",
     href: "#",
     children: [
-      { label: "Donations", href: "#donate" },
+      { label: "Donations", href: "/donations" },
       { label: "Blog", href: "#blog" },
       { label: "Newsletter", href: "#" },
       { label: "Upcoming Events", href: "#" },
