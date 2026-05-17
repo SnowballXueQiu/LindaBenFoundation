@@ -843,3 +843,92 @@ Hours of Volunteer Time
 ## contact（这里只有contact了） 和其他页面一样
 
 ## footer
+
+# /financials
+## hero
+- title: Financials
+
+## main
+- Download Our Financial Reports
+
+FY 2022 Form 990 https://irp.cdn-website.com/a6dd7f97/files/uploaded/Form990Package-2022.pdf
+FY 2022 Form 8453 https://irp.cdn-website.com/a6dd7f97/files/uploaded/Form8453TESigned-2022.pdf
+FY 2021 Form 990 https://irp.cdn-website.com/a6dd7f97/files/uploaded/2021-lindaben-irs-990.pdf
+FY 2021 Form 8453 https://irp.cdn-website.com/a6dd7f97/files/uploaded/2021-lindaben-form8453-eo.pdf
+FY 2020 Form 990 https://irp.cdn-website.com/a6dd7f97/files/uploaded/2020-lindaben-irs-990.pdf
+FY 2020 Form 8453 https://irp.cdn-website.com/a6dd7f97/files/uploaded/2020-lindaben-form8453-eo.pdf
+
+以上内容右侧放一个图片 public/financials/image.png
+
+ ## 捐赠+contact 和其他页面一样
+
+# /our-partners
+
+## hero
+
+- Title: Collaborative Partners
+- image: public/our-partners/hero.png
+
+## main
+LindaBen Foundation partners with several allies to further its mission and goal.
+
+图片列表 和首页的partners一样，但是要排列展开全部 不是轮播图了 然后链接也一样 固定图片宽高 使得布局整齐
+
+## 捐赠+contact 和其他页面一样
+## footer
+
+# /surveys
+
+## hero
+
+- Title: Help & Resources
+- image: public/surveys/hero.png
+
+## main
+
+### section1
+
+- slogan: Support Our Mission
+- title: We Need Your Help
+- content:
+LindaBen is committed to helping individuals and families improve the quality of their lives, and in doing so, we offer this list to locate additional community resources for food, housing, supplies, transit, health, money, education, employment, legal, and general care.
+
+If you or someone you know is in crisis, call or text 988 to reach the Suicide and Crisis Lifeline, chat with them online via their website, or text HOME to 741741 (multiple languages available). If you have a critical emergency, please call 911.
+
+### section2
+
+- title: Surveys
+
+#### surveys
+
+Food as Medicine, Fresh Produce Box Pre Survey <button text:Take the Survey in English/Spanish href:https://docs.google.com/forms/d/e/1FAIpQLSdJqrEOOSod3y3gMkT4GDYliNrTlvTVWqGhvcLgpRp_A3nAGg/viewform>
+Food as Medicine, Fresh Produce Box Post Survey <button text:Take the Survey in English href:https://forms.gle/2N3BcXEXwuU8zQgM8> <button text:Take the Survey in Spanish href:https://forms.gle/4bcKt6wjyDNjkqGH8>
+Eat Well Be Well <desc (Healthier Choices Workshop Post Survey)> <button text:Student Post Workshop Survey href:https://docs.google.com/forms/d/e/1FAIpQLSeoCuM_R4bR1YlRAMyKkr35Utg3M5EZOI3y8B-tDxU4XPvr7Q/viewform>
+Eat Well Be Well <desc (PE Class, Shake It Up)> <button text:Student Post Workshop Survey href:https://docs.google.com/forms/d/e/1FAIpQLSdsJlX93jmCtahl4L4-S7sVtz6IhGjSPgFvrir2ub-sGmHCjg/viewform>
+Community Food & Nutrition Security Survey <button text:Take this survey href:https://forms.gle/PXciQrQefCj7bNFX9>
+Levitate TLF Surveys <desc (Customer Satisfaction)> <button text:Take this Survey href:https://surveys.levitate.ai/#/survey/eyJhbGciOiJIUzUxMiIsImtpZCI6ImQ3MzUwMWI1LTk4MzItNGMyYS04YmMyLTMzMTIxMTdlYWFhMyIsInR5cCI6IkpXVCJ9.eyJhaWQiOiJkMjg1NmNhZS0xZGNkLTQzYzktOWFmMS1lOTMyNmY2YmM2YjgiLCJzdWIiOiI4NGNiNWQyZi1lMzU4LTRlZmQtOWYxMC00MWEzYjIzODk1MGYiLCJuYmYiOjE3MTU3OTcyNjksImV4cCI6MjUzNDAyMzAwODAwLCJpYXQiOjE3MTU3OTcyNjksImlzcyI6Imh0dHBzOi8vYXBpLmxldml0YXRlLmFpLyIsImF1ZCI6Imh0dHBzOi8vYXBpLmxldml0YXRlLmFpLyJ9.TUkPznWDyup2EcPTCXp3Etpdrf0BFRFW-WW24rRm6jTsV97N2_1FBzIC61Jt79er9_O_X9KvZgh2kppFSXOqpg>
+
+### section3
+
+- title: Join Our Team
+- content: At LindaBen Foundation, we believe that every helping hand makes a difference. Whether you're looking to volunteer your time or become a part of our dedicated staff, your involvement is crucial in the fight against food insecurity. Together, we can uplift our community and create lasting change. Sign up today to make an impact! [{Admin Only}](https://fmy.jem.mybluehost.me/admin/login)
+<button text:Get Involved  href:https://fmy.jem.mybluehost.me/>
+- background image: public/surveys/image.png
+
+### section4
+- title: Services for food, health, housing, transit, education, employment, & more.
+- content：
+
+image1: CAREAPP  public/surveys/1.png
+image2: MARYLAND DIAPER BANK  public/surveys/2.png https://docs.google.com/forms/d/e/1FAIpQLSeI70JZPUWARA5Oqe31pQatYf64q2j0OWWmJ0rs3VGxLVM0tw/viewform
+image3: findhelp  public/surveys/3.png https://www.findhelp.org/
+
+Diabetes Awareness Resources
+
+[GETTING HEALTHY – DIABETES](https://howard.md.networkofcare.org/mh/library/learning-center.aspx?lc=diabetes)
+(HOWARD CO, MARYLAND)
+[LIVING WELL DIABETES SELF-MANAGEMENT PROGRAM](https://www.princegeorgescountymd.gov/3396/Diabetes-Self-Management-Program)
+(PRINCE GEORGE’S CO, MARYLAND)
+
+## 捐赠+contact 和其他页面一样
+## footer
