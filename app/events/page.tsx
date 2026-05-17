@@ -297,13 +297,13 @@ function EventCalendar() {
             <div
               key={`day-${day}`}
               className={`p-2 h-28 border border-gray-100 rounded-lg relative transition-colors duration-200 hover:bg-gray-50 ${
-                isToday ? 'ring-2 ring-[var(--green-mid)]' : ''
+                isToday ? 'ring-2 ring-(--green-mid)' : ''
               }`}
             >
               <div
                 className={`text-sm font-medium mb-1 ${
                   isToday 
-                    ? 'text-white bg-[var(--green-mid)] w-6 h-6 rounded-full flex items-center justify-center' 
+                    ? 'text-white bg-(--green-mid) w-6 h-6 rounded-full flex items-center justify-center' 
                     : 'text-gray-900'
                 }`}
               >
