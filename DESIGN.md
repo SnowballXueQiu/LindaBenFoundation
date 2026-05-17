@@ -741,3 +741,105 @@ Baby Essentials
  ## 捐赠+contact 和其他页面一样
 
 ## footer
+
+# /donations
+
+## hero
+
+- title: Donations
+- image: public/donations/hero.png
+
+## main
+
+### section1
+
+- slogan: Bless Others, Be Blessed
+- title: Ways to Give
+- content: 
+Your generosity allows us to improve the conditions
+of individuals and families we serve and help our mission.
+**Donate Once or Monthly**
+Create a dependable source of income we greatly appreciate by becoming a monthly donor, and help continue our mission.
+<button text:Donate Online → href:https://secure.givelively.org/donate/lindaben-foundation-inc>
+
+以上内容右侧有个图片 href：public/donations/section1.png
+
+### section2
+
+#### card1
+<on-hover animation image:public/donations/1.png>
+  <title>Donate Once or Monthly</title>
+  <content>Create a dependable source of income we greatly appreciate by becoming a monthlydonor, and help continue our mission.</content>
+  <button text: Learn More & Donate href: https://secure.givelively.org/donate/lindaben-foundation-inc>
+</hover animation>
+
+#### card2
+<on-hover animation image:public/donations/2.png>
+  <title>Provide Hunger-Free Weekends</title>
+  <content>Support Blessings in a Backpack to provide food every Friday to children who may go hungry over the weekend.</content>
+  <button text: Learn More & Donate href: https://www.lindabenfoundation.org/donate-goods>
+</hover animation>
+
+#### card3
+<on-hover animation image:public/donations/3.png>
+  <title>Give Wishlist Items</title>
+  <content>Purchase and donate items from our Amazon Wishlist to help our community pantry we provide.</content>
+  <button text: Learn More & Donate href: https://www.lindabenfoundation.org/donate-goods>
+</hover animation>
+
+#### card4
+<on-hover animation image:public/donations/4.png>
+  <title>Donate Easily Electronically</title>
+  <content>Give hope to individuals and families in need. Thank you for helping us continue our service.</content>
+  <button text: Learn More & Donate href: https://www.lindabenfoundation.org/donate-goods>
+</hover animation>
+
+#### card5
+<on-hover animation image:public/donations/5.png>
+  <title>Help Individual Fundraising</title>
+  <content>Our peer-to-peer fundraising improves the life of individuals and families we serve.</content>
+  <button text: Learn More & Donate href: https://www.lindabenfoundation.org/volunteer>
+
+#### card6
+<on-hover animation image:public/donations/6.png>
+  <title>Send Cash or Check</title>
+  <content>
+    <p>LindaBen Foundation</p>
+    <p>11720 Beltsville Dr., Ste 500-M8</p>
+    <p>Beltsville, MD 20705</p>
+
+    <divider>
+
+    <p>Make checks payable to:</p>
+    <p>LindaBen Foundation, Inc.</p>
+  </content>
+  <button text: Learn More & Donate href: https://www.lindabenfoundation.org/donate-goods>
+</on-hover animation>
+
+### section3
+
+- title: Give In Other Ways
+
+[Contact us](/contact) directly to make donations in kind today and support those in need.
+Text the code **MORETHANFOOD** to (240) 461-9442
+
+### section4 (复用以前的数字滚动组件)
+
+$487,140
+In Monetary Donations
+$316,498
+In Kind Donations
+Over 2400
+Hours of Volunteer Time
+
+### section5
+
+- slogan：Giving with Trust
+- title：Our 501(c)(3) Status
+- content：LindaBen Foundation is a registered 501(c)(3) nonprofit organization, ensuring that your donations are tax-deductible and used directly to support our mission. Your contributions help us provide essential services and programs to those in need, making a real difference in our community. Trust in our commitment to transparency and impact as we work together to create positive change.
+
+以上右侧放一个图片 public/donations/section5.png
+
+## contact（这里只有contact了） 和其他页面一样
+
+## footer
