@@ -75,7 +75,7 @@ export default function Header() {
       return pathname === "/volunteer";
     }
     if (item.label === "Resources") {
-      return pathname === "/donations" || pathname === "/financials" || pathname === "/our-partners" || pathname === "/resources";
+      return pathname === "/donations" || pathname === "/financials" || pathname === "/our-partners" || pathname === "/resources" || pathname === "/events";
     }
     if (item.label === "Contact") {
       return pathname === "/contact";

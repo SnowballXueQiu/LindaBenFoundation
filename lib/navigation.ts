@@ -35,7 +35,7 @@ export const navItems = [
       { label: "Donations", href: "/donations" },
       { label: "Blog", href: "#blog" },
       { label: "Newsletter", href: "#" },
-      { label: "Upcoming Events", href: "#" },
+      { label: "Upcoming Events", href: "/events" },
       { label: "Testimonials", href: "#testimonials" },
       { label: "Our Partners", href: "/our-partners" },
       { label: "Financials", href: "/financials" },

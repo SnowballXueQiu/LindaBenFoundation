@@ -932,3 +932,20 @@ Diabetes Awareness Resources
 
 ## 捐赠+contact 和其他页面一样
 ## footer
+
+# /events
+
+## hero
+
+- title：Upcoming Events
+
+## main
+
+- slogan：Gather for Good
+- title：Join Us in Making a Difference
+- content： Our events are at the heart of the LindaBen Foundation's mission to uplift and support our community. From food drives and community outreach to educational workshops and volunteer opportunities, our events are designed to bring people together, foster connections, and create positive change. Whether you're looking to give back, learn, or simply connect with like-minded individuals, there's something for everyone. Explore our upcoming events and see how you can be part of our journey to make a lasting impact.
+
+然后放一个大日历 可以切换的 现实当前日期 可以换年份月份 然后每周三都标这个事件**1am** LindaBen's Healthy Food Market (Food Giveaway)
+
+## 捐赠+contact 和其他页面一样
+## footer
