@@ -1,65 +1,70 @@
-export const navItems = [
-  { label: "Home", href: "/" },
+import type { Dictionary } from "@/lib/i18n/dictionaries";
+
+export function getNavItems(dictionary: Dictionary) {
+  const nav = dictionary.nav;
+  return [
+  { label: nav.home, href: "/" },
   {
-    label: "Our Programs",
+    label: nav.ourPrograms,
     href: "/programs",
     children: [
-      { label: "Food as Medicine", href: "/food-as-medicine" },
-      { label: "Community Pantry", href: "/community-pantry" },
-      { label: "New Community Resource Support Center", href: "/new-community-resource-support-center" },
-      { label: "Youth Volunteerism", href: "/youth-volunteerism" },
-      { label: "Community Outreach", href: "/community-outreach" },
-      { label: "Partnerships", href: "/partnerships-programs" },
+      { label: nav.foodAsMedicine, href: "/food-as-medicine" },
+      { label: nav.communityPantry, href: "/community-pantry" },
+      { label: nav.resourceSupportCenter, href: "/new-community-resource-support-center" },
+      { label: nav.youthVolunteerism, href: "/youth-volunteerism" },
+      { label: nav.communityOutreach, href: "/community-outreach" },
+      { label: nav.partnerships, href: "/partnerships-programs" },
     ],
   },
   {
-    label: "About Us",
+    label: nav.aboutUs,
     href: "/about-us",
-    children: [{ label: "Our History", href: "/our-history" }],
+    children: [{ label: nav.ourHistory, href: "/our-history" }],
   },
   {
-    label: "Join the Cause",
+    label: nav.joinTheCause,
     href: "/volunteer",
     children: [
-      { label: "Volunteer Opportunities", href: "https://signup.com/group/923356834027" },
-      { label: "Volunteer Resources", href: "/volunteer" },
-      { label: "Community Pantry Intake", href: "/community-pantry-intake" },
-      { label: "Join Us", href: "/join-us" },
-      { label: "Volunteer Hours & Impact Log", href: "/volunteer-hours-impact-log" },
+      { label: nav.volunteerOpportunities, href: "https://signup.com/group/923356834027" },
+      { label: nav.volunteerResources, href: "/volunteer" },
+      { label: nav.communityPantryIntake, href: "/community-pantry-intake" },
+      { label: nav.joinUs, href: "/join-us" },
+      { label: nav.volunteerHours, href: "/volunteer-hours-impact-log" },
     ],
   },
   {
-    label: "Resources",
+    label: nav.resources,
     href: "/resources",
     children: [
-      { label: "Donations", href: "/donations" },
-      { label: "Blog", href: "#blog" },
-      { label: "Newsletter", href: "#" },
-      { label: "Upcoming Events", href: "/events" },
-      { label: "Testimonials", href: "#testimonials" },
-      { label: "Our Partners", href: "/our-partners" },
-      { label: "Financials", href: "/financials" },
-      { label: "Surveys", href: "/resources" },
+      { label: nav.donations, href: "/donations" },
+      { label: nav.blog, href: "/blogs" },
+      { label: nav.news, href: "/news" },
+      { label: nav.newsletter, href: "#" },
+      { label: nav.events, href: "/events" },
+      { label: nav.testimonials, href: "#testimonials" },
+      { label: nav.ourPartners, href: "/our-partners" },
+      { label: nav.financials, href: "/financials" },
+      { label: nav.surveys, href: "/resources" },
     ],
   },
-  { label: "Contact", href: "/contact" },
-];
+  { label: dictionary.common.contact, href: "/contact" },
+]};
 
 // Extract quick links from navItems for Footer
-export const getQuickLinks = () => [
-  { label: "Our Programs", href: navItems.find(item => item.label === "Our Programs")?.href || "/programs" },
-  { label: "About Us", href: navItems.find(item => item.label === "About Us")?.href || "/about-us" },
-  { label: "Volunteer", href: "#volunteer" },
-  { label: "Donate", href: "#donate" },
-  { label: "Blog", href: "#blog" },
-  { label: "Contact", href: navItems.find(item => item.label === "Contact")?.href || "/contact" },
+export const getQuickLinks = (dictionary: Dictionary) => [
+  { label: dictionary.nav.ourPrograms, href: "/programs" },
+  { label: dictionary.nav.aboutUs, href: "/about-us" },
+  { label: dictionary.nav.volunteerResources, href: "/volunteer" },
+  { label: dictionary.nav.donations, href: "/donations" },
+  { label: dictionary.nav.blog, href: "/blogs" },
+  { label: dictionary.common.contact, href: "/contact" },
 ];
 
 // Extract program links from navItems for Footer
-export const getProgramLinks = () => {
-  const ourProgramsItem = navItems.find(item => item.label === "Our Programs");
+export const getProgramLinks = (dictionary: Dictionary) => {
+  const ourProgramsItem = getNavItems(dictionary).find(item => item.href === "/programs");
   return ourProgramsItem?.children?.map(child => ({
-    label: child.label === "New Community Resource Support Center" ? "Resource Support Center" : child.label,
+    label: child.label,
     href: child.href
   })) || [];
 };

@@ -12,8 +12,18 @@ import Partners from "@/components/Partners";
 import DonationCTA from "@/components/DonationCTA";
 import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
+import { getDictionary } from "@/lib/i18n/dictionaries";
+import { listArticles } from "@/lib/content/repository";
+import { defaultLocale, isSupportedLocale } from "@/lib/i18n/config";
 
-export default function Home() {
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const [dictionary, posts] = await Promise.all([
+    getDictionary(locale),
+    listArticles("blogs", locale),
+  ]);
+
   return (
     <>
       <Header />
@@ -26,7 +36,7 @@ export default function Home() {
         <BibleQuote />
         <Testimonials />
         <AboutUs />
-        <Blog />
+        <Blog posts={posts.slice(0, 3)} locale={locale} dictionary={dictionary} />
         <Partners />
         <DonationCTA />
         <ContactForm />

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const smoothScrollTo = (elementId: string) => {
   const element = document.getElementById(elementId);
@@ -110,12 +111,12 @@ export default function Hero() {
               >
                 Our Programs
               </button>
-              <a
+              <Link
                 href="/donations"
                 className="px-7 py-3.5 rounded-full font-semibold border-2 border-white text-white transition-all duration-200 hover:bg-white hover:text-[--green-deep] active:scale-[0.98]"
               >
                 Ways to Give
-              </a>
+              </Link>
             </div>
           </div>
         </div>

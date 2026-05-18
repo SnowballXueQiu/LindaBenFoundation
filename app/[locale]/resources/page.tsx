@@ -316,7 +316,7 @@ export default function SurveysPage() {
                   className="text-sm"
                   style={{ color: "var(--text-mid)" }}
                 >
-                  (PRINCE GEORGE'S CO, MARYLAND)
+                  (PRINCE GEORGE&apos;S CO, MARYLAND)
                 </p>
               </div>
             </div>

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import Header from "@/components/Header";
 import DonationCTA from "@/components/DonationCTA";
 import ContactForm from "@/components/ContactForm";
@@ -52,13 +53,13 @@ export default function VolunteerPage() {
                 We currently have a high need for drivers to pick up food donations and messages for families who are unable to visit our pantry. With unpredictable COVID surges, we try to prepare for worst scenarios. In the past, we relied on municipal police to assist us in the delivery.
               </p>
               <div className="flex justify-end">
-                <a
+                <Link
                   href="/community-pantry-intake"
                   className="text-lg font-medium underline underline-offset-4 transition-colors duration-200 hover:opacity-70"
                   style={{ color: "var(--text-mid)" }}
                 >
                   Sign Up Here → &gt;&gt;
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -74,13 +75,13 @@ export default function VolunteerPage() {
                 LindaBen seeks like-minded individuals to help provide the momentum that effects change in the local community. Our volunteers perform numerous tasks to support our mission. If you can volunteer your time, let us know the ways you can help us and help those in need!
               </p>
               <div className="flex justify-end">
-                <a
+                <Link
                   href="/join-us"
                   className="text-lg font-medium underline underline-offset-4 transition-colors duration-200 hover:opacity-70"
                   style={{ color: "var(--text-mid)" }}
                 >
                   Sign Up Here → &gt;&gt;
-                </a>
+                </Link>
               </div>
             </div>
 

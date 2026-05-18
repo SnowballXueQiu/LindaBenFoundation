@@ -1,0 +1,62 @@
+{
+  "common": {
+    "siteName": "LindaBen Foundation",
+    "donate": "عطیہ دیں",
+    "donateNow": "ابھی عطیہ دیں",
+    "readMore": "مزید پڑھیں",
+    "learnMore": "مزید جانیں",
+    "contact": "رابطہ"
+  },
+  "nav": {
+    "home": "صفحۂ اول",
+    "ourPrograms": "ہمارے پروگرام",
+    "foodAsMedicine": "غذا بطور دوا",
+    "communityPantry": "کمیونٹی پینٹری",
+    "resourceSupportCenter": "نیا کمیونٹی ریسورس سپورٹ سینٹر",
+    "youthVolunteerism": "نوجوانوں کی رضاکارانہ خدمت",
+    "communityOutreach": "کمیونٹی آؤٹ ریچ",
+    "partnerships": "شراکت داریاں",
+    "aboutUs": "ہمارے بارے میں",
+    "ourHistory": "ہماری تاریخ",
+    "joinTheCause": "اس مقصد میں شامل ہوں",
+    "volunteerOpportunities": "رضاکارانہ مواقع",
+    "volunteerResources": "رضاکار وسائل",
+    "communityPantryIntake": "کمیونٹی پینٹری رجسٹریشن",
+    "joinUs": "ہمارے ساتھ شامل ہوں",
+    "volunteerHours": "رضاکارانہ اوقات اور اثر",
+    "resources": "وسائل",
+    "donations": "عطیات",
+    "blog": "بلاگ",
+    "news": "خبریں",
+    "newsletter": "نیوز لیٹر",
+    "events": "آنے والے پروگرام",
+    "testimonials": "تاثرات",
+    "ourPartners": "ہمارے شراکت دار",
+    "financials": "مالی معلومات",
+    "surveys": "سروے"
+  },
+  "blog": {
+    "eyebrow": "تازہ کہانیاں",
+    "title": "ہمارا بلاگ",
+    "description": "کمیونٹی کی مدد سے متعلق تازہ کہانیاں، خبریں اور نکات پڑھیں۔",
+    "more": "ہمارے بلاگ پر مزید",
+    "empty": "ابھی کوئی پوسٹ شائع نہیں ہوئی۔"
+  },
+  "news": {
+    "title": "خبریں",
+    "description": "LindaBen Foundation کی تازہ خبریں اور اعلانات۔",
+    "empty": "ابھی کوئی خبر شائع نہیں ہوئی۔"
+  },
+  "footer": {
+    "quickLinks": "فوری روابط",
+    "programs": "ہمارے پروگرام",
+    "locations": "مقامات",
+    "mainOffice": "مرکزی دفتر",
+    "mailingAddress": "ڈاک کا پتہ",
+    "contact": "رابطہ",
+    "tagline": "ضرورت مندوں اور نظر انداز لوگوں کی خدمت۔ ہم میری لینڈ کی کمیونٹیز کی شفقت سے خدمت کرتے ہیں۔",
+    "recognition": "اعتراف",
+    "affiliations": "ہماری وابستگیاں",
+    "rights": "جملہ حقوق محفوظ ہیں | LindaBen Foundation | رازداری پالیسی"
+  }
+}

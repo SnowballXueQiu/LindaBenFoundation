@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import Header from "@/components/Header";
 import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
@@ -193,13 +194,13 @@ export default function DonationsPage() {
           </h2>
           <div className="space-y-4">
             <p className="text-lg leading-relaxed" style={{ color: "var(--text-dark)" }}>
-              <a 
+              <Link 
                 href="/contact" 
                 className="underline hover:opacity-70 transition-opacity"
                 style={{ color: "var(--green-deep)" }}
               >
                 Contact us
-              </a>{" "}
+              </Link>{" "}
               directly to make donations in kind today and support those in need.
             </p>
             <p className="text-lg leading-relaxed" style={{ color: "var(--text-dark)" }}>

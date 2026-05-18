@@ -1,0 +1,62 @@
+{
+  "common": {
+    "siteName": "LindaBen Foundation",
+    "donate": "Faire un don",
+    "donateNow": "Faire un don maintenant",
+    "readMore": "Lire la suite",
+    "learnMore": "En savoir plus",
+    "contact": "Contact"
+  },
+  "nav": {
+    "home": "Accueil",
+    "ourPrograms": "Nos programmes",
+    "foodAsMedicine": "L’alimentation comme médecine",
+    "communityPantry": "Garde-manger communautaire",
+    "resourceSupportCenter": "Nouveau centre de ressources communautaires",
+    "youthVolunteerism": "Bénévolat des jeunes",
+    "communityOutreach": "Action communautaire",
+    "partnerships": "Partenariats",
+    "aboutUs": "À propos",
+    "ourHistory": "Notre histoire",
+    "joinTheCause": "Rejoindre la cause",
+    "volunteerOpportunities": "Occasions de bénévolat",
+    "volunteerResources": "Ressources bénévoles",
+    "communityPantryIntake": "Inscription au garde-manger",
+    "joinUs": "Nous rejoindre",
+    "volunteerHours": "Heures et impact bénévoles",
+    "resources": "Ressources",
+    "donations": "Dons",
+    "blog": "Blog",
+    "news": "Actualités",
+    "newsletter": "Infolettre",
+    "events": "Événements à venir",
+    "testimonials": "Témoignages",
+    "ourPartners": "Nos partenaires",
+    "financials": "Finances",
+    "surveys": "Sondages"
+  },
+  "blog": {
+    "eyebrow": "Dernières histoires",
+    "title": "Notre blog",
+    "description": "Suivez nos dernières histoires, actualités et conseils pour aider la communauté.",
+    "more": "Plus sur notre blog",
+    "empty": "Aucun article publié pour le moment."
+  },
+  "news": {
+    "title": "Actualités",
+    "description": "Dernières nouvelles et annonces de LindaBen Foundation.",
+    "empty": "Aucune actualité publiée pour le moment."
+  },
+  "footer": {
+    "quickLinks": "Liens rapides",
+    "programs": "Nos programmes",
+    "locations": "Nos adresses",
+    "mainOffice": "Bureau principal",
+    "mailingAddress": "Adresse postale",
+    "contact": "Contact",
+    "tagline": "Serviteurs des personnes dans le besoin et des invisibles. Nous servons les communautés du Maryland avec compassion.",
+    "recognition": "Reconnaissance",
+    "affiliations": "Nos affiliations",
+    "rights": "Tous droits réservés | LindaBen Foundation | Politique de confidentialité"
+  }
+}

@@ -5,6 +5,7 @@ import DonationCTA from "@/components/DonationCTA";
 import ParallaxBg from "@/components/ParallaxBg";
 import ScrollAnimatedImage from "@/components/ScrollAnimatedImage";
 import Image from "next/image";
+import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -147,14 +148,14 @@ export default function FoodAsMedicinePage() {
 
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <a
+                  <Link
                     href="/newsletter"
                     className="inline-block px-7 py-3.5 rounded-full font-semibold text-white transition-all duration-200 hover:opacity-90 text-center"
                     style={{ background: "var(--green-deep)" }}
                   >
                     Blog
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="/contact"
                     className="inline-block px-7 py-3.5 rounded-full font-semibold transition-all duration-200 hover:opacity-90 text-center border-2"
                     style={{ 
@@ -163,7 +164,7 @@ export default function FoodAsMedicinePage() {
                     }}
                   >
                     Contact for Information
-                  </a>
+                  </Link>
                 </div>
               </div>
 
@@ -277,13 +278,13 @@ export default function FoodAsMedicinePage() {
 
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 items-center">
-                  <a
+                  <Link
                     href="/donations"
                     className="inline-block px-7 py-3.5 rounded-full font-semibold text-white transition-all duration-200 hover:opacity-90"
                     style={{ background: "var(--green-deep)" }}
                   >
                     Donate
-                  </a>
+                  </Link>
                   <a
                     href="https://signup.com/go/QhdcRuv"
                     target="_blank"

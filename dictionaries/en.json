@@ -1,0 +1,62 @@
+{
+  "common": {
+    "siteName": "LindaBen Foundation",
+    "donate": "Donate",
+    "donateNow": "Donate Now",
+    "readMore": "Read more",
+    "learnMore": "Learn more",
+    "contact": "Contact"
+  },
+  "nav": {
+    "home": "Home",
+    "ourPrograms": "Our Programs",
+    "foodAsMedicine": "Food as Medicine",
+    "communityPantry": "Community Pantry",
+    "resourceSupportCenter": "New Community Resource Support Center",
+    "youthVolunteerism": "Youth Volunteerism",
+    "communityOutreach": "Community Outreach",
+    "partnerships": "Partnerships",
+    "aboutUs": "About Us",
+    "ourHistory": "Our History",
+    "joinTheCause": "Join the Cause",
+    "volunteerOpportunities": "Volunteer Opportunities",
+    "volunteerResources": "Volunteer Resources",
+    "communityPantryIntake": "Community Pantry Intake",
+    "joinUs": "Join Us",
+    "volunteerHours": "Volunteer Hours & Impact Log",
+    "resources": "Resources",
+    "donations": "Donations",
+    "blog": "Blog",
+    "news": "News",
+    "newsletter": "Newsletter",
+    "events": "Upcoming Events",
+    "testimonials": "Testimonials",
+    "ourPartners": "Our Partners",
+    "financials": "Financials",
+    "surveys": "Surveys"
+  },
+  "blog": {
+    "eyebrow": "Latest Stories",
+    "title": "Our Blog",
+    "description": "Stay updated with our latest stories, news, and tips on helping the community.",
+    "more": "More On Our Blog",
+    "empty": "No published posts yet."
+  },
+  "news": {
+    "title": "News",
+    "description": "Latest LindaBen Foundation news and announcements.",
+    "empty": "No published news yet."
+  },
+  "footer": {
+    "quickLinks": "Quick Links",
+    "programs": "Our Programs",
+    "locations": "Our Locations",
+    "mainOffice": "Main Office",
+    "mailingAddress": "Mailing Address",
+    "contact": "Contact",
+    "tagline": "Servants of Those in Need & The Invisible. Serving Maryland communities with compassion since our founding.",
+    "recognition": "Recognition",
+    "affiliations": "Our Affiliations",
+    "rights": "All Rights Reserved | LindaBen Foundation | Privacy Policy"
+  }
+}

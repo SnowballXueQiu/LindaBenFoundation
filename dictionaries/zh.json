@@ -1,0 +1,62 @@
+{
+  "common": {
+    "siteName": "LindaBen Foundation",
+    "donate": "捐赠",
+    "donateNow": "立即捐赠",
+    "readMore": "阅读更多",
+    "learnMore": "了解更多",
+    "contact": "联系"
+  },
+  "nav": {
+    "home": "首页",
+    "ourPrograms": "我们的项目",
+    "foodAsMedicine": "食物即良药",
+    "communityPantry": "社区食品储藏室",
+    "resourceSupportCenter": "新社区资源支持中心",
+    "youthVolunteerism": "青少年志愿服务",
+    "communityOutreach": "社区外展",
+    "partnerships": "合作伙伴",
+    "aboutUs": "关于我们",
+    "ourHistory": "我们的历史",
+    "joinTheCause": "加入行动",
+    "volunteerOpportunities": "志愿机会",
+    "volunteerResources": "志愿者资源",
+    "communityPantryIntake": "社区食品领取登记",
+    "joinUs": "加入我们",
+    "volunteerHours": "志愿时数与影响记录",
+    "resources": "资源",
+    "donations": "捐赠",
+    "blog": "博客",
+    "news": "新闻",
+    "newsletter": "简报",
+    "events": "近期活动",
+    "testimonials": "见证",
+    "ourPartners": "合作机构",
+    "financials": "财务信息",
+    "surveys": "问卷"
+  },
+  "blog": {
+    "eyebrow": "最新故事",
+    "title": "我们的博客",
+    "description": "了解我们的最新故事、新闻，以及帮助社区的实用信息。",
+    "more": "更多博客文章",
+    "empty": "暂无已发布文章。"
+  },
+  "news": {
+    "title": "新闻",
+    "description": "LindaBen Foundation 的最新新闻与公告。",
+    "empty": "暂无已发布新闻。"
+  },
+  "footer": {
+    "quickLinks": "快速链接",
+    "programs": "我们的项目",
+    "locations": "地点",
+    "mainOffice": "主办公室",
+    "mailingAddress": "邮寄地址",
+    "contact": "联系方式",
+    "tagline": "服务有需要与被忽视的人群。我们怀着关爱服务马里兰社区。",
+    "recognition": "认可",
+    "affiliations": "我们的联盟",
+    "rights": "版权所有 | LindaBen Foundation | 隐私政策"
+  }
+}

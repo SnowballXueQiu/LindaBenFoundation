@@ -1,0 +1,62 @@
+{
+  "common": {
+    "siteName": "LindaBen Foundation",
+    "donate": "Donar",
+    "donateNow": "Donar ahora",
+    "readMore": "Leer más",
+    "learnMore": "Saber más",
+    "contact": "Contacto"
+  },
+  "nav": {
+    "home": "Inicio",
+    "ourPrograms": "Nuestros programas",
+    "foodAsMedicine": "Alimentos como medicina",
+    "communityPantry": "Despensa comunitaria",
+    "resourceSupportCenter": "Nuevo centro de recursos comunitarios",
+    "youthVolunteerism": "Voluntariado juvenil",
+    "communityOutreach": "Alcance comunitario",
+    "partnerships": "Alianzas",
+    "aboutUs": "Sobre nosotros",
+    "ourHistory": "Nuestra historia",
+    "joinTheCause": "Únete a la causa",
+    "volunteerOpportunities": "Oportunidades de voluntariado",
+    "volunteerResources": "Recursos para voluntarios",
+    "communityPantryIntake": "Registro de despensa comunitaria",
+    "joinUs": "Únete",
+    "volunteerHours": "Horas e impacto de voluntariado",
+    "resources": "Recursos",
+    "donations": "Donaciones",
+    "blog": "Blog",
+    "news": "Noticias",
+    "newsletter": "Boletín",
+    "events": "Próximos eventos",
+    "testimonials": "Testimonios",
+    "ourPartners": "Nuestros socios",
+    "financials": "Finanzas",
+    "surveys": "Encuestas"
+  },
+  "blog": {
+    "eyebrow": "Historias recientes",
+    "title": "Nuestro blog",
+    "description": "Mantente al día con nuestras historias, noticias y consejos para ayudar a la comunidad.",
+    "more": "Más en nuestro blog",
+    "empty": "Aún no hay publicaciones."
+  },
+  "news": {
+    "title": "Noticias",
+    "description": "Noticias y anuncios recientes de LindaBen Foundation.",
+    "empty": "Aún no hay noticias publicadas."
+  },
+  "footer": {
+    "quickLinks": "Enlaces rápidos",
+    "programs": "Nuestros programas",
+    "locations": "Ubicaciones",
+    "mainOffice": "Oficina principal",
+    "mailingAddress": "Dirección postal",
+    "contact": "Contacto",
+    "tagline": "Servidores de quienes tienen necesidad y de los invisibles. Servimos a comunidades de Maryland con compasión.",
+    "recognition": "Reconocimientos",
+    "affiliations": "Nuestras afiliaciones",
+    "rights": "Todos los derechos reservados | LindaBen Foundation | Política de privacidad"
+  }
+}

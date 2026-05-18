@@ -1,0 +1,62 @@
+{
+  "common": {
+    "siteName": "LindaBen Foundation",
+    "donate": "کمک مالی",
+    "donateNow": "همین حالا کمک کنید",
+    "readMore": "بیشتر بخوانید",
+    "learnMore": "بیشتر بدانید",
+    "contact": "تماس"
+  },
+  "nav": {
+    "home": "خانه",
+    "ourPrograms": "برنامه‌های ما",
+    "foodAsMedicine": "غذا به‌عنوان درمان",
+    "communityPantry": "انبار غذای جامعه",
+    "resourceSupportCenter": "مرکز جدید پشتیبانی منابع جامعه",
+    "youthVolunteerism": "داوطلبی جوانان",
+    "communityOutreach": "ارتباط با جامعه",
+    "partnerships": "مشارکت‌ها",
+    "aboutUs": "درباره ما",
+    "ourHistory": "تاریخچه ما",
+    "joinTheCause": "به این حرکت بپیوندید",
+    "volunteerOpportunities": "فرصت‌های داوطلبی",
+    "volunteerResources": "منابع داوطلبان",
+    "communityPantryIntake": "ثبت‌نام انبار غذای جامعه",
+    "joinUs": "به ما بپیوندید",
+    "volunteerHours": "ساعات و اثر داوطلبی",
+    "resources": "منابع",
+    "donations": "کمک‌ها",
+    "blog": "وبلاگ",
+    "news": "اخبار",
+    "newsletter": "خبرنامه",
+    "events": "رویدادهای آینده",
+    "testimonials": "دیدگاه‌ها",
+    "ourPartners": "همکاران ما",
+    "financials": "گزارش مالی",
+    "surveys": "نظرسنجی‌ها"
+  },
+  "blog": {
+    "eyebrow": "داستان‌های تازه",
+    "title": "وبلاگ ما",
+    "description": "از تازه‌ترین داستان‌ها، اخبار و نکته‌های کمک به جامعه آگاه شوید.",
+    "more": "مطالب بیشتر وبلاگ",
+    "empty": "هنوز مطلبی منتشر نشده است."
+  },
+  "news": {
+    "title": "اخبار",
+    "description": "تازه‌ترین اخبار و اطلاعیه‌های LindaBen Foundation.",
+    "empty": "هنوز خبری منتشر نشده است."
+  },
+  "footer": {
+    "quickLinks": "پیوندهای سریع",
+    "programs": "برنامه‌های ما",
+    "locations": "مکان‌ها",
+    "mainOffice": "دفتر اصلی",
+    "mailingAddress": "نشانی پستی",
+    "contact": "تماس",
+    "tagline": "خدمتگزار نیازمندان و نادیده‌ماندگان. ما با مهربانی به جوامع مریلند خدمت می‌کنیم.",
+    "recognition": "قدردانی",
+    "affiliations": "وابستگی‌های ما",
+    "rights": "تمام حقوق محفوظ است | LindaBen Foundation | سیاست حفظ حریم خصوصی"
+  }
+}

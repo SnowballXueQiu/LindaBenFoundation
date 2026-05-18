@@ -5,6 +5,7 @@ import DonationCTA from "@/components/DonationCTA";
 import CardFlipCarousel from "@/components/CardFlipCarousel";
 import ParallaxBg from "@/components/ParallaxBg";
 import Image from "next/image";
+import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -141,13 +142,13 @@ export default function AboutUsPage() {
                   journey to uplift and save discarded lives whom suffer a similar fate just 
                   like her parents.
                 </p>
-                <a
+                <Link
                   href="/our-history"
                   className="inline-block px-7 py-3.5 rounded-full font-semibold text-white transition-all duration-200 hover:opacity-90"
                   style={{ background: "var(--green-deep)" }}
                 >
                   See The Full Story
-                </a>
+                </Link>
               </div>
 
               {/* Image side */}

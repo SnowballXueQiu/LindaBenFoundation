@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 export default function DonationCTA() {
   return (
     <section
@@ -42,13 +44,13 @@ export default function DonationCTA() {
           difference in someone&rsquo;s life today.
         </p>
 
-        <a
+        <Link
           href="/donations"
           className="inline-block px-10 py-4 rounded-full font-bold text-white text-base shadow-lg transition-all duration-200 hover:scale-[1.03] hover:shadow-xl active:scale-[0.98]"
           style={{ background: "var(--green-deep)" }}
         >
           Visit Our Donation Page
-        </a>
+        </Link>
       </div>
     </section>
   );

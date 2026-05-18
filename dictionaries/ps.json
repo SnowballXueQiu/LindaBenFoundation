@@ -1,0 +1,62 @@
+{
+  "common": {
+    "siteName": "LindaBen Foundation",
+    "donate": "مرسته وکړئ",
+    "donateNow": "اوس مرسته وکړئ",
+    "readMore": "نور ولولئ",
+    "learnMore": "نور زده کړئ",
+    "contact": "اړیکه"
+  },
+  "nav": {
+    "home": "کور",
+    "ourPrograms": "زموږ پروګرامونه",
+    "foodAsMedicine": "خواړه د درملنې په توګه",
+    "communityPantry": "د ټولنې خوراکي زېرمه",
+    "resourceSupportCenter": "نوی د ټولنې سرچینو ملاتړ مرکز",
+    "youthVolunteerism": "د ځوانانو رضاکاري",
+    "communityOutreach": "ټولنیز خدمت",
+    "partnerships": "ملګرتیاوې",
+    "aboutUs": "زموږ په اړه",
+    "ourHistory": "زموږ تاریخ",
+    "joinTheCause": "له دې هڅې سره یوځای شئ",
+    "volunteerOpportunities": "د رضاکارۍ فرصتونه",
+    "volunteerResources": "د رضاکارانو سرچینې",
+    "communityPantryIntake": "د خوراکي زېرمې نوم لیکنه",
+    "joinUs": "له موږ سره یوځای شئ",
+    "volunteerHours": "د رضاکارۍ ساعتونه او اغېز",
+    "resources": "سرچینې",
+    "donations": "مرستې",
+    "blog": "بلاګ",
+    "news": "خبرونه",
+    "newsletter": "خبرپاڼه",
+    "events": "راتلونکي پېښې",
+    "testimonials": "نظرونه",
+    "ourPartners": "زموږ ملګري",
+    "financials": "مالي معلومات",
+    "surveys": "سروېګانې"
+  },
+  "blog": {
+    "eyebrow": "نوې کیسې",
+    "title": "زموږ بلاګ",
+    "description": "د ټولنې د مرستې په اړه وروستۍ کیسې، خبرونه او لارښوونې ولولئ.",
+    "more": "زموږ په بلاګ کې نور",
+    "empty": "تر اوسه خپرې شوې لیکنې نشته."
+  },
+  "news": {
+    "title": "خبرونه",
+    "description": "د LindaBen Foundation وروستي خبرونه او اعلانونه.",
+    "empty": "تر اوسه خبرونه نه دي خپاره شوي."
+  },
+  "footer": {
+    "quickLinks": "چټک لینکونه",
+    "programs": "زموږ پروګرامونه",
+    "locations": "ځایونه",
+    "mainOffice": "اصلي دفتر",
+    "mailingAddress": "پوستي پته",
+    "contact": "اړیکه",
+    "tagline": "د اړمنو او نه لیدل شوو خلکو خدمت. موږ د میریلنډ ټولنو ته په مهربانۍ خدمت کوو.",
+    "recognition": "پېژندنه",
+    "affiliations": "زموږ تړاوونه",
+    "rights": "ټول حقوق خوندي دي | LindaBen Foundation | د محرمیت تګلاره"
+  }
+}

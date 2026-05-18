@@ -3,6 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getQuickLinks, getProgramLinks } from "@/lib/navigation";
+import { useI18n } from "@/lib/i18n/client";
+import { withLocale } from "@/lib/i18n/config";
 
 const socialIcons = [
   {
@@ -27,10 +29,6 @@ const socialIcons = [
   },
 ];
 
-// Get navigation links from shared configuration
-const quickLinks = getQuickLinks();
-const programLinks = getProgramLinks();
-
 const recognitionBadges = [
   {
     label: "Charity Navigator",
@@ -53,6 +51,10 @@ const affiliationImages = [
 ];
 
 export default function Footer() {
+  const { locale, dictionary } = useI18n();
+  const quickLinks = getQuickLinks(dictionary);
+  const programLinks = getProgramLinks(dictionary);
+
   return (
     <footer style={{ background: "var(--text-dark)", color: "rgba(255,255,255,0.75)" }}>
       {/* Main footer content */}
@@ -81,8 +83,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-sm leading-relaxed mb-6" style={{ color: "rgba(255,255,255,0.6)" }}>
-              Servants of Those in Need &amp; The Invisible. Serving Maryland
-              communities with compassion since our founding.
+              {dictionary.footer.tagline}
             </p>
             {/* Social icons */}
             <div className="flex gap-3">
@@ -128,13 +129,13 @@ export default function Footer() {
             <h4
               className="text-sm font-bold uppercase tracking-wider mb-5 text-white"
             >
-              Quick Links
+              {dictionary.footer.quickLinks}
             </h4>
             <ul className="space-y-2.5">
               {quickLinks.map((link) => (
                 <li key={link.label}>
                   <Link
-                    href={link.href}
+                    href={withLocale(link.href, locale)}
                     className="text-sm transition-colors duration-150 hover:text-white flex items-center gap-1.5"
                     style={{ color: "rgba(255,255,255,0.6)" }}
                   >
@@ -152,13 +153,13 @@ export default function Footer() {
           {/* Programs */}
           <div>
             <h4 className="text-sm font-bold uppercase tracking-wider mb-5 text-white">
-              Our Programs
+              {dictionary.footer.programs}
             </h4>
             <ul className="space-y-2.5">
               {programLinks.map((link) => (
                 <li key={link.label}>
                   <Link
-                    href={link.href}
+                    href={withLocale(link.href, locale)}
                     className="text-sm transition-colors duration-150 hover:text-white flex items-center gap-1.5"
                     style={{ color: "rgba(255,255,255,0.6)" }}
                   >
@@ -176,12 +177,12 @@ export default function Footer() {
           {/* Locations */}
           <div>
             <h4 className="text-sm font-bold uppercase tracking-wider mb-5 text-white">
-              Our Locations
+              {dictionary.footer.locations}
             </h4>
             <div className="space-y-5 text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: "var(--green-light)" }}>
-                  Main Office
+                  {dictionary.footer.mainOffice}
                 </p>
                 <p className="leading-relaxed">
                   10739 Tucker St, Ste 222<br />
@@ -190,7 +191,7 @@ export default function Footer() {
               </div>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: "var(--green-light)" }}>
-                  Mailing Address
+                  {dictionary.footer.mailingAddress}
                 </p>
                 <p className="leading-relaxed">
                   9770 Patuxent Woods Dr, Ste 333<br />
@@ -199,7 +200,7 @@ export default function Footer() {
               </div>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: "var(--green-light)" }}>
-                  Contact
+                  {dictionary.footer.contact}
                 </p>
                 <a
                   href="tel:+12404619442"

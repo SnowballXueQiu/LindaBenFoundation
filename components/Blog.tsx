@@ -1,37 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
+import { withLocale, type Locale } from "@/lib/i18n/config";
+import type { ArticleSummary } from "@/lib/content/types";
 
-const posts = [
-  {
-    slug: "food-as-medicine-november",
-    title: "Food as Medicine: November Newsletter",
-    author: "Annabelle Beavan",
-    date: "November 22, 2024",
-    img: "https://picsum.photos/id/493/800/500",
-    excerpt:
-      "November 2024 Thanksgiving: A Time to Celebrate with Family and Flavor. Healthy Thanksgiving: Delicious Recipes for a Memorable Holiday. Thanksgiving is a time to come together, share gratitude, and enjoy delicious meals. This year, why not try dishes that celebrate culture and health?",
-  },
-  {
-    slug: "food-as-medicine-october",
-    title: "Food as Medicine: October Newsletter",
-    author: null,
-    date: "October 14, 2024",
-    img: "https://picsum.photos/id/139/800/500",
-    excerpt:
-      "October 2024 — Your Guide to Fall's Harvest Delights. Discover seasonal produce and recipes that nourish your body and warm your soul during the autumn months.",
-  },
-  {
-    slug: "food-as-medicine-september",
-    title: "Food as Medicine: September Newsletter",
-    author: "Annabelle Beavan",
-    date: "September 11, 2024",
-    img: "https://picsum.photos/id/429/800/500",
-    excerpt:
-      "September 2024 — As summer winds down, we look at how fresh seasonal ingredients can support immune health and family wellness heading into fall.",
-  },
-];
+function formatDate(value: string | undefined, locale: Locale) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return new Intl.DateTimeFormat(locale, { dateStyle: "long" }).format(date);
+}
 
-export default function Blog() {
+export default function Blog({
+  posts,
+  locale,
+  dictionary,
+}: {
+  posts: ArticleSummary[];
+  locale: Locale;
+  dictionary: Dictionary;
+}) {
   return (
     <section id="blog" className="py-20 lg:py-28" style={{ background: "var(--cream)" }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -42,7 +30,7 @@ export default function Blog() {
               className="text-sm font-semibold tracking-[0.18em] uppercase mb-3"
               style={{ color: "var(--green-mid)" }}
             >
-              Latest Stories
+              {dictionary.blog.eyebrow}
             </p>
             <h2
               className="text-3xl lg:text-4xl font-bold"
@@ -51,19 +39,18 @@ export default function Blog() {
                 fontFamily: "var(--font-merriweather), serif",
               }}
             >
-              Our Blog
+              {dictionary.blog.title}
             </h2>
             <p className="text-sm mt-2" style={{ color: "var(--text-mid)" }}>
-              Stay updated with our latest stories, news, and tips on helping the
-              community.
+              {dictionary.blog.description}
             </p>
           </div>
           <a
-            href="#"
+            href={withLocale("/blogs", locale)}
             className="shrink-0 inline-flex items-center gap-2 font-semibold text-sm transition-colors duration-150"
             style={{ color: "var(--green-mid)" }}
           >
-            More On Our Blog
+            {dictionary.blog.more}
             <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M3 8h10M9 4l4 4-4 4" />
             </svg>
@@ -72,6 +59,11 @@ export default function Blog() {
 
         {/* Posts */}
         <div className="grid md:grid-cols-3 gap-8">
+          {posts.length === 0 && (
+            <p className="md:col-span-3 text-sm" style={{ color: "var(--text-mid)" }}>
+              {dictionary.blog.empty}
+            </p>
+          )}
           {posts.map((post, i) => (
             <article
               key={post.slug}
@@ -79,8 +71,8 @@ export default function Blog() {
               style={{ borderColor: "var(--green-pale)" }}
             >
               <div className="relative overflow-hidden" style={{ aspectRatio: "16/9" }}>
-                <Image
-                  src={post.img}
+                    <Image
+                  src={post.coverImage || "/resources/image.png"}
                   alt={post.title}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -93,7 +85,7 @@ export default function Blog() {
                     className="text-xs px-2.5 py-1 rounded-full font-medium"
                     style={{ background: "var(--green-pale)", color: "var(--green-deep)" }}
                   >
-                    Food as Medicine
+                    {post.category || post.tags[0] || dictionary.nav.blog}
                   </span>
                 </div>
                 <h3
@@ -103,10 +95,8 @@ export default function Blog() {
                   {post.title}
                 </h3>
                 <p className="text-xs mb-3" style={{ color: "var(--text-mid)" }}>
-                  {post.author && (
-                    <span>By {post.author} &bull; </span>
-                  )}
-                  {post.date}
+                  {post.author && <span>By {post.author} &bull; </span>}
+                  {formatDate(post.publishedAt || post.updatedAt, locale)}
                 </p>
                 <p
                   className="text-sm leading-relaxed line-clamp-3 mb-4"
@@ -115,11 +105,11 @@ export default function Blog() {
                   {post.excerpt}
                 </p>
                 <Link
-                  href={`#${post.slug}`}
+                  href={withLocale(`/blogs/${post.slug}`, locale)}
                   className="inline-flex items-center gap-1.5 text-sm font-semibold transition-colors duration-150"
                   style={{ color: "var(--green-mid)" }}
                 >
-                  Read more
+                  {dictionary.common.readMore}
                   <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M3 8h10M9 4l4 4-4 4" />
                   </svg>

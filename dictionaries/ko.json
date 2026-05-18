@@ -1,0 +1,62 @@
+{
+  "common": {
+    "siteName": "LindaBen Foundation",
+    "donate": "기부",
+    "donateNow": "지금 기부",
+    "readMore": "더 읽기",
+    "learnMore": "자세히 보기",
+    "contact": "문의"
+  },
+  "nav": {
+    "home": "홈",
+    "ourPrograms": "프로그램",
+    "foodAsMedicine": "음식은 약",
+    "communityPantry": "커뮤니티 식료품 지원",
+    "resourceSupportCenter": "새 커뮤니티 자원 지원 센터",
+    "youthVolunteerism": "청소년 자원봉사",
+    "communityOutreach": "지역사회 봉사",
+    "partnerships": "파트너십",
+    "aboutUs": "소개",
+    "ourHistory": "역사",
+    "joinTheCause": "함께하기",
+    "volunteerOpportunities": "자원봉사 기회",
+    "volunteerResources": "자원봉사 자료",
+    "communityPantryIntake": "식료품 지원 신청",
+    "joinUs": "가입하기",
+    "volunteerHours": "봉사 시간 및 영향 기록",
+    "resources": "자료",
+    "donations": "기부",
+    "blog": "블로그",
+    "news": "뉴스",
+    "newsletter": "뉴스레터",
+    "events": "예정 행사",
+    "testimonials": "후기",
+    "ourPartners": "파트너",
+    "financials": "재정",
+    "surveys": "설문"
+  },
+  "blog": {
+    "eyebrow": "최신 이야기",
+    "title": "블로그",
+    "description": "지역사회를 돕는 최신 이야기, 뉴스, 정보를 확인하세요.",
+    "more": "블로그 더 보기",
+    "empty": "게시된 글이 없습니다."
+  },
+  "news": {
+    "title": "뉴스",
+    "description": "LindaBen Foundation의 최신 뉴스와 공지입니다.",
+    "empty": "게시된 뉴스가 없습니다."
+  },
+  "footer": {
+    "quickLinks": "빠른 링크",
+    "programs": "프로그램",
+    "locations": "위치",
+    "mainOffice": "본사",
+    "mailingAddress": "우편 주소",
+    "contact": "문의",
+    "tagline": "도움이 필요한 이들과 보이지 않는 이들을 섬깁니다. 메릴랜드 지역사회를 따뜻한 마음으로 섬깁니다.",
+    "recognition": "인정",
+    "affiliations": "제휴",
+    "rights": "모든 권리 보유 | LindaBen Foundation | 개인정보 처리방침"
+  }
+}

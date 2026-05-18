@@ -4,7 +4,10 @@ import { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { navItems } from "@/lib/navigation";
+import { getNavItems } from "@/lib/navigation";
+import { useI18n } from "@/lib/i18n/client";
+import { stripLocale, withLocale } from "@/lib/i18n/config";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 function DropdownMenu({
   items,
@@ -13,6 +16,7 @@ function DropdownMenu({
   items: { label: string; href: string }[];
   isOpen: boolean;
 }) {
+  const { locale } = useI18n();
   return (
     <div
       className={`absolute top-full left-0 mt-1 w-64 bg-white shadow-lg border-t-2 rounded-b-md z-50 overflow-hidden transition-all duration-200 ${
@@ -39,7 +43,7 @@ function DropdownMenu({
                 </a>
               ) : (
                 <Link
-                  href={item.href}
+                  href={withLocale(item.href, locale)}
                   className="block px-5 py-2.5 text-sm text-[--text-dark] hover:bg-[--green-pale] hover:text-[--green-deep] transition-colors duration-150 leading-snug"
                 >
                   {item.label}
@@ -59,26 +63,29 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pathname = usePathname();
+  const { locale, dictionary } = useI18n();
+  const navItems = getNavItems(dictionary);
+  const pathWithoutLocale = stripLocale(pathname);
 
   // Check if current path is active for a nav item
   const isActive = (item: { label: string; href: string; children?: { label: string; href: string }[] }) => {
     if (item.label === "Home") {
-      return pathname === "/";
+      return pathWithoutLocale === "/" || pathWithoutLocale === "";
     }
-    if (item.label === "About Us") {
-      return pathname === "/about-us" || pathname === "/our-history";
+    if (item.href === "/about-us") {
+      return pathWithoutLocale === "/about-us" || pathWithoutLocale === "/our-history";
     }
-    if (item.label === "Our Programs") {
-      return pathname === "/programs" || pathname === "/food-as-medicine" || pathname === "/community-pantry" || pathname === "/new-community-resource-support-center" || pathname === "/youth-volunteerism" || pathname === "/community-outreach" || pathname === "/partnerships-programs";
+    if (item.href === "/programs") {
+      return pathWithoutLocale === "/programs" || pathWithoutLocale === "/food-as-medicine" || pathWithoutLocale === "/community-pantry" || pathWithoutLocale === "/new-community-resource-support-center" || pathWithoutLocale === "/youth-volunteerism" || pathWithoutLocale === "/community-outreach" || pathWithoutLocale === "/partnerships-programs";
     }
-    if (item.label === "Join the Cause") {
-      return pathname === "/volunteer";
+    if (item.href === "/volunteer") {
+      return pathWithoutLocale === "/volunteer";
     }
-    if (item.label === "Resources") {
-      return pathname === "/donations" || pathname === "/financials" || pathname === "/our-partners" || pathname === "/resources" || pathname === "/events";
+    if (item.href === "/resources") {
+      return pathWithoutLocale === "/donations" || pathWithoutLocale === "/financials" || pathWithoutLocale === "/our-partners" || pathWithoutLocale === "/resources" || pathWithoutLocale === "/events" || pathWithoutLocale === "/blogs" || pathWithoutLocale === "/news";
     }
-    if (item.label === "Contact") {
-      return pathname === "/contact";
+    if (item.href === "/contact") {
+      return pathWithoutLocale === "/contact";
     }
     // Add other path matching logic here if needed
     return false;
@@ -110,7 +117,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center shrink-0">
+          <Link href={withLocale("/", locale)} className="flex items-center shrink-0">
             <Image
               src="/icons/logo.svg"
               alt="LindaBen Foundation"
@@ -134,7 +141,7 @@ export default function Header() {
                 onMouseLeave={item.children ? handleMouseLeave : undefined}
               >
                 <Link
-                  href={item.href}
+                  href={withLocale(item.href, locale)}
                   className={`flex items-center gap-1 px-3 py-2 rounded text-sm font-medium transition-colors duration-150 hover:text-[#2d6a4f]`}
                   style={{
                     color: isActive(item) ? "#2d6a4f" : "#1c2b20"
@@ -216,12 +223,13 @@ export default function Header() {
             </div>
 
             <a
-              href="/donations"
+              href={withLocale("/donations", locale)}
               className="hidden sm:inline-block px-5 py-2 rounded-full text-sm font-semibold text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
               style={{ background: "var(--green-deep)" }}
             >
-              Donate
+              {dictionary.common.donate}
             </a>
+            <LanguageSwitcher />
 
             {/* Mobile hamburger */}
             <button
@@ -259,7 +267,7 @@ export default function Header() {
           {navItems.map((item) => (
             <div key={item.label}>
               <Link
-                href={item.href}
+                href={withLocale(item.href, locale)}
                 className="block py-2.5 px-3 rounded font-medium text-sm"
                 style={{ color: "var(--text-dark)" }}
                 onClick={() => setMobileOpen(false)}
@@ -286,7 +294,7 @@ export default function Header() {
                     ) : (
                       <Link
                         key={child.label}
-                        href={child.href}
+                        href={withLocale(child.href, locale)}
                         className="block py-2 px-2 text-sm rounded"
                         style={{ color: "var(--text-mid)" }}
                         onClick={() => setMobileOpen(false)}
@@ -301,12 +309,12 @@ export default function Header() {
           ))}
           <div className="pt-3 pb-2">
             <a
-              href="/donations"
+              href={withLocale("/donations", locale)}
               className="block text-center py-2.5 rounded-full text-sm font-semibold text-white"
               style={{ background: "var(--green-deep)" }}
               onClick={() => setMobileOpen(false)}
             >
-              Donate Now
+              {dictionary.common.donateNow}
             </a>
           </div>
         </nav>

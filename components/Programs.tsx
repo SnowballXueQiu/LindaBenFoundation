@@ -93,20 +93,20 @@ export default function Programs() {
 
         {/* CTA row */}
         <div className="flex flex-wrap justify-center gap-4 mt-14">
-          <a
+          <Link
             href="/donations"
             className="px-7 py-3.5 rounded-full font-semibold text-white transition-all duration-200 hover:opacity-90 border-2 border-white"
             style={{ background: "transparent" }}
           >
             Ways to Give
-          </a>
-          <a
+          </Link>
+          <Link
             href="/about-us"
             className="px-7 py-3.5 rounded-full font-semibold border-2 border-white/60 text-white transition-all duration-200 hover:bg-white/10"
           >
             More About Us
-          </a>
-          <a
+          </Link>
+          <Link
             href="/contact"
             className="px-7 py-3.5 rounded-full font-semibold border-2 transition-all duration-200 hover:bg-white/10"
             style={{
@@ -115,7 +115,7 @@ export default function Programs() {
             }}
           >
             Get In Touch!
-          </a>
+          </Link>
         </div>
       </div>
     </section>
