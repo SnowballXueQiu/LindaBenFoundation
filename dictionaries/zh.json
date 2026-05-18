@@ -538,6 +538,9 @@
   "newsletter": {
     "title": "通讯",
     "description": "LindaBen Foundation 最新通讯、项目动态和公告。",
-    "empty": "暂无已发布的通讯内容。"
+    "empty": "暂无已发布的通讯内容。",
+    "subscribeTitle": "订阅我们的通讯！",
+    "emailLabel": "您的邮箱",
+    "subscribeButton": "订阅"
   }
 }

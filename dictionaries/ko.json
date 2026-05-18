@@ -542,6 +542,9 @@
   "newsletter": {
     "title": "뉴스레터",
     "description": "LindaBen Foundation의 최신 뉴스레터, 소식, 공지입니다.",
-    "empty": "아직 게시된 뉴스레터가 없습니다."
+    "empty": "아직 게시된 뉴스레터가 없습니다.",
+    "subscribeTitle": "뉴스레터를 구독하세요!",
+    "emailLabel": "이메일 주소",
+    "subscribeButton": "구독"
   }
 }

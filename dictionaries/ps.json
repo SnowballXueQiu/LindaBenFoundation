@@ -542,6 +542,9 @@
   "newsletter": {
     "title": "خبرپاڼه",
     "description": "د LindaBen Foundation تازه خبرپاڼې، تازه معلومات او اعلانونه.",
-    "empty": "تر اوسه خپره شوې خبرپاڼه نشته."
+    "empty": "تر اوسه خپره شوې خبرپاڼه نشته.",
+    "subscribeTitle": "زموږ خبرپاڼه ګډون کړئ!",
+    "emailLabel": "ستاسو برېښنالیک",
+    "subscribeButton": "ګډون"
   }
 }

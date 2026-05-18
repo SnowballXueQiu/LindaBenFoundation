@@ -538,6 +538,9 @@
   "newsletter": {
     "title": "Boletín",
     "description": "Boletines, novedades y anuncios recientes de LindaBen Foundation.",
-    "empty": "Aún no hay boletines publicados."
+    "empty": "Aún no hay boletines publicados.",
+    "subscribeTitle": "¡Suscríbete a nuestro boletín!",
+    "emailLabel": "Tu correo electrónico",
+    "subscribeButton": "Suscribirse"
   }
 }

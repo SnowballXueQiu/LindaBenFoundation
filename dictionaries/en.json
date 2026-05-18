@@ -538,6 +538,9 @@
   "newsletter": {
     "title": "Newsletter",
     "description": "Latest LindaBen Foundation newsletters, updates, and announcements.",
-    "empty": "No published newsletter entries yet."
+    "empty": "No published newsletter entries yet.",
+    "subscribeTitle": "Subscribe to our newsletter!",
+    "emailLabel": "Your Email",
+    "subscribeButton": "Subscribe"
   }
 }
