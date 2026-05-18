@@ -5,7 +5,12 @@
     "donateNow": "ابھی عطیہ دیں",
     "readMore": "مزید پڑھیں",
     "learnMore": "مزید جانیں",
-    "contact": "رابطہ"
+    "contact": "رابطہ",
+    "donationButton": "عطیہ کے صفحے پر جائیں",
+    "changeLanguage": "زبان تبدیل کریں",
+    "toggleMenu": "مینو کھولیں",
+    "close": "بند کریں",
+    "by": "از طرف"
   },
   "nav": {
     "home": "صفحۂ اول",
@@ -27,7 +32,6 @@
     "resources": "وسائل",
     "donations": "عطیات",
     "blog": "بلاگ",
-    "news": "خبریں",
     "newsletter": "نیوز لیٹر",
     "events": "آنے والے پروگرام",
     "testimonials": "تاثرات",
@@ -42,11 +46,6 @@
     "more": "ہمارے بلاگ پر مزید",
     "empty": "ابھی کوئی پوسٹ شائع نہیں ہوئی۔"
   },
-  "news": {
-    "title": "خبریں",
-    "description": "LindaBen Foundation کی تازہ خبریں اور اعلانات۔",
-    "empty": "ابھی کوئی خبر شائع نہیں ہوئی۔"
-  },
   "footer": {
     "quickLinks": "فوری روابط",
     "programs": "ہمارے پروگرام",
@@ -54,9 +53,495 @@
     "mainOffice": "مرکزی دفتر",
     "mailingAddress": "ڈاک کا پتہ",
     "contact": "رابطہ",
-    "tagline": "ضرورت مندوں اور نظر انداز لوگوں کی خدمت۔ ہم میری لینڈ کی کمیونٹیز کی شفقت سے خدمت کرتے ہیں۔",
-    "recognition": "اعتراف",
-    "affiliations": "ہماری وابستگیاں",
-    "rights": "جملہ حقوق محفوظ ہیں | LindaBen Foundation | رازداری پالیسی"
+    "tagline": "ضرورت مند اور نظر انداز کیے گئے لوگوں کے خادم۔ ہم میری لینڈ کی کمیونٹیز کی خدمت ہمدردی سے کرتے ہیں۔",
+    "recognition": "اعزازات",
+    "affiliations": "ہمارے شراکت دار",
+    "rights": "جملہ حقوق محفوظ ہیں | LindaBen Foundation | رازداری کی پالیسی",
+    "copyright": "جملہ حقوق محفوظ ہیں — LindaBen Foundation",
+    "privacyPolicy": "رازداری کی پالیسی"
+  },
+  "home": {
+    "heroEyebrow": "میری لینڈ کی کمیونٹی فاؤنڈیشن",
+    "heroTitleLine1": "The LindaBen",
+    "heroTitleLine2": "Foundation",
+    "heroSubtitle": "ضرورت مند اور نظر انداز کیے گئے لوگوں کے خادم",
+    "waysToGive": "مدد کے طریقے",
+    "helpMyPeople": "میرے لوگوں کی مدد کریں",
+    "missionTitle": "ہمارا مشن",
+    "missionText": "LindaBen Foundation کا مشن غذائیت سے بھرپور خوراک فراہم کرنا، صحت کو فروغ دینا، خوراک کے ضیاع کو کم کرنا اور غذائی تعلیم دینا ہے تاکہ بچے اور خاندان غذائی عدم تحفظ پر قابو پا سکیں اور اپنی صحت بہتر بنا سکیں۔",
+    "visionTitle": "ہمارا وژن",
+    "visionText": "ہم ایسی دنیا کا تصور کرتے ہیں جہاں کوئی بچہ یا خاندان بھوکا نہ رہے، اور ہر شخص کو صحت مند خوراک اور زندگی بدلنے والے وسائل دستیاب ہوں۔ کمیونٹی شراکت داری، تعلیم اور ہمدردانہ نگہداشت کے ذریعے ہم مقامی غذائی نظام کو بہتر بنانے اور دیرپا مثبت تبدیلی لانے کے لیے کام کرتے ہیں۔",
+    "programsTitle": "ہمارے پروگرام",
+    "programsDescription": "ہم میری لینڈ میں کمزور اور خطرے سے دوچار آبادیوں کی خدمت کرتے ہیں۔",
+    "partnershipPrograms": "شراکتی پروگرام",
+    "moreAboutUs": "ہمارے بارے میں مزید",
+    "getInTouch": "رابطہ کریں!",
+    "impactEyebrow": "ہمارا اثر",
+    "impactTitle": "وہ اعداد جو ہماری کہانی سناتے ہیں",
+    "mealsProvided": "فراہم کیے گئے کھانے",
+    "individualsServed": "خدمت پانے والے افراد",
+    "poundsRecovered": "بچائی گئی خوراک کے پاؤنڈ",
+    "poundsDistributed": "تقسیم کی گئی خوراک کے پاؤنڈ",
+    "hungerFreeWeekends": "بھوک سے پاک ویک اینڈز",
+    "babyEssentials": "تقسیم کیے گئے بچوں کے ضروری سامان",
+    "helpEyebrow": "اپنے بھائیوں اور بہنوں کے محافظ بنیں",
+    "helpTitle": "آپ کیسے مدد کر سکتے ہیں",
+    "donateHelp": "آن لائن عطیہ محفوظ، آسان اور بے فکر ہے۔ ہم نقد، چیک اور اشیائی عطیات بھی قبول کرتے ہیں۔ آپ کا تحفہ ضرورت مند لوگوں کو بہتر مواقع اور روشن مستقبل فراہم کرے گا۔",
+    "volunteer": "رضاکار بنیں",
+    "volunteerHelp": "آج ہی رضاکار بن کر شامل ہوں۔ آپ غذائی عدم تحفظ کا سامنا کرنے والوں کی زندگی بہتر بنانے میں اہم کردار ادا کر سکتے ہیں۔",
+    "subscribe": "سبسکرائب کریں",
+    "subscribeHelp": "ہمارا نیوز لیٹر سبسکرائب کریں تاکہ غذائی عدم تحفظ، خبروں، تقریبات اور مضامین سے باخبر رہیں، یا عطیہ دے کر ہمارے پروگراموں کو جاری رکھنے میں مدد کریں۔",
+    "equalOpportunity": "LindaBen مساوی مواقع فراہم کرنے والا ادارہ ہے اور تنوع، مساوات، شمولیت اور انصاف کے لیے پرعزم ہے۔",
+    "testimonialsEyebrow": "ہماری کمیونٹی سے",
+    "testimonialsTitle": "تاثرات",
+    "communityMember": "کمیونٹی ممبر",
+    "readMoreTestimonials": "مزید تاثرات پڑھیں",
+    "aboutEyebrow": "ہم کون ہیں",
+    "aboutTitle": "ہمارے بارے میں",
+    "servingMaryland": "میری لینڈ کی خدمت",
+    "aboutText1": "LindaBen Foundation غذائی تحفظ کو مضبوط بنانے، خوراک کے ضیاع کو کم کرنے اور صحت کی نابرابریوں سے نمٹنے کے لیے جدید حل فراہم کرتی ہے۔",
+    "aboutText2": "ہم غذائیت سے بھرپور خوراک، غذائی تعلیم کی ورکشاپس اور فلاح و بہبود کو فروغ دینے والے وسائل تک منصفانہ رسائی فراہم کرتے ہیں۔",
+    "partnersEyebrow": "ہم مل کر زیادہ مضبوط ہیں",
+    "partnersTitle": "ہمارے شراکت دار اور معاونین",
+    "donationEyebrow": "مشن کی حمایت کریں",
+    "donationTitle": "آپ کی سخاوت خاندانوں کو خوراک دیتی ہے",
+    "donationText": "ہر عطیہ ہمیں صحت مند خوراک، ضروری سامان اور معاون وسائل ضرورت مند بچوں اور خاندانوں تک پہنچانے میں مدد دیتا ہے۔",
+    "donationButton": "عطیہ کے صفحے پر جائیں",
+    "readOurStory": "ہماری کہانی پڑھیں",
+    "donateNow": "ابھی عطیہ دیں",
+    "partnersDescription": "کمیونٹی شراکت داری ہمیں میری لینڈ بھر میں مزید خاندانوں تک خوراک، تعلیم اور مدد پہنچانے میں مدد دیتی ہے۔"
+  },
+  "contactForm": {
+    "eyebrow": "رابطہ کریں",
+    "titleLine1": "ہم آپ سے",
+    "titleLine2": "سننا چاہتے ہیں",
+    "description": "اگر آپ کے سوالات ہیں، رضاکار بننا چاہتے ہیں، یا صرف سلام کہنا چاہتے ہیں، تو ہمیں آپ سے سن کر خوشی ہوگی۔",
+    "phone": "فون",
+    "email": "ای میل",
+    "mainOffice": "مرکزی دفتر",
+    "receivedTitle": "پیغام موصول ہو گیا!",
+    "receivedText": "رابطہ کرنے کا شکریہ۔ ہم جلد جواب دیں گے۔",
+    "formTitle": "ہم سے رابطہ کریں!",
+    "fullName": "پورا نام",
+    "phoneNumber": "فون نمبر",
+    "subject": "موضوع",
+    "subjectPlaceholder": "ہم کیسے مدد کر سکتے ہیں؟",
+    "message": "پیغام",
+    "messagePlaceholder": "آپ کا پیغام...",
+    "smsConsent": "میں دیے گئے فون نمبر پر SMS پیغامات وصول کرنے سے اتفاق کرتا/کرتی ہوں۔",
+    "send": "پیغام بھیجیں"
+  },
+  "pages": {
+    "contact": {
+      "heroTitle": "ہم سے رابطہ کریں",
+      "metaDescription": "LindaBen Foundation سے رابطہ کریں۔ ہم مدد اور سننے کے لیے حاضر ہیں۔",
+      "mainOfficeLocation": "مرکزی دفتر کا مقام",
+      "otherMailingAddress": "دوسرا ڈاک پتہ",
+      "reachOut": "رابطہ کریں",
+      "headline": "ہم مدد اور سننے کے لیے حاضر ہیں۔ آج ہی رابطہ کریں!",
+      "phoneNumber": "فون نمبر:",
+      "emailAddress": "ای میل پتہ:",
+      "mainOfficeAddress": "مرکزی دفتر کا پتہ:",
+      "otherMailingAddressLabel": "دوسرا ڈاک پتہ:",
+      "connectWithUs": "ہم سے جڑیں:",
+      "makeAppointment": "اپائنٹمنٹ بنائیں"
+    },
+    "donations": {
+      "metaDescription": "محفوظ آن لائن عطیات، خواہش فہرست کی اشیا، اشیائی عطیات اور رضاکار وقت کے ذریعے LindaBen Foundation کی مدد کریں۔",
+      "heroTitle": "عطیات",
+      "heroAlt": "عطیات کی تصویر",
+      "eyebrow": "دوسروں کو برکت دیں، خود برکت پائیں",
+      "waysTitle": "عطیہ دینے کے طریقے",
+      "intro": "آپ کی سخاوت ہمیں ان افراد اور خاندانوں کے حالات بہتر بنانے دیتی ہے جن کی ہم خدمت کرتے ہیں اور ہمارے مشن کو سہارا دیتی ہے۔",
+      "donateOnce": "ایک بار یا ماہانہ عطیہ دیں",
+      "donateOnceText": "ماہانہ عطیہ دہندہ بن کر قابل اعتماد مدد فراہم کریں اور ہمارے مشن کو جاری رکھنے میں مدد دیں۔",
+      "donateOnline": "آن لائن عطیہ دیں",
+      "learnMoreDonate": "مزید جانیں اور عطیہ دیں",
+      "otherWaysTitle": "عطیہ دینے کے دیگر طریقے",
+      "contactUs": "ہم سے رابطہ کریں",
+      "otherWaysText": "تاکہ آج اشیائی عطیات دے کر ضرورت مندوں کی مدد کریں۔",
+      "textCode": "کوڈ بھیجیں",
+      "toPhone": "(240) 461-9442 پر",
+      "trustEyebrow": "اعتماد کے ساتھ عطیہ",
+      "statusTitle": "ہمارا 501(c)(3) درجہ",
+      "statusText": "LindaBen Foundation ایک رجسٹرڈ 501(c)(3) غیر منافع بخش ادارہ ہے، اس لیے آپ کے عطیات ٹیکس میں کٹوتی کے قابل ہو سکتے ہیں اور براہ راست ہمارے مشن کی حمایت میں استعمال ہوتے ہیں۔ آپ کی شراکتیں ضرورت مند لوگوں کو اہم خدمات اور پروگرام فراہم کرنے میں مدد دیتی ہیں۔",
+      "sectionAlt": "عطیہ دینے کے طریقے",
+      "statusAlt": "501(c)(3) درجہ",
+      "stats": [
+        "مالی عطیات",
+        "اشیائی عطیات",
+        "رضاکار وقت کے گھنٹے"
+      ],
+      "cards": [
+        [
+          "ایک بار یا ماہانہ عطیہ دیں",
+          "ماہانہ عطیہ دہندہ بن کر ہمارے مشن کو جاری رکھنے میں مدد دیں۔"
+        ],
+        [
+          "بھوک سے پاک ویک اینڈز فراہم کریں",
+          "Blessings in a Backpack کی مدد کریں تاکہ ہر جمعہ ایسے بچوں کو کھانا ملے جو ویک اینڈ پر بھوکے رہ سکتے ہیں۔"
+        ],
+        [
+          "خواہش فہرست کی اشیا دیں",
+          "ہماری Amazon خواہش فہرست سے اشیا خرید کر کمیونٹی پینٹری کی مدد کریں۔"
+        ],
+        [
+          "آسانی سے الیکٹرانک عطیہ دیں",
+          "ضرورت مند افراد اور خاندانوں کو امید دیں۔ ہماری خدمت جاری رکھنے میں مدد کا شکریہ۔"
+        ],
+        [
+          "انفرادی فنڈ ریزنگ میں مدد کریں",
+          "ہماری peer-to-peer فنڈ ریزنگ ان افراد اور خاندانوں کی زندگی بہتر بناتی ہے جن کی ہم خدمت کرتے ہیں۔"
+        ],
+        [
+          "نقد یا چیک بھیجیں",
+          "LindaBen Foundation\n11720 Beltsville Dr., Ste 500-M8\nBeltsville, MD 20705\n\nچیک اس نام پر بنائیں:\nLindaBen Foundation, Inc."
+        ]
+      ]
+    },
+    "forms": {
+      "loading": "لوڈ ہو رہا ہے...",
+      "communityPantryIntakeTitle": "کمیونٹی پینٹری انٹیک",
+      "communityPantryIntakeForm": "کمیونٹی پینٹری انٹیک فارم",
+      "joinUsTitle": "ہمارے ساتھ شامل ہوں",
+      "joinUsForm": "شمولیت فارم",
+      "volunteerHoursTitle": "وقت ٹریکر اور خدمت کے اوقات کا فارم",
+      "volunteerHoursForm": "وقت ٹریکر اور خدمت کے اوقات کا فارم"
+    },
+    "ourPartners": {
+      "heroTitle": "تعاونی شراکت دار",
+      "description": "LindaBen Foundation اپنے مشن اور مقصد کو آگے بڑھانے کے لیے کئی اتحادیوں کے ساتھ شراکت کرتی ہے۔"
+    },
+    "financials": {
+      "heroTitle": "مالی رپورٹس",
+      "downloadTitle": "ہماری مالی رپورٹس ڈاؤن لوڈ کریں",
+      "reportFor": "مالی سال کی مالی رپورٹ",
+      "downloadPdf": "PDF ڈاؤن لوڈ کریں",
+      "imageAlt": "مالی رپورٹس"
+    },
+    "programs": {
+      "metaDescription": "ہمدردانہ پروگراموں کے ذریعے زندگیاں بدلنا؛ Food as Medicine سے نوجوان رضاکاری تک۔",
+      "eyebrow": "محبت کے عمل",
+      "introTitle": "ہمدردانہ پروگراموں کے ذریعے زندگیاں بدلنا",
+      "intro": "LindaBen Foundation کے پروگرام کمیونٹی کو مضبوط بناتے ہیں اور ضرورت مند بچوں اور خاندانوں کے لیے استحکام، صحت اور ترقی کی ضروری خدمات فراہم کرتے ہیں۔",
+      "descriptions": [
+        "Food as Medicine غذائی تعلیم، مداخلت، تازہ پیداوار تک رسائی اور صحت مند انتخاب کا علم فراہم کرتا ہے۔",
+        "کمیونٹی پینٹری اسکولوں اور مقامی اداروں کے ساتھ مل کر کمزور خاندانوں کو صحت مند خوراک فراہم کرتی ہے۔",
+        "Resource Support Center مشکل وقت میں کمزور والدین اور بچوں کو جامع خدمات فراہم کرتا ہے۔",
+        "نوجوان رضاکار اپنے اسکولوں اور کمیونٹیز میں بچوں کی بھوک اور بے گھری ختم کرنے میں کردار ادا کر سکتے ہیں۔",
+        "ہم افراد اور کمیونٹی تنظیموں کو وسائل، مدد اور تحریک بانٹنے کے لیے جوڑتے ہیں۔",
+        "ہم Capital Area Food Bank اور Blessings in a Backpack جیسے پروگراموں کے ساتھ خوراک، سامان اور خدمات فراہم کرنے کے لیے کام کرتے ہیں۔"
+      ]
+    },
+    "foodAsMedicine": {
+      "title": "غذا بطور دوا",
+      "metaDescription": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "eyebrow1": "پروگرام کی معلومات",
+      "sectionTitle1": "پروگرام کی معلومات",
+      "blocks": [
+        [
+          "پروگرام کی معلومات",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ],
+        [
+          "پروگرام کی معلومات",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ],
+        [
+          "پروگرام کی معلومات",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ],
+        [
+          "پروگرام کی معلومات",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ]
+      ],
+      "blog": "Blog",
+      "contactInfo": "مزید معلومات کے لیے رابطہ کریں",
+      "imageAlt1": "پروگرام کی تصویر",
+      "imageAlt2": "پروگرام کی تصویر",
+      "eyebrow2": "پروگرام کی معلومات",
+      "sectionTitle2": "پروگرام کی معلومات",
+      "sectionText2": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "cost": "Cost:",
+      "costValue": "Free",
+      "locations": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "locationsValue": "Bryant Woods, Blue Heron Ln, Columbia, MD",
+      "supportedBy": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "supportedByValue": "Howard County Innovation Grant, MyVeggieVan.org, MikeandMelCruiseIn.com, St. Francis Fulton, HCPSS, LHIC, and more.",
+      "signupAlt": "پروگرام کی تصویر"
+    },
+    "resourceCenter": {
+      "title": "نیا کمیونٹی ریسورس سپورٹ سینٹر",
+      "metaDescription": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "paragraphs": [
+        "The LindaBen Foundation is excited to announce the opening of our new Community Resource Support Center. This innovative program addresses food insecurity and social determinants of health in underserved communities by providing supplemental emergency food and community-based support.",
+        "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+        "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+      ],
+      "imageAlt": "پروگرام کی تصویر",
+      "cards": [
+        [
+          "پروگرام کی معلومات",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ],
+        [
+          "پروگرام کی معلومات",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ],
+        [
+          "پروگرام کی معلومات",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ]
+      ]
+    },
+    "youthVolunteerism": {
+      "title": "نوجوان رضاکاری",
+      "metaDescription": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "eyebrow": "پروگرام کی معلومات",
+      "heading": "پروگرام کی معلومات",
+      "paragraphs": [
+        "At the LindaBen Foundation, youth volunteers are on an important mission to make a positive difference by fighting childhood hunger and homelessness in schools and local areas.",
+        "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+      ],
+      "submitHours": "اوقات جمع کریں",
+      "signUp": "Sign Up",
+      "imageAlt": "پروگرام کی تصویر",
+      "cards": [
+        [
+          "پروگرام کی معلومات",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ],
+        [
+          "پروگرام کی معلومات",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ],
+        [
+          "پروگرام کی معلومات",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ]
+      ]
+    },
+    "communityOutreach": {
+      "title": "کمیونٹی آؤٹ ریچ",
+      "metaDescription": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "eyebrow": "پروگرام کی معلومات",
+      "heading": "پروگرام کی معلومات",
+      "paragraphs": [
+        "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+        "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+      ],
+      "imageAlt": "پروگرام کی تصویر"
+    },
+    "partnershipsPrograms": {
+      "title": "شراکت داریاں",
+      "metaDescription": "Building stronger communities through strategic partnerships. Learn about our collaborations with organizations like Capital Area Food Bank and Blessings in a Backpack.",
+      "eyebrow": "پروگرام کی معلومات",
+      "heading": "پروگرام کی معلومات",
+      "paragraphs": [
+        "LindaBen Foundation partners with programs to provide food, supplies, and services to vulnerable communities, including Capital Area Food Bank and Blessings in a Backpack.",
+        "Through strategic partnerships and collaborative efforts, we multiply our impact and extend our reach to serve more families in need throughout Maryland and beyond."
+      ],
+      "imageAlt": "پروگرام کی تصویر",
+      "cards": [
+        [
+          "Blessings in a Backpack",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ],
+        [
+          "Capital Area Food Bank",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ],
+        [
+          "Greater Riverdale Cares",
+          "Collaborating on community outreach initiatives and resource sharing to better serve families in the Greater Riverdale area."
+        ]
+      ]
+    },
+    "communityPantry": {
+      "title": "کمیونٹی پینٹری",
+      "metaDescription": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "eyebrow": "پروگرام کی معلومات",
+      "heading": "پروگرام کی معلومات",
+      "paragraphs": [
+        "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+        "At LindaBen Foundation, we respond to these challenges through direct intervention and support methods linked to community resources."
+      ],
+      "impactTitle": "Our Impact",
+      "impactText": "With partners including Capital Area Food Bank, Whole Foods, Costco, Amazon, Passion & Compassion, and public-school systems in Howard and Prince George’s County, our community pantries serve an average of 30,000 lbs of food monthly, supporting over 850 households and feeding around 3,000 individuals every month.",
+      "locationsTitle": "پروگرام کی معلومات",
+      "location1Title": "Location #1: LindaBen Community Food Hub",
+      "location1Address": "10739 Tucker St, ste 222, Beltsville, MD 20705",
+      "location1Times": [
+        "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+        "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+        "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+      ],
+      "location2Title": "Location #2: Saint Bernard Catholic Church",
+      "location2Address": "5700 St Bernard Dr, Riverdale, MD 20737",
+      "location2Times": [
+        "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+      ],
+      "scheduleNote": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "supportedBy": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "supporters": "Capital Area Food Bank, Maryland Diaper Bank, MD State Community Development, Prince Georges Health Department, Celestial Manna, FDC, Central Union Mission, Amazon Local Good, UMD Ext SNAP Ed",
+      "contactStart": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "contactEnd": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "foodDistribution": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "clickSchedule": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "signUpVolunteer": "سائن اپ",
+      "imageAlt": "پروگرام کی تصویر",
+      "contactUs": "Contact us",
+      "assistance": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "cards": [
+        [
+          "پروگرام کی معلومات",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ],
+        [
+          "پروگرام کی معلومات",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ],
+        [
+          "پروگرام کی معلومات",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ]
+      ],
+      "healthSchedule": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+    },
+    "volunteer": {
+      "title": "رضاکاری اور رجسٹریشن مواقع",
+      "heroAlt": "پروگرام کی تصویر",
+      "quote": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "cite": "James 2:18",
+      "signUpHere": "سائن اپ",
+      "logHoursHere": "اوقات جمع کریں",
+      "seeMoreHere": "مزید دیکھیں",
+      "visitSharedFolder": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "diaperLogLink": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "imageAlt": "پروگرام کی تصویر",
+      "sections": [
+        [
+          "پروگرام کی معلومات",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ],
+        [
+          "Join Us",
+          "LindaBen seeks like-minded individuals to help provide momentum that creates change in the local community. If you can volunteer your time, let us know how you can help."
+        ],
+        [
+          "پروگرام کی معلومات",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ],
+        [
+          "پروگرام کی معلومات",
+          "Join the LindaBen Foundation volunteer community."
+        ],
+        [
+          "پروگرام کی معلومات",
+          "Google sign in required."
+        ],
+        [
+          "پروگرام کی معلومات",
+          "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+        ]
+      ]
+    },
+    "aboutUs": {
+      "title": "ہمارے بارے میں",
+      "metaDescription": "Learn about LindaBen Foundation's mission to be a channel of safe haven for the homeless, at-risk population and underserved community.",
+      "heroText": "LindaBen Foundation provides Child and Family Stability Services, affordable housing support, sustainable healthy food access, wraparound services, and pathways toward self-sufficiency for local communities and families in transition.",
+      "missionTitle": "پروگرام کی معلومات",
+      "missionText": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "visionTitle": "Our Vision",
+      "visionText": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "historyEyebrow": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "historyTitle": "پروگرام کی معلومات",
+      "historyText": "LindaBen Foundation was created in memory and honor of Anna S. Beavan’s parents, Linda Santos and Ben Dimatangal, and for people who died homeless or suffered in poverty, depression, mental health illness, and addiction.",
+      "fullStory": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "historyAlt": "LindaBen Foundation history",
+      "leadersEyebrow": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "leadershipTitle": "Leadership",
+      "leadershipTexts": [
+        "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+        "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+      ],
+      "peopleEyebrow": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "peopleTitle": "Our People",
+      "boardTitle": "پروگرام کی معلومات",
+      "operationsTitle": "پروگرام کی معلومات",
+      "boardRole": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "teamRole": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+    },
+    "history": {
+      "title": "ہماری تاریخ",
+      "metaDescription": "Learn about the founding story of LindaBen Foundation, from a personal journey of faith and compassion to a mission serving those in need.",
+      "quote": "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+      "cite": "Philippians 4:12-13",
+      "messageTitle": "پروگرام کی معلومات",
+      "imageAlt1": "پروگرام کی تصویر",
+      "imageAlt2": "پروگرام کی تصویر",
+      "paragraphs": [
+        "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+        "Years later, through family experiences, service with homeless outreach, and renewed faith, the idea of a foundation became clearer. LindaBen Foundation was born from love, remembrance, and the desire to uplift lives that had been cast aside.",
+        "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔",
+        "یہ حصہ ضرورت مند خاندانوں کے لیے LindaBen Foundation کی خدمات، کمیونٹی مدد اور وسائل کی وضاحت کرتا ہے۔"
+      ]
+    },
+    "resources": {
+      "title": "مدد اور وسائل",
+      "intro": "LindaBen Foundation کے پروگراموں سے منسلک سروے، معاون آلات، شراکت دار وسائل اور ذیابیطس آگاہی مواد تلاش کریں۔",
+      "surveyButton": "سروے مکمل کریں",
+      "externalResource": "وسیلہ کھولیں",
+      "diabetesTitle": "ذیابیطس آگاہی وسائل",
+      "cardsTitle": "وسائل کے شراکت دار",
+      "items": [
+        "Food as Medicine تازہ پیداوار باکس کا ابتدائی سروے",
+        "Food as Medicine تازہ پیداوار باکس کا بعد کا سروے",
+        "Eat Well Be Well ابتدائی سروے",
+        "Eat Well Be Well بعد کا سروے",
+        "کمیونٹی غذا اور غذائیت تحفظ سروے",
+        "Levitate TLF سروے"
+      ]
+    },
+    "events": {
+      "title": "آنے والی تقریبات",
+      "today": "آج",
+      "previousYear": "پچھلا سال",
+      "nextYear": "اگلا سال",
+      "previousMonth": "پچھلا مہینہ",
+      "nextMonth": "اگلا مہینہ",
+      "months": [
+        "جنوری",
+        "فروری",
+        "مارچ",
+        "اپریل",
+        "مئی",
+        "جون",
+        "جولائی",
+        "اگست",
+        "ستمبر",
+        "اکتوبر",
+        "نومبر",
+        "دسمبر"
+      ],
+      "days": [
+        "اتوار",
+        "پیر",
+        "منگل",
+        "بدھ",
+        "جمعرات",
+        "جمعہ",
+        "ہفتہ"
+      ],
+      "marketTitle": "LindaBen صحت مند خوراک مارکیٹ (خوراک کی تقسیم)",
+      "marketDescription": "ہر بدھ رات 1:00 بجے سے 3:00 بجے تک کلائنٹ کے انتخاب کے مطابق خوراک تقسیم کی جاتی ہے۔ رجسٹریشن رات 12:00 بجے شروع ہوتی ہے۔",
+      "marketRelief": "LindaBen اپنی کمیونٹی پینٹری کے ذریعے کمزور خاندانوں کو بھوک سے ریلیف اور صحت مند خوراک تک رسائی فراہم کرتا ہے۔"
+    }
+  },
+  "newsletter": {
+    "title": "نیوز لیٹر",
+    "description": "LindaBen Foundation کے تازہ نیوز لیٹر، اپ ڈیٹس اور اعلانات۔",
+    "empty": "ابھی کوئی شائع شدہ نیوز لیٹر موجود نہیں۔"
   }
 }

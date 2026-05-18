@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin/auth";
-import { listMedia, putMedia } from "@/lib/content/repository";
+import { deleteMedia, listMedia, putMedia } from "@/lib/content/repository";
 import { makeSlug } from "@/lib/content/markdown";
 
 export async function GET() {
@@ -28,4 +28,16 @@ export async function POST(request: Request) {
   const url = await putMedia(key, body, file.type);
 
   return NextResponse.json({ key, url });
+}
+
+export async function DELETE(request: Request) {
+  await requireAdmin();
+  const { key } = (await request.json()) as { key?: string };
+
+  if (!key) {
+    return NextResponse.json({ error: "Missing key." }, { status: 400 });
+  }
+
+  await deleteMedia(key);
+  return NextResponse.json({ ok: true });
 }

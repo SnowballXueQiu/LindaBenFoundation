@@ -16,7 +16,7 @@ export default function ArticleEditor({
   type,
   article,
 }: {
-  type: "blogs" | "news";
+  type: "blogs" | "newsletter";
   article?: Article | null;
 }) {
   const [state, action, pending] = useActionState(saveArticleAction, initialState);

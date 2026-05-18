@@ -6,14 +6,28 @@ import ParallaxBg from "@/components/ParallaxBg";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { defaultLocale, getAlternates, isSupportedLocale, withLocale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
-export const metadata: Metadata = {
-  title: "Community Outreach — LindaBen Foundation",
-  description:
-    "Uniting hands and hearts in service. Join our network of over 30 organizations working together to end childhood hunger and homelessness.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const dictionary = await getDictionary(locale);
+  const page = dictionary.pages.communityOutreach;
 
-export default function CommunityOutreachPage() {
+  return {
+    title: `${page.title} — LindaBen Foundation`,
+    description: page.metaDescription,
+    alternates: { canonical: `/${locale}/community-outreach`, languages: getAlternates("/community-outreach") },
+  };
+}
+
+export default async function CommunityOutreachPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const dictionary = await getDictionary(locale);
+  const page = dictionary.pages.communityOutreach;
+
   return (
     <>
       <Header />
@@ -31,7 +45,7 @@ export default function CommunityOutreachPage() {
               className="text-4xl lg:text-6xl font-bold text-white mb-8"
               style={{ fontFamily: "var(--font-merriweather), serif" }}
             >
-              Community Outreach
+              {page.title}
             </h1>
           </div>
         </section>
@@ -50,7 +64,7 @@ export default function CommunityOutreachPage() {
                     className="text-sm font-semibold tracking-[0.18em] uppercase"
                     style={{ color: "var(--green-mid)" }}
                   >
-                    Uniting Hands and Hearts in Service
+                    {page.eyebrow}
                   </p>
                   
                   <h2
@@ -60,17 +74,13 @@ export default function CommunityOutreachPage() {
                       fontFamily: "var(--font-merriweather), serif",
                     }}
                   >
-                    Lend Your Voice to a Cause That Echoes Through Communities
+                    {page.heading}
                   </h2>
                   
                   <div className="space-y-6 text-base leading-relaxed" style={{ color: "var(--text-mid)" }}>
-                    <p>
-                      Our partnership with local and nonprofit agencies has been pivotal in our journey, allowing us to join forces with over 30 organizations within our inaugural year. Our common goal is to offer assistance that motivates and encourages the wider community to engage actively in the fight to end childhood hunger and homelessness.
-                    </p>
-                    
-                    <p>
-                      We extend an invitation for you to join our cause. Your participation aids us in building a formidable network to offer essential aid to those in dire need.
-                    </p>
+                    {page.paragraphs.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
                   </div>
                 </div>
                 
@@ -78,20 +88,20 @@ export default function CommunityOutreachPage() {
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <div className="flex-1">
                     <Link
-                      href="/donations"
+                      href={withLocale("/donations", locale)}
                       className="block w-full text-center px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90"
                       style={{ background: "var(--green-deep)" }}
                     >
-                      Donate
+                      {dictionary.common.donate}
                     </Link>
                   </div>
                   <div className="flex-1">
                     <Link
-                      href="/volunteer"
+                      href={withLocale("/volunteer", locale)}
                       className="block w-full text-center px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90"
                       style={{ background: "var(--green-mid)" }}
                     >
-                      Sign Up
+                      {dictionary.pages.youthVolunteerism.signUp}
                     </Link>
                   </div>
                 </div>
@@ -102,7 +112,7 @@ export default function CommunityOutreachPage() {
                 <div className="sticky top-32">
                   <Image
                     src="/community-outreach/image.png"
-                    alt="Community Outreach"
+                    alt={page.imageAlt}
                     width={500}
                     height={600}
                     className="w-full h-auto rounded-2xl shadow-xl"

@@ -30,8 +30,7 @@ export function getS3PublicUrl(key: string) {
     return `${base.replace(/\/$/, "")}/${key}`;
   }
 
-  const endpoint = process.env.S3_ENDPOINT || "http://127.0.0.1:3900";
-  return `${endpoint.replace(/\/$/, "")}/${getS3Bucket()}/${key}`;
+  return `/api/media/${key.split("/").map(encodeURIComponent).join("/")}`;
 }
 
 export const s3 = new S3Client({
@@ -47,6 +46,10 @@ export const s3 = new S3Client({
 export async function getObjectText(key: string) {
   const response = await s3.send(new GetObjectCommand({ Bucket: getS3Bucket(), Key: key }));
   return response.Body?.transformToString() || "";
+}
+
+export async function getObject(key: string) {
+  return s3.send(new GetObjectCommand({ Bucket: getS3Bucket(), Key: key }));
 }
 
 export async function getObjectJson<T>(key: string, fallback: T) {

@@ -1,4 +1,11 @@
+"use client";
+
+import { useI18n } from "@/lib/i18n/client";
+
 export default function MissionVision() {
+  const { dictionary } = useI18n();
+  const home = dictionary.home;
+
   return (
     <section
       className="py-20 lg:py-28"
@@ -10,7 +17,7 @@ export default function MissionVision() {
           className="text-center text-sm font-semibold tracking-[0.18em] uppercase mb-14"
           style={{ color: "var(--green-mid)" }}
         >
-          Help My People
+          {home.helpMyPeople}
         </p>
 
         <div className="grid md:grid-cols-2 gap-10 lg:gap-16">
@@ -28,16 +35,13 @@ export default function MissionVision() {
                   fontFamily: "var(--font-merriweather), serif",
                 }}
               >
-                Our Mission
+                {home.missionTitle}
               </h2>
               <p
                 className="text-base leading-relaxed"
                 style={{ color: "var(--text-mid)" }}
               >
-                Our mission at LindaBen Foundation is to provide nutritious food,
-                promote wellness, reduce food waste, and offer nutrition education
-                to help children and empower their families overcome food
-                insecurity and improve their health.
+                {home.missionText}
               </p>
             </div>
           </div>
@@ -56,17 +60,13 @@ export default function MissionVision() {
                   fontFamily: "var(--font-merriweather), serif",
                 }}
               >
-                Our Vision
+                {home.visionTitle}
               </h2>
               <p
                 className="text-base leading-relaxed"
                 style={{ color: "var(--text-mid)" }}
               >
-                We envision a world where no child or family goes hungry, and
-                where access to healthy food and life-changing resources is
-                available to all. Through community partnerships, education, and
-                compassionate care, we aim to transform local food systems and
-                create lasting, positive change for generations to come.
+                {home.visionText}
               </p>
             </div>
           </div>

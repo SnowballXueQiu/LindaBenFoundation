@@ -2,8 +2,15 @@ import Header from "@/components/Header";
 import DonationCTA from "@/components/DonationCTA";
 import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
+import { defaultLocale, isSupportedLocale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
-export default function JoinUsPage() {
+export default async function JoinUsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const dictionary = await getDictionary(locale);
+  const forms = dictionary.pages.forms;
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -18,7 +25,7 @@ export default function JoinUsPage() {
               fontFamily: "var(--font-merriweather), serif",
             }}
           >
-            Join Us
+            {forms.joinUsTitle}
           </h1>
         </div>
       </section>
@@ -34,9 +41,9 @@ export default function JoinUsPage() {
               frameBorder="0"
               marginHeight={0}
               marginWidth={0}
-              title="Join Us Form"
+              title={forms.joinUsForm}
             >
-              Loading&hellip;
+              {forms.loading}
             </iframe>
           </div>
         </div>

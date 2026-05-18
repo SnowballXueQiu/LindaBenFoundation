@@ -13,7 +13,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <nav className="flex items-center gap-5 text-sm font-medium">
               <Link href="/admin" className="font-bold text-emerald-800">LindaBen CMS</Link>
               <Link href="/admin/articles/blogs/new">New Blog</Link>
-              <Link href="/admin/articles/news/new">New News</Link>
+              <Link href="/admin/articles/newsletter/new">New Newsletter</Link>
               <Link href="/admin/media">Media</Link>
             </nav>
             <form action={logoutAction}>

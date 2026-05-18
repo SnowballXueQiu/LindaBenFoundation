@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { markdownToSafeHtml } from "@/lib/content/markdown";
 import type { Article } from "@/lib/content/types";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
 import type { Locale } from "@/lib/i18n/config";
 
 function formatDate(value: string | undefined, locale: Locale) {
@@ -11,7 +12,7 @@ function formatDate(value: string | undefined, locale: Locale) {
   return new Intl.DateTimeFormat(locale, { dateStyle: "long" }).format(date);
 }
 
-export default function ArticleDetailPage({ article, locale }: { article: Article; locale: Locale }) {
+export default function ArticleDetailPage({ article, locale, dictionary }: { article: Article; locale: Locale; dictionary: Dictionary }) {
   return (
     <div className="min-h-screen">
       <Header />
@@ -26,7 +27,7 @@ export default function ArticleDetailPage({ article, locale }: { article: Articl
                 {article.title}
               </h1>
               <p className="mt-4 text-sm" style={{ color: "var(--text-mid)" }}>
-                {article.author && <span>By {article.author} &bull; </span>}
+                {article.author && <span>{dictionary.common.by} {article.author} &bull; </span>}
                 {formatDate(article.publishedAt || article.updatedAt, locale)}
               </p>
             </div>

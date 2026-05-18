@@ -2,10 +2,13 @@
 
 import { useState } from "react";
 import ParallaxBg from "@/components/ParallaxBg";
+import { useI18n } from "@/lib/i18n/client";
 
 export default function ContactForm() {
   const [smsConsent, setSmsConsent] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const { dictionary } = useI18n();
+  const copy = dictionary.contactForm;
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -31,7 +34,7 @@ export default function ContactForm() {
               className="text-sm font-semibold tracking-[0.18em] uppercase mb-4"
               style={{ color: "var(--green-light)" }}
             >
-              Reach Out
+              {copy.eyebrow}
             </p>
             <h2
               className="text-3xl lg:text-4xl font-bold mb-4 leading-snug text-white"
@@ -39,13 +42,12 @@ export default function ContactForm() {
                 fontFamily: "var(--font-merriweather), serif",
               }}
             >
-              We Want to
+              {copy.titleLine1}
               <br />
-              Get In Touch
+              {copy.titleLine2}
             </h2>
             <p className="text-base mb-10" style={{ color: "var(--green-pale)" }}>
-              Whether you have a question, want to volunteer, or simply want to
-              say hello — we&rsquo;d love to hear from you.
+              {copy.description}
             </p>
 
             <div className="space-y-6">
@@ -60,7 +62,7 @@ export default function ContactForm() {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: "var(--green-light)" }}>Phone</div>
+                  <div className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: "var(--green-light)" }}>{copy.phone}</div>
                   <a href="tel:+12404619442" className="text-base font-medium hover:underline text-white">
                     +1-240-461-9442
                   </a>
@@ -79,7 +81,7 @@ export default function ContactForm() {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: "var(--green-light)" }}>Email</div>
+                  <div className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: "var(--green-light)" }}>{copy.email}</div>
                   <a href="mailto:info@lindabenfoundation.org" className="text-base font-medium hover:underline break-all text-white">
                     info@lindabenfoundation.org
                   </a>
@@ -98,7 +100,7 @@ export default function ContactForm() {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: "var(--green-light)" }}>Main Office</div>
+                  <div className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: "var(--green-light)" }}>{copy.mainOffice}</div>
                   <p className="text-sm leading-relaxed text-white">
                     10739 Tucker St, Ste 222<br />
                     Beltsville, MD 20705
@@ -124,22 +126,22 @@ export default function ContactForm() {
                   </svg>
                 </div>
                 <h3 className="text-xl font-bold mb-2" style={{ color: "var(--green-deep)", fontFamily: "var(--font-merriweather), serif" }}>
-                  Message Received!
+                  {copy.receivedTitle}
                 </h3>
                 <p className="text-sm" style={{ color: "var(--text-mid)" }}>
-                  Thank you for reaching out. We&rsquo;ll get back to you soon.
+                  {copy.receivedText}
                 </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
                 <h3 className="text-xl font-bold mb-6" style={{ color: "var(--green-deep)", fontFamily: "var(--font-merriweather), serif" }}>
-                  Contact Us!
+                  {copy.formTitle}
                 </h3>
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color: "var(--text-mid)" }}>
-                      Full Name <span style={{ color: "var(--green-mid)" }}>*</span>
+                      {copy.fullName} <span style={{ color: "var(--green-mid)" }}>*</span>
                     </label>
                     <input
                       type="text"
@@ -157,7 +159,7 @@ export default function ContactForm() {
                   </div>
                   <div>
                     <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color: "var(--text-mid)" }}>
-                      Phone Number
+                      {copy.phoneNumber}
                     </label>
                     <input
                       type="tel"
@@ -176,7 +178,7 @@ export default function ContactForm() {
 
                 <div>
                   <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color: "var(--text-mid)" }}>
-                    Email <span style={{ color: "var(--green-mid)" }}>*</span>
+                    {copy.email} <span style={{ color: "var(--green-mid)" }}>*</span>
                   </label>
                   <input
                     type="email"
@@ -195,11 +197,11 @@ export default function ContactForm() {
 
                 <div>
                   <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color: "var(--text-mid)" }}>
-                    Subject
+                    {copy.subject}
                   </label>
                   <input
                     type="text"
-                    placeholder="How can we help?"
+                    placeholder={copy.subjectPlaceholder}
                     className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
                     style={{
                       background: "white",
@@ -213,12 +215,12 @@ export default function ContactForm() {
 
                 <div>
                   <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color: "var(--text-mid)" }}>
-                    Message <span style={{ color: "var(--green-mid)" }}>*</span>
+                    {copy.message} <span style={{ color: "var(--green-mid)" }}>*</span>
                   </label>
                   <textarea
                     required
                     rows={4}
-                    placeholder="Your message..."
+                    placeholder={copy.messagePlaceholder}
                     className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200 resize-none"
                     style={{
                       background: "white",
@@ -253,7 +255,7 @@ export default function ContactForm() {
                     onChange={() => setSmsConsent(!smsConsent)}
                   />
                   <span className="text-xs leading-relaxed" style={{ color: "var(--text-mid)" }}>
-                    I agree to receive text messages at the phone number provided.
+                    {copy.smsConsent}
                   </span>
                 </label>
 
@@ -262,7 +264,7 @@ export default function ContactForm() {
                   className="w-full py-3.5 rounded-xl font-semibold text-white transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
                   style={{ background: "var(--green-deep)" }}
                 >
-                  Send Message
+                  {copy.send}
                 </button>
               </form>
             )}

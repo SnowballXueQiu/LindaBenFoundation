@@ -70,6 +70,10 @@ export async function saveArticleAction(_state: AdminActionState, formData: Form
   revalidatePath(`/${locale}`);
   revalidatePath(`/${locale}/${type}`);
   revalidatePath(`/${locale}/${type}/${slug}`);
+  if (type === "newsletter") {
+    revalidatePath(`/${locale}/newsletter`);
+    revalidatePath(`/${locale}/newsletter/${slug}`);
+  }
   revalidatePath("/admin");
   redirect(`/admin/articles/${type}/${slug}`);
 }

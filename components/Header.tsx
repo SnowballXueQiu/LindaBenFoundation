@@ -69,7 +69,7 @@ export default function Header() {
 
   // Check if current path is active for a nav item
   const isActive = (item: { label: string; href: string; children?: { label: string; href: string }[] }) => {
-    if (item.label === "Home") {
+    if (item.href === "/") {
       return pathWithoutLocale === "/" || pathWithoutLocale === "";
     }
     if (item.href === "/about-us") {
@@ -82,7 +82,7 @@ export default function Header() {
       return pathWithoutLocale === "/volunteer";
     }
     if (item.href === "/resources") {
-      return pathWithoutLocale === "/donations" || pathWithoutLocale === "/financials" || pathWithoutLocale === "/our-partners" || pathWithoutLocale === "/resources" || pathWithoutLocale === "/events" || pathWithoutLocale === "/blogs" || pathWithoutLocale === "/news";
+      return pathWithoutLocale === "/donations" || pathWithoutLocale === "/financials" || pathWithoutLocale === "/our-partners" || pathWithoutLocale === "/resources" || pathWithoutLocale === "/events" || pathWithoutLocale === "/blogs" || pathWithoutLocale === "/newsletter";
     }
     if (item.href === "/contact") {
       return pathWithoutLocale === "/contact";
@@ -235,7 +235,7 @@ export default function Header() {
             <button
               className="lg:hidden p-2 rounded"
               onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Toggle menu"
+              aria-label={dictionary.common.toggleMenu}
             >
               <svg
                 className="w-6 h-6"

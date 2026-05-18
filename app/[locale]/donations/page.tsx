@@ -3,51 +3,59 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
-export default function DonationsPage() {
+import type { Metadata } from "next";
+import { defaultLocale, getAlternates, isSupportedLocale, withLocale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
+
+const donationLinks = [
+  "https://secure.givelively.org/donate/lindaben-foundation-inc",
+  "https://www.lindabenfoundation.org/donate-goods",
+  "https://www.lindabenfoundation.org/donate-goods",
+  "https://www.lindabenfoundation.org/donate-goods",
+  "https://www.lindabenfoundation.org/volunteer",
+  "https://www.lindabenfoundation.org/donate-goods",
+];
+
+const donationImages = [
+  "/donations/1.png",
+  "/donations/2.png",
+  "/donations/3.png",
+  "/donations/4.png",
+  "/donations/5.png",
+  "/donations/6.png",
+];
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const dictionary = await getDictionary(locale);
+  const page = dictionary.pages.donations;
+
+  return {
+    title: `${page.heroTitle} — LindaBen Foundation`,
+    description: page.metaDescription,
+    alternates: { canonical: `/${locale}/donations`, languages: getAlternates("/donations") },
+  };
+}
+
+export default async function DonationsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const dictionary = await getDictionary(locale);
+  const page = dictionary.pages.donations;
+
   const donationStats = [
-    { number: "$487,140", label: "In Monetary Donations" },
-    { number: "$316,498", label: "In Kind Donations" },
-    { number: "Over 2400", label: "Hours of Volunteer Time" },
+    { number: "$487,140", label: page.stats[0] },
+    { number: "$316,498", label: page.stats[1] },
+    { number: "2400+", label: page.stats[2] },
   ];
 
-  const donationCards = [
-    {
-      image: "/donations/1.png",
-      title: "Donate Once or Monthly",
-      content: "Create a dependable source of income we greatly appreciate by becoming a monthly donor, and help continue our mission.",
-      link: "https://secure.givelively.org/donate/lindaben-foundation-inc"
-    },
-    {
-      image: "/donations/2.png", 
-      title: "Provide Hunger-Free Weekends",
-      content: "Support Blessings in a Backpack to provide food every Friday to children who may go hungry over the weekend.",
-      link: "https://www.lindabenfoundation.org/donate-goods"
-    },
-    {
-      image: "/donations/3.png",
-      title: "Give Wishlist Items", 
-      content: "Purchase and donate items from our Amazon Wishlist to help our community pantry we provide.",
-      link: "https://www.lindabenfoundation.org/donate-goods"
-    },
-    {
-      image: "/donations/4.png",
-      title: "Donate Easily Electronically",
-      content: "Give hope to individuals and families in need. Thank you for helping us continue our service.",
-      link: "https://www.lindabenfoundation.org/donate-goods"
-    },
-    {
-      image: "/donations/5.png",
-      title: "Help Individual Fundraising",
-      content: "Our peer-to-peer fundraising improves the life of individuals and families we serve.",
-      link: "https://www.lindabenfoundation.org/volunteer"
-    },
-    {
-      image: "/donations/6.png",
-      title: "Send Cash or Check",
-      content: "LindaBen Foundation\n11720 Beltsville Dr., Ste 500-M8\nBeltsville, MD 20705\n\nMake checks payable to:\nLindaBen Foundation, Inc.",
-      link: "https://www.lindabenfoundation.org/donate-goods"
-    }
-  ];
+  const donationCards = page.cards.map(([title, content], index) => ({
+    image: donationImages[index],
+    title,
+    content,
+    link: donationLinks[index],
+  }));
 
   return (
     <div className="min-h-screen">
@@ -58,7 +66,7 @@ export default function DonationsPage() {
         <div className="absolute inset-0">
           <Image
             src="/donations/hero.png"
-            alt="Donations Hero"
+            alt={page.heroAlt}
             fill
             className="object-cover"
             priority
@@ -70,7 +78,7 @@ export default function DonationsPage() {
             className="text-4xl lg:text-6xl font-bold leading-tight"
             style={{ fontFamily: "var(--font-merriweather), serif" }}
           >
-            Donations
+            {page.heroTitle}
           </h1>
         </div>
       </section>
@@ -84,7 +92,7 @@ export default function DonationsPage() {
                 className="text-lg font-semibold mb-4"
                 style={{ color: "var(--green-mid)" }}
               >
-                Bless Others, Be Blessed
+                {page.eyebrow}
               </p>
               <h2
                 className="text-3xl lg:text-4xl font-bold mb-6"
@@ -93,17 +101,17 @@ export default function DonationsPage() {
                   fontFamily: "var(--font-merriweather), serif"
                 }}
               >
-                Ways to Give
+                {page.waysTitle}
               </h2>
               <div className="space-y-4 mb-8">
                 <p className="text-lg leading-relaxed" style={{ color: "var(--text-dark)" }}>
-                  Your generosity allows us to improve the conditions of individuals and families we serve and help our mission.
+                  {page.intro}
                 </p>
                 <p className="text-lg leading-relaxed font-semibold" style={{ color: "var(--text-dark)" }}>
-                  <strong>Donate Once or Monthly</strong>
+                  <strong>{page.donateOnce}</strong>
                 </p>
                 <p className="text-lg leading-relaxed" style={{ color: "var(--text-dark)" }}>
-                  Create a dependable source of income we greatly appreciate by becoming a monthly donor, and help continue our mission.
+                  {page.donateOnceText}
                 </p>
               </div>
               <a
@@ -113,14 +121,14 @@ export default function DonationsPage() {
                 className="inline-block px-8 py-3 rounded-full font-semibold text-white transition-all duration-200 hover:opacity-90"
                 style={{ background: "var(--green-deep)" }}
               >
-                Donate Online →
+                {page.donateOnline} →
               </a>
             </div>
             <div className="flex justify-center">
               <div className="w-80 h-80 rounded-full overflow-hidden shadow-lg">
                 <Image
                   src="/donations/section1.png"
-                  alt="Donation Ways"
+                  alt={page.sectionAlt}
                   width={320}
                   height={320}
                   loading="eager"
@@ -171,7 +179,7 @@ export default function DonationsPage() {
                     className="inline-block px-6 py-2 rounded-full font-semibold text-white transition-all duration-200 hover:opacity-90"
                     style={{ background: "var(--green-deep)" }}
                   >
-                    Learn More & Donate
+                    {page.learnMoreDonate}
                   </a>
                 </div>
               </div>
@@ -190,21 +198,21 @@ export default function DonationsPage() {
               fontFamily: "var(--font-merriweather), serif"
             }}
           >
-            Give In Other Ways
+            {page.otherWaysTitle}
           </h2>
           <div className="space-y-4">
             <p className="text-lg leading-relaxed" style={{ color: "var(--text-dark)" }}>
               <Link 
-                href="/contact" 
+                href={withLocale("/contact", locale)}
                 className="underline hover:opacity-70 transition-opacity"
                 style={{ color: "var(--green-deep)" }}
               >
-                Contact us
+                {page.contactUs}
               </Link>{" "}
-              directly to make donations in kind today and support those in need.
+              {page.otherWaysText}
             </p>
             <p className="text-lg leading-relaxed" style={{ color: "var(--text-dark)" }}>
-              Text the code <strong>MORETHANFOOD</strong> to (240) 461-9442
+              {page.textCode} <strong>MORETHANFOOD</strong> {page.toPhone}
             </p>
           </div>
         </div>
@@ -245,7 +253,7 @@ export default function DonationsPage() {
                 className="text-lg font-semibold mb-4"
                 style={{ color: "var(--green-mid)" }}
               >
-                Giving with Trust
+                {page.trustEyebrow}
               </p>
               <h2
                 className="text-3xl lg:text-4xl font-bold mb-6"
@@ -254,17 +262,17 @@ export default function DonationsPage() {
                   fontFamily: "var(--font-merriweather), serif"
                 }}
               >
-                Our 501(c)(3) Status
+                {page.statusTitle}
               </h2>
               <p className="text-lg leading-relaxed" style={{ color: "var(--text-dark)" }}>
-                LindaBen Foundation is a registered 501(c)(3) nonprofit organization, ensuring that your donations are tax-deductible and used directly to support our mission. Your contributions help us provide essential services and programs to those in need, making a real difference in our community. Trust in our commitment to transparency and impact as we work together to create positive change.
+                {page.statusText}
               </p>
             </div>
             <div className="flex justify-center">
               <div className="w-80 h-80 rounded-full overflow-hidden shadow-lg">
                 <Image
                   src="/donations/section5.png"
-                  alt="501(c)(3) Status"
+                  alt={page.statusAlt}
                   width={320}
                   height={320}
                   className="w-full h-full object-cover"

@@ -38,8 +38,7 @@ export function getNavItems(dictionary: Dictionary) {
     children: [
       { label: nav.donations, href: "/donations" },
       { label: nav.blog, href: "/blogs" },
-      { label: nav.news, href: "/news" },
-      { label: nav.newsletter, href: "#" },
+      { label: nav.newsletter, href: "/newsletter" },
       { label: nav.events, href: "/events" },
       { label: nav.testimonials, href: "#testimonials" },
       { label: nav.ourPartners, href: "/our-partners" },

@@ -1,8 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useI18n } from "@/lib/i18n/client";
+import { withLocale } from "@/lib/i18n/config";
 
 export default function DonationCTA() {
+  const { locale, dictionary } = useI18n();
+  const home = dictionary.home;
+
   return (
     <section
       id="donate"
@@ -24,7 +29,7 @@ export default function DonationCTA() {
           className="text-sm font-semibold tracking-[0.18em] uppercase mb-4"
           style={{ color: "var(--green-deep)" }}
         >
-          Bless Others, Be Blessed
+          {home.donationEyebrow}
         </p>
         <h2
           className="text-3xl lg:text-5xl font-bold mb-6 leading-tight"
@@ -33,23 +38,21 @@ export default function DonationCTA() {
             fontFamily: "var(--font-merriweather), serif",
           }}
         >
-          Your Donations Matter!
+          {home.donationTitle}
         </h2>
         <p
           className="text-base lg:text-lg leading-relaxed mb-10 max-w-2xl mx-auto"
           style={{ color: "var(--text-mid)" }}
         >
-          Your generosity allows us to improve the conditions of individuals and
-          families we serve and help our mission. Every dollar makes a real
-          difference in someone&rsquo;s life today.
+          {home.donationText}
         </p>
 
         <Link
-          href="/donations"
+          href={withLocale("/donations", locale)}
           className="inline-block px-10 py-4 rounded-full font-bold text-white text-base shadow-lg transition-all duration-200 hover:scale-[1.03] hover:shadow-xl active:scale-[0.98]"
           style={{ background: "var(--green-deep)" }}
         >
-          Visit Our Donation Page
+          {home.donationButton}
         </Link>
       </div>
     </section>

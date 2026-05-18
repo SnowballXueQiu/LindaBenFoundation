@@ -9,15 +9,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
   const dictionary = await getDictionary(locale);
   return {
-    title: `${dictionary.news.title} — LindaBen Foundation`,
-    description: dictionary.news.description,
-    alternates: { canonical: `/${locale}/news`, languages: getAlternates("/news") },
+    title: `${dictionary.newsletter.title} — LindaBen Foundation`,
+    description: dictionary.newsletter.description,
+    alternates: { canonical: `/${locale}/newsletter`, languages: getAlternates("/newsletter") },
   };
 }
 
-export default async function NewsPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function NewsletterPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: rawLocale } = await params;
   const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
-  const [dictionary, articles] = await Promise.all([getDictionary(locale), listArticles("news", locale)]);
-  return <ArticleListPage type="news" articles={articles} locale={locale} dictionary={dictionary} />;
+  const [dictionary, articles] = await Promise.all([getDictionary(locale), listArticles("newsletter", locale)]);
+  return <ArticleListPage type="newsletter" articles={articles} locale={locale} dictionary={dictionary} />;
 }

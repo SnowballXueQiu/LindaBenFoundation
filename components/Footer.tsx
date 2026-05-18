@@ -227,7 +227,7 @@ export default function Footer() {
           <div className="grid sm:grid-cols-2 gap-8">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>
-                Recognition
+                {dictionary.footer.recognition}
               </p>
               <div className="flex gap-4">
                 {recognitionBadges.map((b) => (
@@ -254,7 +254,7 @@ export default function Footer() {
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>
-                Our Affiliations
+                {dictionary.footer.affiliations}
               </p>
               <div className="flex flex-wrap items-center gap-4">
                 {affiliationImages.map((src, i) => (
@@ -284,11 +284,11 @@ export default function Footer() {
         style={{ borderColor: "rgba(255,255,255,0.08)", background: "rgba(0,0,0,0.2)" }}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
-          <p>
-            &copy; 2026 All Rights Reserved &mdash; LindaBen Foundation
-          </p>
+          <p>&copy; 2026 {dictionary.footer.copyright}</p>
           <div className="flex gap-5">
-            <a href="https://irp.cdn-website.com/a6dd7f97/files/uploaded/Privacy_Policy-2.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Privacy Policy</a>
+            <a href="https://irp.cdn-website.com/a6dd7f97/files/uploaded/Privacy_Policy-2.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+              {dictionary.footer.privacyPolicy}
+            </a>
           </div>
         </div>
       </div>

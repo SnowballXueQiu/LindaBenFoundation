@@ -6,14 +6,28 @@ import ParallaxBg from "@/components/ParallaxBg";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { defaultLocale, getAlternates, isSupportedLocale, withLocale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
-export const metadata: Metadata = {
-  title: "Youth Volunteerism — LindaBen Foundation",
-  description:
-    "Empowering the next generation of change-makers. Join our youth volunteers in fighting childhood hunger and homelessness in local communities.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const dictionary = await getDictionary(locale);
+  const page = dictionary.pages.youthVolunteerism;
 
-export default function YouthVolunteerismPage() {
+  return {
+    title: `${page.title} — LindaBen Foundation`,
+    description: page.metaDescription,
+    alternates: { canonical: `/${locale}/youth-volunteerism`, languages: getAlternates("/youth-volunteerism") },
+  };
+}
+
+export default async function YouthVolunteerismPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const dictionary = await getDictionary(locale);
+  const page = dictionary.pages.youthVolunteerism;
+
   return (
     <>
       <Header />
@@ -31,7 +45,7 @@ export default function YouthVolunteerismPage() {
               className="text-4xl lg:text-6xl font-bold text-white mb-8"
               style={{ fontFamily: "var(--font-merriweather), serif" }}
             >
-              Youth Volunteerism
+              {page.title}
             </h1>
           </div>
         </section>
@@ -50,7 +64,7 @@ export default function YouthVolunteerismPage() {
                     className="text-sm font-semibold tracking-[0.18em] uppercase"
                     style={{ color: "var(--green-mid)" }}
                   >
-                    Empowering the Next Generation
+                    {page.eyebrow}
                   </p>
                   
                   <h2
@@ -60,17 +74,13 @@ export default function YouthVolunteerismPage() {
                       fontFamily: "var(--font-merriweather), serif",
                     }}
                   >
-                    Join a Movement of Change-makers
+                    {page.heading}
                   </h2>
                   
                   <div className="space-y-6 text-base leading-relaxed" style={{ color: "var(--text-mid)" }}>
-                    <p>
-                      At the LindaBen Foundation, youth volunteers are on an important mission to make a positive difference by fighting childhood hunger and homelessness in schools and local areas. With more than 30 young volunteers, making up 40% of our team, we aim to greatly reduce the difficulties faced by those in need.
-                    </p>
-                    
-                    <p>
-                      Our volunteers are crucial to our summer programs and other activities. We invite you to create lasting solutions that benefit both land and marine environments.
-                    </p>
+                    {page.paragraphs.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
                   </div>
                 </div>
                 
@@ -78,20 +88,20 @@ export default function YouthVolunteerismPage() {
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <div className="flex-1">
                     <Link
-                      href="/volunteer-hours-impact-log"
+                      href={withLocale("/volunteer-hours-impact-log", locale)}
                       className="block w-full text-center px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90"
                       style={{ background: "var(--green-deep)" }}
                     >
-                      Submit Hours
+                      {page.submitHours}
                     </Link>
                   </div>
                   <div className="flex-1">
                     <Link
-                      href="/volunteer"
+                      href={withLocale("/volunteer", locale)}
                       className="block w-full text-center px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90"
                       style={{ background: "var(--green-mid)" }}
                     >
-                      Sign Up
+                      {page.signUp}
                     </Link>
                   </div>
                 </div>
@@ -103,7 +113,7 @@ export default function YouthVolunteerismPage() {
                   <div className="relative w-full aspect-square max-w-md mx-auto">
                     <Image
                       src="/youth-volunteerism/image.png"
-                      alt="Youth Volunteerism"
+                      alt={page.imageAlt}
                       width={500}
                       height={500}
                       className="w-full h-full object-cover rounded-full shadow-xl"
@@ -125,16 +135,16 @@ export default function YouthVolunteerismPage() {
         >
           <div className="max-w-6xl mx-auto px-6 lg:px-12">
             <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
-              {/* Make a Difference */}
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+              {page.cards.map(([title, text], index) => (
+              <div key={title} className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
                 <div className="space-y-6">
                   <div 
                     className="w-16 h-16 rounded-full flex items-center justify-center"
                     style={{ background: "var(--green-pale)" }}
                   >
                     <Image
-                      src="/youth-volunteerism/card_icon_1.svg"
-                      alt="Make a Difference"
+                      src={`/youth-volunteerism/card_icon_${index + 1}.svg`}
+                      alt={title}
                       width={32}
                       height={32}
                       className="w-8 h-8"
@@ -148,78 +158,15 @@ export default function YouthVolunteerismPage() {
                       fontFamily: "var(--font-merriweather), serif",
                     }}
                   >
-                    Make a Difference
+                    {title}
                   </h3>
                   
                   <p className="text-sm leading-relaxed" style={{ color: "var(--text-mid)" }}>
-                    Volunteering offers you the unique opportunity to directly contribute to alleviating hunger and improving community well-being.
+                    {text}
                   </p>
                 </div>
               </div>
-
-              {/* Build Your Skills */}
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-                <div className="space-y-6">
-                  <div 
-                    className="w-16 h-16 rounded-full flex items-center justify-center"
-                    style={{ background: "var(--green-pale)" }}
-                  >
-                    <Image
-                      src="/youth-volunteerism/card_icon_2.svg"
-                      alt="Build Your Skills"
-                      width={32}
-                      height={32}
-                      className="w-8 h-8"
-                    />
-                  </div>
-                  
-                  <h3
-                    className="text-xl font-bold"
-                    style={{
-                      color: "var(--green-deep)",
-                      fontFamily: "var(--font-merriweather), serif",
-                    }}
-                  >
-                    Build Your Skills
-                  </h3>
-                  
-                  <p className="text-sm leading-relaxed" style={{ color: "var(--text-mid)" }}>
-                    Engage in diverse roles from food rescue to social media advocacy, enhancing your skill set while making meaningful contributions.
-                  </p>
-                </div>
-              </div>
-
-              {/* Create Impactful Connections */}
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-                <div className="space-y-6">
-                  <div 
-                    className="w-16 h-16 rounded-full flex items-center justify-center"
-                    style={{ background: "var(--green-pale)" }}
-                  >
-                    <Image
-                      src="/youth-volunteerism/card_icon_3.svg"
-                      alt="Create Impactful Connections"
-                      width={32}
-                      height={32}
-                      className="w-8 h-8"
-                    />
-                  </div>
-                  
-                  <h3
-                    className="text-xl font-bold"
-                    style={{
-                      color: "var(--green-deep)",
-                      fontFamily: "var(--font-merriweather), serif",
-                    }}
-                  >
-                    Create Impactful Connections
-                  </h3>
-                  
-                  <p className="text-sm leading-relaxed" style={{ color: "var(--text-mid)" }}>
-                    Meet like-minded individuals, weaving a network of people dedicated to fostering growth and advancing communal well-being.
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>

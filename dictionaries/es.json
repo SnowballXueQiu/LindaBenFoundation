@@ -5,7 +5,11 @@
     "donateNow": "Donar ahora",
     "readMore": "Leer más",
     "learnMore": "Saber más",
-    "contact": "Contacto"
+    "contact": "Contacto",
+    "changeLanguage": "Cambiar idioma",
+    "toggleMenu": "Abrir menú",
+    "close": "Cerrar",
+    "by": "Por"
   },
   "nav": {
     "home": "Inicio",
@@ -27,7 +31,6 @@
     "resources": "Recursos",
     "donations": "Donaciones",
     "blog": "Blog",
-    "news": "Noticias",
     "newsletter": "Boletín",
     "events": "Próximos eventos",
     "testimonials": "Testimonios",
@@ -42,11 +45,6 @@
     "more": "Más en nuestro blog",
     "empty": "Aún no hay publicaciones."
   },
-  "news": {
-    "title": "Noticias",
-    "description": "Noticias y anuncios recientes de LindaBen Foundation.",
-    "empty": "Aún no hay noticias publicadas."
-  },
   "footer": {
     "quickLinks": "Enlaces rápidos",
     "programs": "Nuestros programas",
@@ -57,6 +55,489 @@
     "tagline": "Servidores de quienes tienen necesidad y de los invisibles. Servimos a comunidades de Maryland con compasión.",
     "recognition": "Reconocimientos",
     "affiliations": "Nuestras afiliaciones",
-    "rights": "Todos los derechos reservados | LindaBen Foundation | Política de privacidad"
+    "rights": "Todos los derechos reservados | LindaBen Foundation | Política de privacidad",
+    "copyright": "Todos los derechos reservados — LindaBen Foundation",
+    "privacyPolicy": "Política de privacidad"
+  },
+  "home": {
+    "heroEyebrow": "Fundación comunitaria de Maryland",
+    "heroTitleLine1": "The LindaBen",
+    "heroTitleLine2": "Foundation",
+    "heroSubtitle": "Servidores de quienes tienen necesidad y de los invisibles",
+    "waysToGive": "Formas de ayudar",
+    "helpMyPeople": "Ayuda a mi pueblo",
+    "missionTitle": "Nuestra misión",
+    "missionText": "Nuestra misión en LindaBen Foundation es proporcionar alimentos nutritivos, promover el bienestar, reducir el desperdicio de alimentos y ofrecer educación nutricional para ayudar a los niños y empoderar a sus familias a superar la inseguridad alimentaria y mejorar su salud.",
+    "visionTitle": "Nuestra visión",
+    "visionText": "Imaginamos un mundo donde ningún niño o familia pase hambre y donde todos tengan acceso a alimentos saludables y recursos que cambian vidas. A través de alianzas comunitarias, educación y cuidado compasivo, buscamos transformar los sistemas alimentarios locales y crear un cambio positivo duradero.",
+    "programsTitle": "Nuestros programas",
+    "programsDescription": "Brindamos servicios a poblaciones vulnerables y en riesgo en Maryland.",
+    "partnershipPrograms": "Programas de alianza",
+    "moreAboutUs": "Más sobre nosotros",
+    "getInTouch": "¡Contáctanos!",
+    "impactEyebrow": "Nuestro impacto",
+    "impactTitle": "Números que cuentan nuestra historia",
+    "mealsProvided": "Comidas proporcionadas",
+    "individualsServed": "Personas atendidas",
+    "poundsRecovered": "Libras de alimentos recuperadas",
+    "poundsDistributed": "Libras de alimentos distribuidas",
+    "hungerFreeWeekends": "Fines de semana sin hambre",
+    "babyEssentials": "Artículos esenciales para bebés distribuidos",
+    "helpEyebrow": "Cuida de tus hermanos y hermanas",
+    "helpTitle": "Cómo puedes ayudar",
+    "donateHelp": "Donar en línea nunca ha sido tan seguro, cómodo y sencillo. También aceptamos efectivo, cheques y donaciones en especie.",
+    "volunteer": "Voluntariado",
+    "volunteerHelp": "Participa hoy como voluntario. Tu ayuda mejora la vida de personas que enfrentan inseguridad alimentaria.",
+    "subscribe": "Suscríbete",
+    "subscribeHelp": "Suscríbete a nuestro boletín para recibir noticias, eventos y artículos sobre inseguridad alimentaria.",
+    "equalOpportunity": "LindaBen es un empleador que ofrece igualdad de oportunidades y está comprometido con la diversidad, equidad, igualdad, inclusión y justicia.",
+    "testimonialsEyebrow": "De nuestra comunidad",
+    "testimonialsTitle": "Testimonios",
+    "communityMember": "Miembro de la comunidad",
+    "readMoreTestimonials": "Leer más testimonios",
+    "aboutEyebrow": "Quiénes somos",
+    "aboutTitle": "Sobre nosotros",
+    "servingMaryland": "Sirviendo a Maryland",
+    "aboutText1": "LindaBen Foundation ofrece soluciones innovadoras para fortalecer la seguridad alimentaria, reducir el desperdicio de alimentos y abordar desigualdades de salud.",
+    "aboutText2": "A través del alcance comunitario y las alianzas, aumentamos nuestra capacidad para mejorar la calidad de vida de muchas personas.",
+    "partnersEyebrow": "Juntos somos más fuertes",
+    "partnersTitle": "Socios colaboradores",
+    "donationEyebrow": "Bendice a otros, sé bendecido",
+    "donationTitle": "¡Tus donaciones importan!",
+    "donationText": "Tu generosidad nos permite mejorar las condiciones de las personas y familias a las que servimos. Cada dólar marca una diferencia real.",
+    "donationButton": "Visitar la página de donaciones"
+  },
+  "contactForm": {
+    "eyebrow": "Contáctanos",
+    "titleLine1": "Queremos",
+    "titleLine2": "estar en contacto",
+    "description": "Si tienes una pregunta, quieres ser voluntario o simplemente saludar, nos encantaría saber de ti.",
+    "phone": "Teléfono",
+    "email": "Correo electrónico",
+    "mainOffice": "Oficina principal",
+    "receivedTitle": "¡Mensaje recibido!",
+    "receivedText": "Gracias por contactarnos. Te responderemos pronto.",
+    "formTitle": "¡Contáctanos!",
+    "fullName": "Nombre completo",
+    "phoneNumber": "Número de teléfono",
+    "subject": "Asunto",
+    "subjectPlaceholder": "¿Cómo podemos ayudar?",
+    "message": "Mensaje",
+    "messagePlaceholder": "Tu mensaje...",
+    "smsConsent": "Acepto recibir mensajes de texto en el número proporcionado.",
+    "send": "Enviar mensaje"
+  },
+  "pages": {
+    "contact": {
+      "heroTitle": "Contáctenos",
+      "metaDescription": "Comuníquese con LindaBen Foundation. Estamos aquí para ayudar y escuchar.",
+      "mainOfficeLocation": "Ubicación de la oficina principal",
+      "otherMailingAddress": "Otra dirección postal",
+      "reachOut": "Comuníquese",
+      "headline": "Estamos aquí para ayudar y escuchar. ¡Contáctenos hoy!",
+      "phoneNumber": "Teléfono:",
+      "emailAddress": "Correo electrónico:",
+      "mainOfficeAddress": "Dirección de la oficina principal:",
+      "otherMailingAddressLabel": "Otra dirección postal:",
+      "connectWithUs": "Conéctese con nosotros:",
+      "makeAppointment": "Agendar una cita"
+    },
+    "donations": {
+      "metaDescription": "Apoye a LindaBen Foundation con donaciones seguras en línea, artículos de lista de deseos, donaciones en especie y tiempo voluntario.",
+      "heroTitle": "Donaciones",
+      "heroAlt": "Imagen de donaciones",
+      "eyebrow": "Bendiga a otros, sea bendecido",
+      "waysTitle": "Formas de donar",
+      "intro": "Su generosidad nos permite mejorar las condiciones de las personas y familias a las que servimos y apoyar nuestra misión.",
+      "donateOnce": "Done una vez o mensualmente",
+      "donateOnceText": "Cree una fuente confiable de ingresos que apreciamos mucho convirtiéndose en donante mensual y ayudando a continuar nuestra misión.",
+      "donateOnline": "Donar en línea",
+      "learnMoreDonate": "Más información y donar",
+      "otherWaysTitle": "Otras formas de donar",
+      "contactUs": "Contáctenos",
+      "otherWaysText": "directamente para hacer donaciones en especie hoy y apoyar a quienes lo necesitan.",
+      "textCode": "Envíe el código",
+      "toPhone": "al (240) 461-9442",
+      "trustEyebrow": "Donar con confianza",
+      "statusTitle": "Nuestro estado 501(c)(3)",
+      "statusText": "LindaBen Foundation es una organización sin fines de lucro registrada 501(c)(3), lo que garantiza que sus donaciones sean deducibles de impuestos y se usen directamente para apoyar nuestra misión. Sus contribuciones nos ayudan a brindar servicios y programas esenciales a quienes lo necesitan, creando un impacto real en nuestra comunidad.",
+      "sectionAlt": "Formas de donar",
+      "statusAlt": "Estado 501(c)(3)",
+      "stats": [
+        "En donaciones monetarias",
+        "En donaciones en especie",
+        "Horas de voluntariado"
+      ],
+      "cards": [
+        [
+          "Done una vez o mensualmente",
+          "Cree una fuente confiable de ingresos convirtiéndose en donante mensual y ayudando a continuar nuestra misión."
+        ],
+        [
+          "Proporcione fines de semana sin hambre",
+          "Apoye Blessings in a Backpack para llevar alimentos cada viernes a niños que podrían pasar hambre durante el fin de semana."
+        ],
+        [
+          "Done artículos de la lista de deseos",
+          "Compre y done artículos de nuestra lista de deseos de Amazon para apoyar nuestra despensa comunitaria."
+        ],
+        [
+          "Done electrónicamente con facilidad",
+          "Dé esperanza a personas y familias necesitadas. Gracias por ayudarnos a continuar nuestro servicio."
+        ],
+        [
+          "Apoye la recaudación individual",
+          "Nuestra recaudación entre pares mejora la vida de las personas y familias a las que servimos."
+        ],
+        [
+          "Envíe efectivo o cheque",
+          "LindaBen Foundation\n11720 Beltsville Dr., Ste 500-M8\nBeltsville, MD 20705\n\nHaga los cheques a nombre de:\nLindaBen Foundation, Inc."
+        ]
+      ]
+    },
+    "forms": {
+      "loading": "Cargando...",
+      "communityPantryIntakeTitle": "Registro de despensa comunitaria",
+      "communityPantryIntakeForm": "Formulario de registro de despensa comunitaria",
+      "joinUsTitle": "Únase a nosotros",
+      "joinUsForm": "Formulario para unirse",
+      "volunteerHoursTitle": "Formulario de seguimiento de tiempo y horas de servicio",
+      "volunteerHoursForm": "Formulario de seguimiento de tiempo y horas de servicio"
+    },
+    "ourPartners": {
+      "heroTitle": "Socios colaboradores",
+      "description": "LindaBen Foundation se asocia con varios aliados para avanzar en su misión y sus objetivos."
+    },
+    "financials": {
+      "heroTitle": "Finanzas",
+      "downloadTitle": "Descargue nuestros informes financieros",
+      "reportFor": "Informe financiero del año fiscal",
+      "downloadPdf": "Descargar PDF",
+      "imageAlt": "Informes financieros"
+    },
+    "programs": {
+      "metaDescription": "Transformamos vidas mediante programas compasivos. Desde Food as Medicine hasta voluntariado juvenil, descubra cómo construimos un futuro mejor.",
+      "eyebrow": "Actos de amor en acción",
+      "introTitle": "Transformando vidas mediante programas compasivos",
+      "intro": "En LindaBen Foundation, nuestros programas elevan y empoderan a la comunidad. Brindamos servicios esenciales que fomentan estabilidad, salud y crecimiento para niños y familias necesitadas.",
+      "descriptions": [
+        "Food as Medicine ofrece educación e intervención nutricional, acceso a productos frescos y conocimientos para tomar decisiones saludables.",
+        "Nuestra despensa comunitaria colabora con escuelas y gobiernos locales para brindar alivio contra el hambre y acceso a alimentos saludables.",
+        "El Centro de Recursos ofrece servicios integrales para padres y niños vulnerables durante tiempos difíciles.",
+        "Los jóvenes voluntarios pueden cambiar el mundo ayudando a terminar el hambre infantil y la falta de vivienda en sus comunidades.",
+        "Conectamos personas y organizaciones comunitarias para compartir recursos, asistencia e inspiración.",
+        "Colaboramos con programas como Capital Area Food Bank y Blessings in a Backpack para entregar alimentos, suministros y servicios."
+      ]
+    },
+    "foodAsMedicine": {
+      "title": "Food as Medicine",
+      "metaDescription": "Transform meals into healing moments with our Food as Medicine program. Free nutritious food boxes designed to meet unique nutritional needs.",
+      "eyebrow1": "Nourishing Families, One Box at a Time",
+      "sectionTitle1": "Food as Medicine Produce Box",
+      "blocks": [
+        [
+          "What We Curate:",
+          "Each family receives two boxes filled with fresh fruits, vegetables, eggs, pantry staples like pasta kits, oils, seasonings, ready-to-eat meals, rice, beans, and flour. When available, premium meat and fish are also included."
+        ],
+        [
+          "Customizable to Fit Your Needs:",
+          "We adapt our offerings based on your budget and capacity. By listening to your feedback, we create food options that are culturally sensitive and meet the unique needs of your community."
+        ],
+        [
+          "Supporting Local Agriculture:",
+          "We prioritize organic, regionally sourced produce, ensuring high-quality food while supporting local farmers and promoting sustainability."
+        ],
+        [
+          "Education Beyond Nutrition:",
+          "Each box includes a bilingual guide with cooking tips, nutritional information, and life-skills to encourage healthier lifestyle choices for students and families."
+        ]
+      ],
+      "blog": "Blog",
+      "contactInfo": "Contact for Information",
+      "imageAlt1": "Fresh nutritious food boxes",
+      "imageAlt2": "Mobile market and community support",
+      "eyebrow2": "Eat Well, Feel Better, Live Fully",
+      "sectionTitle2": "Fuel Your Body with Nature’s Best",
+      "sectionText2": "Our Food as Medicine (FAM) Rx Program is designed to transform meals into healing moments. Tailored to meet unique nutritional needs, this program ensures every bite counts, helping you feel better and live fully.",
+      "cost": "Cost:",
+      "costValue": "Free",
+      "locations": "Mobile Market Locations:",
+      "locationsValue": "Bryant Woods, Blue Heron Ln, Columbia, MD",
+      "supportedBy": "Supported by:",
+      "supportedByValue": "Howard County Innovation Grant, MyVeggieVan.org, MikeandMelCruiseIn.com, St. Francis Fulton, HCPSS, LHIC, and more.",
+      "signupAlt": "Sign up for Food as Medicine program"
+    },
+    "resourceCenter": {
+      "title": "Nuevo Centro de Apoyo de Recursos Comunitarios",
+      "metaDescription": "Our innovative Community Resource Support Center addresses food insecurity and social determinants of health through personalized emergency assistance and educational programs.",
+      "paragraphs": [
+        "The LindaBen Foundation is excited to announce the opening of our new Community Resource Support Center. This innovative program addresses food insecurity and social determinants of health in underserved communities by providing supplemental emergency food and community-based support.",
+        "Our new location serves as a hub where individuals and families can make appointments to receive emergency food assistance tailored to their availability. The center also offers information on community resources, events, and workshops.",
+        "Ending hunger requires more than providing food; it involves educating and uplifting the community. Our Resource Center offers access to nutrition education, cooking classes, and health workshops."
+      ],
+      "imageAlt": "New Community Resource Support Center",
+      "cards": [
+        [
+          "Emergency Food Assistance",
+          "Scheduled appointments for personalized support."
+        ],
+        [
+          "Resource Hub",
+          "Access to information on local events, workshops, and community resources."
+        ],
+        [
+          "Access to Educational Programs",
+          "Nutrition education, gardening opportunities, cooking classes, and health workshops to promote healthy living."
+        ]
+      ]
+    },
+    "youthVolunteerism": {
+      "title": "Voluntariado juvenil",
+      "metaDescription": "Empowering the next generation of change-makers. Join our youth volunteers in fighting childhood hunger and homelessness in local communities.",
+      "eyebrow": "Empowering the Next Generation",
+      "heading": "Join a Movement of Change-makers",
+      "paragraphs": [
+        "At the LindaBen Foundation, youth volunteers are on an important mission to make a positive difference by fighting childhood hunger and homelessness in schools and local areas.",
+        "Our volunteers are crucial to our summer programs and other activities. We invite you to create lasting solutions that benefit both land and marine environments."
+      ],
+      "submitHours": "Submit Hours",
+      "signUp": "Sign Up",
+      "imageAlt": "Youth Volunteerism",
+      "cards": [
+        [
+          "Make a Difference",
+          "Volunteering offers you the unique opportunity to directly contribute to alleviating hunger and improving community well-being."
+        ],
+        [
+          "Build Your Skills",
+          "Engage in diverse roles from food rescue to social media advocacy, enhancing your skill set while making meaningful contributions."
+        ],
+        [
+          "Create Impactful Connections",
+          "Meet like-minded individuals, weaving a network of people dedicated to fostering growth and advancing communal well-being."
+        ]
+      ]
+    },
+    "communityOutreach": {
+      "title": "Alcance comunitario",
+      "metaDescription": "Uniting hands and hearts in service. Join our network of over 30 organizations working together to end childhood hunger and homelessness.",
+      "eyebrow": "Uniting Hands and Hearts in Service",
+      "heading": "Lend Your Voice to a Cause That Echoes Through Communities",
+      "paragraphs": [
+        "Our partnership with local and nonprofit agencies has been pivotal, allowing us to join forces with over 30 organizations. Our common goal is to motivate the wider community to engage actively in ending childhood hunger and homelessness.",
+        "We invite you to join our cause. Your participation helps us build a strong network to offer essential aid to those in urgent need."
+      ],
+      "imageAlt": "Community Outreach"
+    },
+    "partnershipsPrograms": {
+      "title": "Alianzas",
+      "metaDescription": "Building stronger communities through strategic partnerships. Learn about our collaborations with organizations like Capital Area Food Bank and Blessings in a Backpack.",
+      "eyebrow": "Stronger Together",
+      "heading": "Building Bridges for Better Communities",
+      "paragraphs": [
+        "LindaBen Foundation partners with programs to provide food, supplies, and services to vulnerable communities, including Capital Area Food Bank and Blessings in a Backpack.",
+        "Through strategic partnerships and collaborative efforts, we multiply our impact and extend our reach to serve more families in need throughout Maryland and beyond."
+      ],
+      "imageAlt": "Partnerships",
+      "cards": [
+        [
+          "Blessings in a Backpack",
+          "Providing weekend food programs for elementary school children who may not have access to adequate nutrition over the weekend."
+        ],
+        [
+          "Capital Area Food Bank",
+          "Supporting our Community Pantry with fresh produce, pantry staples, and nutritious food items for families experiencing food insecurity."
+        ],
+        [
+          "Greater Riverdale Cares",
+          "Collaborating on community outreach initiatives and resource sharing to better serve families in the Greater Riverdale area."
+        ]
+      ]
+    },
+    "communityPantry": {
+      "title": "Despensa comunitaria",
+      "metaDescription": "Addressing hunger head-on through our Community Pantry program. Serving over 850 households monthly with fresh food and essential resources.",
+      "eyebrow": "Addressing Hunger Head-On",
+      "heading": "Nourishing Our Community",
+      "paragraphs": [
+        "In the United States, hunger remains a pressing concern, with approximately one in six children at risk due to recent economic pressures. Many households are purchasing less expensive, often less nutritious food to stretch their budgets further.",
+        "At LindaBen Foundation, we respond to these challenges through direct intervention and support methods linked to community resources."
+      ],
+      "impactTitle": "Our Impact",
+      "impactText": "With partners including Capital Area Food Bank, Whole Foods, Costco, Amazon, Passion & Compassion, and public-school systems in Howard and Prince George’s County, our community pantries serve an average of 30,000 lbs of food monthly, supporting over 850 households and feeding around 3,000 individuals every month.",
+      "locationsTitle": "Our Service Locations",
+      "location1Title": "Location #1: LindaBen Community Food Hub",
+      "location1Address": "10739 Tucker St, ste 222, Beltsville, MD 20705",
+      "location1Times": [
+        "Tuesday: 4:30pm - 6:00pm",
+        "Wednesday: 4:30pm - 6:00pm",
+        "Saturday: 10:00am - 11:30am"
+      ],
+      "location2Title": "Location #2: Saint Bernard Catholic Church",
+      "location2Address": "5700 St Bernard Dr, Riverdale, MD 20737",
+      "location2Times": [
+        "Tuesday: 11:00am - 1:00pm"
+      ],
+      "scheduleNote": "See 2025 Food Distribution Schedule below for details",
+      "supportedBy": "Supported By:",
+      "supporters": "Capital Area Food Bank, Maryland Diaper Bank, MD State Community Development, Prince Georges Health Department, Celestial Manna, FDC, Central Union Mission, Amazon Local Good, UMD Ext SNAP Ed",
+      "contactStart": "For other community resources in your area, contact us at",
+      "contactEnd": "for accommodations",
+      "foodDistribution": "Food Distribution 2025",
+      "clickSchedule": "Click here for schedule",
+      "signUpVolunteer": "Sign Up to Volunteer",
+      "imageAlt": "Community Pantry",
+      "contactUs": "Contact us",
+      "assistance": "for assistance or further details.",
+      "cards": [
+        [
+          "Food Distribution Schedule",
+          "Offering hunger-relief with dignity, the Community Pantry welcomes vulnerable families every Tuesday for food support."
+        ],
+        [
+          "Diaper Distribution",
+          "We ensure infants and toddlers have the essentials."
+        ],
+        [
+          "Community Health Partners",
+          "Committed to whole-person care, we collaborate with health partners for complementary support during alternate pantry sessions."
+        ]
+      ],
+      "healthSchedule": "Every Tuesday and Wednesday using offsite and onsite support."
+    },
+    "volunteer": {
+      "title": "Oportunidades de voluntariado e inscripción",
+      "heroAlt": "Volunteer hero",
+      "quote": "What good is it, my brothers and sisters, if someone claims to have faith but has no deeds? Show me your faith without deeds, and I will show you my faith by my deeds.",
+      "cite": "James 2:18",
+      "signUpHere": "Sign Up Here",
+      "logHoursHere": "Log Hours Here",
+      "seeMoreHere": "See More Here",
+      "visitSharedFolder": "Visit Shared Folder",
+      "diaperLogLink": "Diaper Distribution Log",
+      "imageAlt": "Volunteer community",
+      "sections": [
+        [
+          "Community Pantry Intake",
+          "We currently have a high need for drivers to pick up food donations and messages for families who are unable to visit our pantry. We prepare for difficult scenarios and coordinate delivery support."
+        ],
+        [
+          "Join Us",
+          "LindaBen seeks like-minded individuals to help provide momentum that creates change in the local community. If you can volunteer your time, let us know how you can help."
+        ],
+        [
+          "Volunteer Hours & Time Tracker",
+          "Already volunteering or working with us? Use our online form to log volunteer hours for review, approval, and school or organization credit."
+        ],
+        [
+          "Other Opportunities to Signup!",
+          "Join the LindaBen Foundation volunteer community."
+        ],
+        [
+          "Documents For Volunteers",
+          "Google sign in required."
+        ],
+        [
+          "Diaper Distribution Log",
+          "Baby Essentials"
+        ]
+      ]
+    },
+    "aboutUs": {
+      "title": "Sobre nosotros",
+      "metaDescription": "Learn about LindaBen Foundation's mission to be a channel of safe haven for the homeless, at-risk population and underserved community.",
+      "heroText": "LindaBen Foundation provides Child and Family Stability Services, affordable housing support, sustainable healthy food access, wraparound services, and pathways toward self-sufficiency for local communities and families in transition.",
+      "missionTitle": "Our Mission",
+      "missionText": "To be a channel of safe haven for the homeless, at-risk population and underserved community by uplifting their conditions and providing wraparound services founded in love and friendship.",
+      "visionTitle": "Our Vision",
+      "visionText": "To empower those in need and invisible by providing means to improve their quality of life in a community where they feel worthy, safe and accepted.",
+      "historyEyebrow": "Journey of Compassion",
+      "historyTitle": "Our History",
+      "historyText": "LindaBen Foundation was created in memory and honor of Anna S. Beavan’s parents, Linda Santos and Ben Dimatangal, and for people who died homeless or suffered in poverty, depression, mental health illness, and addiction.",
+      "fullStory": "See The Full Story",
+      "historyAlt": "LindaBen Foundation history",
+      "leadersEyebrow": "Servant Leaders",
+      "leadershipTitle": "Leadership",
+      "leadershipTexts": [
+        "Successful leadership begins with a sincere desire to serve for the benefit of others and steward the cause.",
+        "Our board members and volunteers play crucial roles in improving lives and carrying forth our mission."
+      ],
+      "peopleEyebrow": "Stewards of Hope",
+      "peopleTitle": "Our People",
+      "boardTitle": "Board of Directors",
+      "operationsTitle": "Our Operations Team",
+      "boardRole": "Board leadership",
+      "teamRole": "Operations team"
+    },
+    "history": {
+      "title": "Nuestra historia",
+      "metaDescription": "Learn about the founding story of LindaBen Foundation, from a personal journey of faith and compassion to a mission serving those in need.",
+      "quote": "I have learned the secret of being content in any and every situation, whether well fed or hungry or in want. I can do all this through Him who gives me strength.",
+      "cite": "Philippians 4:12-13",
+      "messageTitle": "A Personal Message From Anna Beavan (Dimatangal), Founder & President",
+      "imageAlt1": "Anna Beavan early years",
+      "imageAlt2": "Anna Beavan family and foundation",
+      "paragraphs": [
+        "At a young age, Anna Beavan encountered stories of second chances that shaped her faith and compassion. After losing her mother, she found a renewed perspective and a seed of purpose that kept growing.",
+        "Years later, through family experiences, service with homeless outreach, and renewed faith, the idea of a foundation became clearer. LindaBen Foundation was born from love, remembrance, and the desire to uplift lives that had been cast aside.",
+        "The loss of her father and the hardships revealed through his life removed any remaining doubt about the kind of foundation she wanted to build.",
+        "When 2020 brought uncertainty and suffering, Anna chose to move forward in faith, believing more helping hands and kind hearts were needed to serve the homeless and those in need."
+      ]
+    },
+    "resources": {
+      "title": "Ayuda y recursos",
+      "intro": "Encuentra encuestas, herramientas de apoyo, recursos de socios y materiales de concientización sobre diabetes relacionados con los programas de LindaBen Foundation.",
+      "surveyButton": "Completar encuesta",
+      "externalResource": "Abrir recurso",
+      "diabetesTitle": "Recursos de concientización sobre diabetes",
+      "cardsTitle": "Socios de recursos",
+      "items": [
+        "Encuesta previa de la caja de productos frescos de Food as Medicine",
+        "Encuesta posterior de la caja de productos frescos de Food as Medicine",
+        "Encuesta previa de Eat Well Be Well",
+        "Encuesta posterior de Eat Well Be Well",
+        "Encuesta de seguridad alimentaria y nutricional comunitaria",
+        "Encuestas Levitate TLF"
+      ]
+    },
+    "events": {
+      "title": "Próximos eventos",
+      "today": "Hoy",
+      "previousYear": "Año anterior",
+      "nextYear": "Año siguiente",
+      "previousMonth": "Mes anterior",
+      "nextMonth": "Mes siguiente",
+      "months": [
+        "enero",
+        "febrero",
+        "marzo",
+        "abril",
+        "mayo",
+        "junio",
+        "julio",
+        "agosto",
+        "septiembre",
+        "octubre",
+        "noviembre",
+        "diciembre"
+      ],
+      "days": [
+        "domingo",
+        "lunes",
+        "martes",
+        "miércoles",
+        "jueves",
+        "viernes",
+        "sábado"
+      ],
+      "marketTitle": "Mercado de alimentos saludables de LindaBen (entrega de alimentos)",
+      "marketDescription": "Entrega de alimentos con elección del cliente todos los miércoles de 1:00 a. m. a 3:00 a. m. El registro abre a las 12:00 a. m.",
+      "marketRelief": "LindaBen ofrece alivio contra el hambre y acceso a alimentos saludables para familias vulnerables mediante nuestra despensa comunitaria."
+    }
+  },
+  "newsletter": {
+    "title": "Boletín",
+    "description": "Boletines, novedades y anuncios recientes de LindaBen Foundation.",
+    "empty": "Aún no hay boletines publicados."
   }
 }

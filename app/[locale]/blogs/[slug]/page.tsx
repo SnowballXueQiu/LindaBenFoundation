@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getArticle } from "@/lib/content/repository";
 import { defaultLocale, getAlternates, isSupportedLocale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 import ArticleDetailPage from "@/components/ArticleDetailPage";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
@@ -27,5 +28,6 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ loc
   const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
   const article = await getArticle("blogs", slug, locale);
   if (!article || article.status !== "published") notFound();
-  return <ArticleDetailPage article={article} locale={locale} />;
+  const dictionary = await getDictionary(locale);
+  return <ArticleDetailPage article={article} locale={locale} dictionary={dictionary} />;
 }

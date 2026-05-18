@@ -17,13 +17,16 @@ export default function ArticleListPage({
   articles,
   locale,
   dictionary,
+  basePath,
 }: {
   type: ArticleType;
   articles: ArticleSummary[];
   locale: Locale;
   dictionary: Dictionary;
+  basePath?: string;
 }) {
-  const copy = type === "blogs" ? dictionary.blog : dictionary.news;
+  const copy = type === "blogs" ? dictionary.blog : dictionary.newsletter;
+  const articleBasePath = basePath || `/${type}`;
 
   return (
     <div className="min-h-screen">
@@ -53,10 +56,10 @@ export default function ArticleListPage({
                     {article.category || article.tags[0] || copy.title}
                   </p>
                   <h2 className="mt-3 text-2xl font-bold" style={{ color: "var(--green-deep)" }}>
-                    <Link href={withLocale(`/${type}/${article.slug}`, locale)}>{article.title}</Link>
+                    <Link href={withLocale(`${articleBasePath}/${article.slug}`, locale)}>{article.title}</Link>
                   </h2>
                   <p className="mt-2 text-xs" style={{ color: "var(--text-mid)" }}>
-                    {article.author && <span>By {article.author} &bull; </span>}
+                    {article.author && <span>{dictionary.common.by} {article.author} &bull; </span>}
                     {formatDate(article.publishedAt || article.updatedAt, locale)}
                   </p>
                   <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--text-mid)" }}>

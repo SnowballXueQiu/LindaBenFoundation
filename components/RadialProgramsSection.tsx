@@ -5,6 +5,8 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Link from "next/link";
+import { useI18n } from "@/lib/i18n/client";
+import { withLocale } from "@/lib/i18n/config";
 
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -14,62 +16,66 @@ if (typeof window !== "undefined") {
 const programs = [
   {
     id: "food-as-medicine",
-    title: "Food as Medicine",
-    content:
-      "Nutrition education and intervention, giving people access to fresh, nutritious produce while empowering healthier choices for lasting well-being.",
+    titleKey: "foodAsMedicine",
+    descriptionIndex: 0,
     href: "/food-as-medicine",
     image: "/programs/1.png",
   },
   {
     id: "community-pantry",
-    title: "Community Pantry",
-    content:
-      "Partners with Howard County Schools and Prince George's County to provide hunger relief and healthy food access for vulnerable families.",
+    titleKey: "communityPantry",
+    descriptionIndex: 1,
     href: "/community-pantry",
     image: "/programs/2.png",
   },
   {
     id: "resource-center",
-    title: "Community Resource Support Center",
-    content:
-      "Wrap around services for vulnerable families affected by job loss, eviction, medical illness and other difficult times.",
+    titleKey: "resourceSupportCenter",
+    descriptionIndex: 2,
     href: "/new-community-resource-support-center",
     image: "/programs/3.png",
   },
   {
     id: "youth-volunteerism",
-    title: "Youth Volunteerism",
-    content:
-      "Empowering youth volunteers to change the world by ending childhood hunger and homelessness in their communities.",
+    titleKey: "youthVolunteerism",
+    descriptionIndex: 3,
     href: "/youth-volunteerism",
     image: "/programs/4.png",
   },
   {
     id: "community-outreach",
-    title: "Community Outreach",
-    content:
-      "Connect with like-minded individuals and organizations to share resources and inspire solutions to childhood hunger and homelessness.",
+    titleKey: "communityOutreach",
+    descriptionIndex: 4,
     href: "/community-outreach",
     image: "/programs/5.png",
   },
   {
     id: "partnerships",
-    title: "Partnerships",
-    content:
-      "Partnering with programs like Capital Area Food Bank and Blessings in a Backpack to provide food, supplies, and services.",
+    titleKey: "partnerships",
+    descriptionIndex: 5,
     href: "/partnerships-programs",
     image: "/programs/6.png",
   },
-];
+] as const;
+
+type Program = (typeof programs)[number];
 
 function RadialProgramItem({
   program,
   index,
   total,
+  title,
+  content,
+  href,
+  learnMore,
 }: {
-  program: (typeof programs)[0];
+  program: Program;
   index: number;
   total: number;
+  title: string;
+  content: string;
+  href: string;
+  learnMore: string;
 }) {
   const itemRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -148,7 +154,7 @@ function RadialProgramItem({
         >
           <Image
             src={program.image}
-            alt={program.title}
+            alt={title}
             width={160}
             height={160}
             className="w-full h-full object-cover"
@@ -188,20 +194,20 @@ function RadialProgramItem({
             fontFamily: "var(--font-merriweather), serif",
           }}
         >
-          {program.title}
+          {title}
         </h3>
         <p
           className="text-sm leading-relaxed mb-4"
           style={{ color: "var(--text-mid)" }}
         >
-          {program.content}
+          {content}
         </p>
         <Link
-          href={program.href}
+          href={href}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full font-semibold text-white transition-all duration-300 hover:scale-105 group text-sm"
           style={{ background: "linear-gradient(135deg, var(--green-deep), var(--green-mid))" }}
         >
-          Learn More
+          {learnMore}
           <svg
             className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1"
             fill="none"
@@ -218,6 +224,7 @@ function RadialProgramItem({
 }
 
 export default function RadialProgramsSection() {
+  const { locale, dictionary } = useI18n();
   return (
     <section
       className="py-20 lg:py-32 min-h-200 relative overflow-hidden"
@@ -261,14 +268,21 @@ export default function RadialProgramsSection() {
 
       {/* Program Items */}
       <div className="relative max-w-4xl mx-auto px-6 lg:px-12 h-full">
-        {programs.map((program, index) => (
-          <RadialProgramItem
-            key={program.id}
-            program={program}
-            index={index}
-            total={programs.length}
-          />
-        ))}
+        {programs.map((program, index) => {
+          const title = dictionary.nav[program.titleKey];
+          return (
+            <RadialProgramItem
+              key={program.id}
+              program={program}
+              index={index}
+              total={programs.length}
+              title={title}
+              content={dictionary.pages.programs.descriptions[program.descriptionIndex]}
+              href={withLocale(program.href, locale)}
+              learnMore={dictionary.common.learnMore}
+            />
+          );
+        })}
       </div>
 
       {/* Instructions */}

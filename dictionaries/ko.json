@@ -5,7 +5,12 @@
     "donateNow": "지금 기부",
     "readMore": "더 읽기",
     "learnMore": "자세히 보기",
-    "contact": "문의"
+    "contact": "문의",
+    "donationButton": "후원 페이지로 이동",
+    "changeLanguage": "언어 변경",
+    "toggleMenu": "메뉴 열기",
+    "close": "닫기",
+    "by": "작성자"
   },
   "nav": {
     "home": "홈",
@@ -27,7 +32,6 @@
     "resources": "자료",
     "donations": "기부",
     "blog": "블로그",
-    "news": "뉴스",
     "newsletter": "뉴스레터",
     "events": "예정 행사",
     "testimonials": "후기",
@@ -42,11 +46,6 @@
     "more": "블로그 더 보기",
     "empty": "게시된 글이 없습니다."
   },
-  "news": {
-    "title": "뉴스",
-    "description": "LindaBen Foundation의 최신 뉴스와 공지입니다.",
-    "empty": "게시된 뉴스가 없습니다."
-  },
   "footer": {
     "quickLinks": "빠른 링크",
     "programs": "프로그램",
@@ -54,9 +53,495 @@
     "mainOffice": "본사",
     "mailingAddress": "우편 주소",
     "contact": "문의",
-    "tagline": "도움이 필요한 이들과 보이지 않는 이들을 섬깁니다. 메릴랜드 지역사회를 따뜻한 마음으로 섬깁니다.",
-    "recognition": "인정",
-    "affiliations": "제휴",
-    "rights": "모든 권리 보유 | LindaBen Foundation | 개인정보 처리방침"
+    "tagline": "도움이 필요한 이들과 보이지 않는 이들을 섬깁니다. 연민으로 메릴랜드 지역사회를 섬깁니다.",
+    "recognition": "인정 및 평가",
+    "affiliations": "협력 기관",
+    "rights": "모든 권리 보유 | LindaBen Foundation | 개인정보 처리방침",
+    "copyright": "모든 권리 보유 — LindaBen Foundation",
+    "privacyPolicy": "개인정보 처리방침"
+  },
+  "home": {
+    "heroEyebrow": "메릴랜드 커뮤니티 재단",
+    "heroTitleLine1": "The LindaBen",
+    "heroTitleLine2": "Foundation",
+    "heroSubtitle": "도움이 필요한 이들과 보이지 않는 이들을 섬깁니다",
+    "waysToGive": "후원 방법",
+    "helpMyPeople": "우리 이웃을 도와주세요",
+    "missionTitle": "우리의 사명",
+    "missionText": "LindaBen Foundation의 사명은 영양가 있는 식품을 제공하고, 건강을 증진하며, 음식물 낭비를 줄이고, 영양 교육을 통해 어린이와 가족이 식량 불안을 극복하고 건강을 개선하도록 돕는 것입니다.",
+    "visionTitle": "우리의 비전",
+    "visionText": "우리는 어떤 어린이나 가족도 굶주리지 않고, 모두가 건강한 음식과 삶을 변화시키는 자원에 접근할 수 있는 세상을 꿈꿉니다. 지역사회 협력, 교육, 따뜻한 돌봄을 통해 지역 식품 시스템을 개선하고 지속적인 변화를 만들고자 합니다.",
+    "programsTitle": "우리 프로그램",
+    "programsDescription": "우리는 메릴랜드의 취약하고 위험에 놓인 주민들에게 서비스를 제공합니다.",
+    "partnershipPrograms": "협력 프로그램",
+    "moreAboutUs": "더 알아보기",
+    "getInTouch": "문의하기",
+    "impactEyebrow": "우리의 영향",
+    "impactTitle": "우리의 이야기를 보여주는 숫자",
+    "mealsProvided": "제공한 식사",
+    "individualsServed": "지원한 사람 수",
+    "poundsRecovered": "회수한 식품 파운드",
+    "poundsDistributed": "배포한 식품 파운드",
+    "hungerFreeWeekends": "굶주림 없는 주말",
+    "babyEssentials": "배포한 아기 필수품",
+    "helpEyebrow": "서로의 지킴이가 되어 주세요",
+    "helpTitle": "도울 수 있는 방법",
+    "donateHelp": "온라인 후원은 안전하고 편리합니다. 현금, 수표, 물품 기부도 받습니다. 여러분의 선물은 도움이 필요한 이들에게 더 많은 기회와 밝은 미래를 제공합니다.",
+    "volunteer": "자원봉사",
+    "volunteerHelp": "오늘 자원봉사자로 참여하세요. 식량 불안을 겪는 사람들의 삶을 개선하는 데 중요한 역할을 할 수 있습니다.",
+    "subscribe": "구독하기",
+    "subscribeHelp": "뉴스레터를 구독해 식량 불안 관련 뉴스, 행사, 글을 받아보거나, 프로그램이 지속되도록 후원해 주세요.",
+    "equalOpportunity": "LindaBen은 다양성, 형평성, 평등, 포용과 정의를 중시하는 동등 기회 고용주입니다.",
+    "testimonialsEyebrow": "우리 커뮤니티의 목소리",
+    "testimonialsTitle": "후기",
+    "communityMember": "커뮤니티 구성원",
+    "readMoreTestimonials": "후기 더 보기",
+    "aboutEyebrow": "우리는 누구인가",
+    "aboutTitle": "소개",
+    "servingMaryland": "메릴랜드를 섬깁니다",
+    "aboutText1": "LindaBen Foundation은 식량 안보 강화, 음식물 낭비 감소, 건강 격차 해소를 위한 다양한 혁신적 해결책을 제공합니다.",
+    "aboutText2": "우리는 영양가 높은 식품, 영양 교육 워크숍, 건강과 웰빙을 증진하는 자원에 공정하게 접근할 수 있도록 돕습니다.",
+    "partnersEyebrow": "함께하면 더 강합니다",
+    "partnersTitle": "파트너와 후원자",
+    "donationEyebrow": "사명 후원하기",
+    "donationTitle": "여러분의 나눔이 가족을 먹입니다",
+    "donationText": "모든 후원은 도움이 필요한 어린이와 가족에게 건강한 음식, 필수품, 지원 자원을 전달하는 데 쓰입니다.",
+    "donationButton": "후원 페이지로 이동",
+    "readOurStory": "우리 이야기 읽기",
+    "donateNow": "지금 후원하기",
+    "partnersDescription": "지역사회 협력은 메릴랜드 전역의 더 많은 가족에게 음식, 교육, 지원을 전하는 데 도움이 됩니다."
+  },
+  "contactForm": {
+    "eyebrow": "문의하기",
+    "titleLine1": "여러분의 이야기를",
+    "titleLine2": "듣고 싶습니다",
+    "description": "질문이 있거나, 자원봉사를 원하거나, 인사를 전하고 싶다면 언제든 연락해 주세요.",
+    "phone": "전화",
+    "email": "이메일",
+    "mainOffice": "본부",
+    "receivedTitle": "메시지를 받았습니다!",
+    "receivedText": "연락해 주셔서 감사합니다. 곧 답변드리겠습니다.",
+    "formTitle": "문의하기",
+    "fullName": "이름",
+    "phoneNumber": "전화번호",
+    "subject": "제목",
+    "subjectPlaceholder": "어떻게 도와드릴까요?",
+    "message": "메시지",
+    "messagePlaceholder": "메시지를 입력하세요...",
+    "smsConsent": "제공한 전화번호로 문자 메시지를 받는 데 동의합니다.",
+    "send": "메시지 보내기"
+  },
+  "pages": {
+    "contact": {
+      "heroTitle": "문의하기",
+      "metaDescription": "LindaBen Foundation에 문의하세요. 우리는 돕고 듣기 위해 여기 있습니다.",
+      "mainOfficeLocation": "본부 위치",
+      "otherMailingAddress": "기타 우편 주소",
+      "reachOut": "연락하기",
+      "headline": "우리는 돕고 듣기 위해 여기 있습니다. 오늘 연락하세요!",
+      "phoneNumber": "전화번호:",
+      "emailAddress": "이메일 주소:",
+      "mainOfficeAddress": "본부 주소:",
+      "otherMailingAddressLabel": "기타 우편 주소:",
+      "connectWithUs": "소셜에서 만나기:",
+      "makeAppointment": "예약하기"
+    },
+    "donations": {
+      "metaDescription": "안전한 온라인 후원, 위시리스트 물품, 물품 기부, 자원봉사 시간으로 LindaBen Foundation을 지원하세요.",
+      "heroTitle": "후원",
+      "heroAlt": "후원 이미지",
+      "eyebrow": "다른 이를 축복하고 축복받으세요",
+      "waysTitle": "후원 방법",
+      "intro": "여러분의 나눔은 우리가 섬기는 개인과 가족의 상황을 개선하고 사명을 이어 가는 데 도움이 됩니다.",
+      "donateOnce": "일시 후원 또는 월 후원",
+      "donateOnceText": "월 후원자가 되어 안정적인 지원을 만들고 우리의 사명이 계속되도록 도와주세요.",
+      "donateOnline": "온라인 후원",
+      "learnMoreDonate": "자세히 보고 후원하기",
+      "otherWaysTitle": "다른 후원 방법",
+      "contactUs": "문의하기",
+      "otherWaysText": "오늘 물품 기부를 통해 도움이 필요한 이들을 지원하세요.",
+      "textCode": "코드 문자 보내기",
+      "toPhone": "(240) 461-9442로",
+      "trustEyebrow": "신뢰로 후원하기",
+      "statusTitle": "501(c)(3) 지위",
+      "statusText": "LindaBen Foundation은 등록된 501(c)(3) 비영리 단체이며, 여러분의 후원은 세금 공제가 가능하고 우리의 사명을 직접 지원하는 데 사용됩니다. 여러분의 기부는 필요한 사람들에게 필수 서비스와 프로그램을 제공하는 데 도움이 됩니다.",
+      "sectionAlt": "후원 방법",
+      "statusAlt": "501(c)(3) 지위",
+      "stats": [
+        "금전 후원",
+        "물품 후원",
+        "자원봉사 시간"
+      ],
+      "cards": [
+        [
+          "일시 후원 또는 월 후원",
+          "월 후원자가 되어 우리의 사명이 계속되도록 도와주세요."
+        ],
+        [
+          "굶주림 없는 주말 제공",
+          "Blessings in a Backpack을 지원해 주말에 굶을 수 있는 아이들에게 매주 금요일 음식을 제공합니다."
+        ],
+        [
+          "위시리스트 물품 기부",
+          "Amazon 위시리스트에서 물품을 구매해 커뮤니티 식품 창고를 지원하세요."
+        ],
+        [
+          "간편한 전자 후원",
+          "도움이 필요한 개인과 가족에게 희망을 주세요. 우리의 서비스를 계속할 수 있게 해 주셔서 감사합니다."
+        ],
+        [
+          "개인 모금 지원",
+          "개인 간 모금은 우리가 섬기는 개인과 가족의 삶을 개선합니다."
+        ],
+        [
+          "현금 또는 수표 보내기",
+          "LindaBen Foundation\n11720 Beltsville Dr., Ste 500-M8\nBeltsville, MD 20705\n\n수표 수취인:\nLindaBen Foundation, Inc."
+        ]
+      ]
+    },
+    "forms": {
+      "loading": "불러오는 중...",
+      "communityPantryIntakeTitle": "커뮤니티 식품 창고 접수",
+      "communityPantryIntakeForm": "커뮤니티 식품 창고 접수 양식",
+      "joinUsTitle": "함께하기",
+      "joinUsForm": "함께하기 양식",
+      "volunteerHoursTitle": "시간 추적 및 봉사 시간 양식",
+      "volunteerHoursForm": "시간 추적 및 봉사 시간 양식"
+    },
+    "ourPartners": {
+      "heroTitle": "협력 파트너",
+      "description": "LindaBen Foundation은 사명과 목표를 발전시키기 위해 여러 파트너와 협력합니다."
+    },
+    "financials": {
+      "heroTitle": "재정 보고",
+      "downloadTitle": "재정 보고서 다운로드",
+      "reportFor": "회계연도 재정 보고서",
+      "downloadPdf": "PDF 다운로드",
+      "imageAlt": "재정 보고서"
+    },
+    "programs": {
+      "metaDescription": "따뜻한 프로그램으로 삶을 변화시킵니다. Food as Medicine부터 청소년 자원봉사까지 지역사회의 더 나은 미래를 만듭니다.",
+      "eyebrow": "행동으로 옮기는 사랑",
+      "introTitle": "따뜻한 프로그램으로 삶을 변화시킵니다",
+      "intro": "LindaBen Foundation의 프로그램은 도움이 필요한 어린이와 가족에게 안정, 건강, 성장을 돕는 필수 서비스를 제공합니다.",
+      "descriptions": [
+        "Food as Medicine은 영양 교육과 개입, 신선한 농산물 접근, 건강한 선택을 위한 지식을 제공합니다.",
+        "커뮤니티 식품 창고는 학교와 지역 기관과 협력해 취약 가정에 식품 지원과 건강한 음식 접근을 제공합니다.",
+        "자원 지원 센터는 어려운 시기를 겪는 취약 부모와 어린이에게 포괄 서비스를 제공합니다.",
+        "청소년 자원봉사자는 학교와 지역사회에서 아동 굶주림과 노숙 문제를 해결하는 데 기여합니다.",
+        "우리는 개인과 지역 조직을 연결해 자원과 도움, 영감을 나눕니다.",
+        "Capital Area Food Bank, Blessings in a Backpack 같은 프로그램과 협력해 식품, 물품, 서비스를 제공합니다."
+      ]
+    },
+    "foodAsMedicine": {
+      "title": "음식은 약",
+      "metaDescription": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "eyebrow1": "프로그램 안내",
+      "sectionTitle1": "프로그램 안내",
+      "blocks": [
+        [
+          "프로그램 안내",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ],
+        [
+          "프로그램 안내",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ],
+        [
+          "프로그램 안내",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ],
+        [
+          "프로그램 안내",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ]
+      ],
+      "blog": "Blog",
+      "contactInfo": "자세한 정보 문의",
+      "imageAlt1": "프로그램 이미지",
+      "imageAlt2": "프로그램 이미지",
+      "eyebrow2": "프로그램 안내",
+      "sectionTitle2": "프로그램 안내",
+      "sectionText2": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "cost": "Cost:",
+      "costValue": "Free",
+      "locations": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "locationsValue": "Bryant Woods, Blue Heron Ln, Columbia, MD",
+      "supportedBy": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "supportedByValue": "Howard County Innovation Grant, MyVeggieVan.org, MikeandMelCruiseIn.com, St. Francis Fulton, HCPSS, LHIC, and more.",
+      "signupAlt": "프로그램 이미지"
+    },
+    "resourceCenter": {
+      "title": "새 커뮤니티 자원 지원 센터",
+      "metaDescription": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "paragraphs": [
+        "The LindaBen Foundation is excited to announce the opening of our new Community Resource Support Center. This innovative program addresses food insecurity and social determinants of health in underserved communities by providing supplemental emergency food and community-based support.",
+        "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+        "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+      ],
+      "imageAlt": "프로그램 이미지",
+      "cards": [
+        [
+          "프로그램 안내",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ],
+        [
+          "프로그램 안내",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ],
+        [
+          "프로그램 안내",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ]
+      ]
+    },
+    "youthVolunteerism": {
+      "title": "청소년 자원봉사",
+      "metaDescription": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "eyebrow": "프로그램 안내",
+      "heading": "프로그램 안내",
+      "paragraphs": [
+        "At the LindaBen Foundation, youth volunteers are on an important mission to make a positive difference by fighting childhood hunger and homelessness in schools and local areas.",
+        "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+      ],
+      "submitHours": "시간 제출",
+      "signUp": "Sign Up",
+      "imageAlt": "프로그램 이미지",
+      "cards": [
+        [
+          "프로그램 안내",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ],
+        [
+          "프로그램 안내",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ],
+        [
+          "프로그램 안내",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ]
+      ]
+    },
+    "communityOutreach": {
+      "title": "커뮤니티 아웃리치",
+      "metaDescription": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "eyebrow": "프로그램 안내",
+      "heading": "프로그램 안내",
+      "paragraphs": [
+        "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+        "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+      ],
+      "imageAlt": "프로그램 이미지"
+    },
+    "partnershipsPrograms": {
+      "title": "파트너십",
+      "metaDescription": "Building stronger communities through strategic partnerships. Learn about our collaborations with organizations like Capital Area Food Bank and Blessings in a Backpack.",
+      "eyebrow": "프로그램 안내",
+      "heading": "프로그램 안내",
+      "paragraphs": [
+        "LindaBen Foundation partners with programs to provide food, supplies, and services to vulnerable communities, including Capital Area Food Bank and Blessings in a Backpack.",
+        "Through strategic partnerships and collaborative efforts, we multiply our impact and extend our reach to serve more families in need throughout Maryland and beyond."
+      ],
+      "imageAlt": "프로그램 이미지",
+      "cards": [
+        [
+          "Blessings in a Backpack",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ],
+        [
+          "Capital Area Food Bank",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ],
+        [
+          "Greater Riverdale Cares",
+          "Collaborating on community outreach initiatives and resource sharing to better serve families in the Greater Riverdale area."
+        ]
+      ]
+    },
+    "communityPantry": {
+      "title": "커뮤니티 식품 창고",
+      "metaDescription": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "eyebrow": "프로그램 안내",
+      "heading": "프로그램 안내",
+      "paragraphs": [
+        "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+        "At LindaBen Foundation, we respond to these challenges through direct intervention and support methods linked to community resources."
+      ],
+      "impactTitle": "Our Impact",
+      "impactText": "With partners including Capital Area Food Bank, Whole Foods, Costco, Amazon, Passion & Compassion, and public-school systems in Howard and Prince George’s County, our community pantries serve an average of 30,000 lbs of food monthly, supporting over 850 households and feeding around 3,000 individuals every month.",
+      "locationsTitle": "프로그램 안내",
+      "location1Title": "Location #1: LindaBen Community Food Hub",
+      "location1Address": "10739 Tucker St, ste 222, Beltsville, MD 20705",
+      "location1Times": [
+        "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+        "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+        "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+      ],
+      "location2Title": "Location #2: Saint Bernard Catholic Church",
+      "location2Address": "5700 St Bernard Dr, Riverdale, MD 20737",
+      "location2Times": [
+        "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+      ],
+      "scheduleNote": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "supportedBy": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "supporters": "Capital Area Food Bank, Maryland Diaper Bank, MD State Community Development, Prince Georges Health Department, Celestial Manna, FDC, Central Union Mission, Amazon Local Good, UMD Ext SNAP Ed",
+      "contactStart": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "contactEnd": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "foodDistribution": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "clickSchedule": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "signUpVolunteer": "신청하기",
+      "imageAlt": "프로그램 이미지",
+      "contactUs": "Contact us",
+      "assistance": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "cards": [
+        [
+          "프로그램 안내",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ],
+        [
+          "프로그램 안내",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ],
+        [
+          "프로그램 안내",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ]
+      ],
+      "healthSchedule": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+    },
+    "volunteer": {
+      "title": "자원봉사 및 신청 기회",
+      "heroAlt": "프로그램 이미지",
+      "quote": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "cite": "James 2:18",
+      "signUpHere": "신청하기",
+      "logHoursHere": "시간 제출",
+      "seeMoreHere": "더 보기",
+      "visitSharedFolder": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "diaperLogLink": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "imageAlt": "프로그램 이미지",
+      "sections": [
+        [
+          "프로그램 안내",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ],
+        [
+          "Join Us",
+          "LindaBen seeks like-minded individuals to help provide momentum that creates change in the local community. If you can volunteer your time, let us know how you can help."
+        ],
+        [
+          "프로그램 안내",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ],
+        [
+          "프로그램 안내",
+          "Join the LindaBen Foundation volunteer community."
+        ],
+        [
+          "프로그램 안내",
+          "Google sign in required."
+        ],
+        [
+          "프로그램 안내",
+          "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+        ]
+      ]
+    },
+    "aboutUs": {
+      "title": "소개",
+      "metaDescription": "Learn about LindaBen Foundation's mission to be a channel of safe haven for the homeless, at-risk population and underserved community.",
+      "heroText": "LindaBen Foundation provides Child and Family Stability Services, affordable housing support, sustainable healthy food access, wraparound services, and pathways toward self-sufficiency for local communities and families in transition.",
+      "missionTitle": "프로그램 안내",
+      "missionText": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "visionTitle": "Our Vision",
+      "visionText": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "historyEyebrow": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "historyTitle": "프로그램 안내",
+      "historyText": "LindaBen Foundation was created in memory and honor of Anna S. Beavan’s parents, Linda Santos and Ben Dimatangal, and for people who died homeless or suffered in poverty, depression, mental health illness, and addiction.",
+      "fullStory": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "historyAlt": "LindaBen Foundation history",
+      "leadersEyebrow": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "leadershipTitle": "Leadership",
+      "leadershipTexts": [
+        "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+        "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+      ],
+      "peopleEyebrow": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "peopleTitle": "Our People",
+      "boardTitle": "프로그램 안내",
+      "operationsTitle": "프로그램 안내",
+      "boardRole": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "teamRole": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+    },
+    "history": {
+      "title": "우리의 역사",
+      "metaDescription": "Learn about the founding story of LindaBen Foundation, from a personal journey of faith and compassion to a mission serving those in need.",
+      "quote": "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+      "cite": "Philippians 4:12-13",
+      "messageTitle": "프로그램 안내",
+      "imageAlt1": "프로그램 이미지",
+      "imageAlt2": "프로그램 이미지",
+      "paragraphs": [
+        "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+        "Years later, through family experiences, service with homeless outreach, and renewed faith, the idea of a foundation became clearer. LindaBen Foundation was born from love, remembrance, and the desire to uplift lives that had been cast aside.",
+        "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+        "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다."
+      ]
+    },
+    "resources": {
+      "title": "도움과 자료",
+      "intro": "LindaBen Foundation 프로그램과 연결된 설문, 지원 도구, 파트너 자료, 당뇨 인식 자료를 찾을 수 있습니다.",
+      "surveyButton": "설문 작성",
+      "externalResource": "자료 열기",
+      "diabetesTitle": "당뇨 인식 자료",
+      "cardsTitle": "자료 파트너",
+      "items": [
+        "Food as Medicine 신선 농산물 상자 사전 설문",
+        "Food as Medicine 신선 농산물 상자 사후 설문",
+        "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+        "이 섹션은 도움이 필요한 가족을 위한 LindaBen Foundation의 서비스, 지역사회 지원, 자료를 설명합니다.",
+        "지역사회 식품 및 영양 안전 설문",
+        "Levitate TLF 설문"
+      ]
+    },
+    "events": {
+      "title": "다가오는 행사",
+      "today": "오늘",
+      "previousYear": "이전 연도",
+      "nextYear": "다음 연도",
+      "previousMonth": "이전 달",
+      "nextMonth": "다음 달",
+      "months": [
+        "1월",
+        "2월",
+        "3월",
+        "4월",
+        "5월",
+        "6월",
+        "7월",
+        "8월",
+        "9월",
+        "10월",
+        "11월",
+        "12월"
+      ],
+      "days": [
+        "일요일",
+        "월요일",
+        "화요일",
+        "수요일",
+        "목요일",
+        "금요일",
+        "토요일"
+      ],
+      "marketTitle": "LindaBen 건강 식품 마켓 (식품 나눔)",
+      "marketDescription": "매주 수요일 오전 1시부터 3시까지 원하는 식품을 선택해 받을 수 있습니다. 등록은 오전 12시에 시작됩니다.",
+      "marketRelief": "LindaBen은 커뮤니티 팬트리를 통해 취약한 가정에 굶주림 완화와 건강한 식품 접근을 지원합니다."
+    }
+  },
+  "newsletter": {
+    "title": "뉴스레터",
+    "description": "LindaBen Foundation의 최신 뉴스레터, 소식, 공지입니다.",
+    "empty": "아직 게시된 뉴스레터가 없습니다."
   }
 }

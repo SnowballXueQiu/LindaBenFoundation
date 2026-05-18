@@ -95,7 +95,7 @@ export default function Blog({
                   {post.title}
                 </h3>
                 <p className="text-xs mb-3" style={{ color: "var(--text-mid)" }}>
-                  {post.author && <span>By {post.author} &bull; </span>}
+                  {post.author && <span>{dictionary.common.by} {post.author} &bull; </span>}
                   {formatDate(post.publishedAt || post.updatedAt, locale)}
                 </p>
                 <p

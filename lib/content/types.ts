@@ -1,6 +1,6 @@
 import type { Locale } from "@/lib/i18n/config";
 
-export const articleTypes = ["blogs", "news"] as const;
+export const articleTypes = ["blogs", "newsletter"] as const;
 
 export type ArticleType = (typeof articleTypes)[number];
 export type ArticleStatus = "draft" | "published";

@@ -1,15 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useI18n } from "@/lib/i18n/client";
 
 const stats = [
-  { value: 3058780, label: "Meals Provided" },
-  { value: 255193, label: "Individuals Served" },
-  { value: 723256, label: "Pounds of Food Recovered" },
-  { value: 3237467, label: "Pounds of Food Distributed" },
-  { value: 85086, label: "Hunger Free Weekends" },
-  { value: 124079, label: "Baby Essentials Distributed" },
-];
+  { value: 3058780, labelKey: "mealsProvided" },
+  { value: 255193, labelKey: "individualsServed" },
+  { value: 723256, labelKey: "poundsRecovered" },
+  { value: 3237467, labelKey: "poundsDistributed" },
+  { value: 85086, labelKey: "hungerFreeWeekends" },
+  { value: 124079, labelKey: "babyEssentials" },
+] as const;
 
 function formatNumber(n: number): string {
   return n.toLocaleString("en-US");
@@ -68,6 +69,9 @@ function AnimatedNumber({ target }: { target: number }) {
 }
 
 export default function Stats() {
+  const { dictionary } = useI18n();
+  const home = dictionary.home;
+
   return (
     <section
       className="py-20 lg:py-24"
@@ -80,19 +84,19 @@ export default function Stats() {
           className="text-center text-sm font-semibold tracking-[0.18em] uppercase mb-3"
           style={{ color: "var(--green-light)" }}
         >
-          Our Impact
+          {home.impactEyebrow}
         </p>
         <h2
           className="text-center text-3xl font-bold text-white mb-14"
           style={{ fontFamily: "var(--font-merriweather), serif" }}
         >
-          Numbers That Tell Our Story
+          {home.impactTitle}
         </h2>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-10">
           {stats.map((stat) => (
             <div
-              key={stat.label}
+              key={stat.labelKey}
               className="text-center p-6 rounded-2xl"
               style={{ background: "rgba(255,255,255,0.08)" }}
             >
@@ -109,7 +113,7 @@ export default function Stats() {
                 className="text-sm font-medium tracking-wide uppercase"
                 style={{ color: "rgba(255,255,255,0.75)" }}
               >
-                {stat.label}
+                {home[stat.labelKey]}
               </div>
             </div>
           ))}

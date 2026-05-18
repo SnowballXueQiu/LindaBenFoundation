@@ -6,14 +6,36 @@ import ParallaxBg from "@/components/ParallaxBg";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { defaultLocale, getAlternates, isSupportedLocale, withLocale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
-export const metadata: Metadata = {
-  title: "Our Programs — LindaBen Foundation",
-  description:
-    "Transforming lives through compassionate programs. From food as medicine to youth volunteerism, discover how we're building a brighter future for our community.",
-};
+const programItems = [
+  { titleKey: "foodAsMedicine", href: "/food-as-medicine", image: "/programs/1.png", reverse: false },
+  { titleKey: "communityPantry", href: "/community-pantry", image: "/programs/2.png", reverse: true },
+  { titleKey: "resourceSupportCenter", href: "/new-community-resource-support-center", image: "/programs/3.png", reverse: false },
+  { titleKey: "youthVolunteerism", href: "/youth-volunteerism", image: "/programs/4.png", reverse: true },
+  { titleKey: "communityOutreach", href: "/community-outreach", image: "/programs/5.png", reverse: false },
+  { titleKey: "partnerships", href: "/partnerships-programs", image: "/programs/6.png", reverse: true },
+] as const;
 
-export default function ProgramsPage() {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const dictionary = await getDictionary(locale);
+
+  return {
+    title: `${dictionary.nav.ourPrograms} — LindaBen Foundation`,
+    description: dictionary.pages.programs.metaDescription,
+    alternates: { canonical: `/${locale}/programs`, languages: getAlternates("/programs") },
+  };
+}
+
+export default async function ProgramsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const dictionary = await getDictionary(locale);
+  const page = dictionary.pages.programs;
+
   return (
     <>
       <Header />
@@ -31,7 +53,7 @@ export default function ProgramsPage() {
               className="text-4xl lg:text-6xl font-bold text-white mb-8"
               style={{ fontFamily: "var(--font-merriweather), serif" }}
             >
-              Our Programs
+              {dictionary.nav.ourPrograms}
             </h1>
           </div>
         </section>
@@ -48,7 +70,7 @@ export default function ProgramsPage() {
               className="text-sm font-semibold tracking-[0.18em] uppercase mb-6"
               style={{ color: "var(--green-mid)" }}
             >
-              Acts of Love in Action
+              {page.eyebrow}
             </p>
 
             <h2
@@ -58,19 +80,14 @@ export default function ProgramsPage() {
                 fontFamily: "var(--font-merriweather), serif",
               }}
             >
-              Transforming Lives Through Compassionate Programs
+              {page.introTitle}
             </h2>
 
             <p
               className="text-lg lg:text-xl leading-relaxed max-w-3xl mx-auto"
               style={{ color: "var(--text-mid)" }}
             >
-              At LindaBen Foundation, our programs are designed to uplift and empower our 
-              community. We provide essential services that foster stability, health, and 
-              growth for children and families in need. From offering nutritious food and 
-              housing support to promoting youth volunteerism and community outreach, our 
-              initiatives aim to create lasting, positive change. Together with our partners 
-              and volunteers, we are dedicated to building a brighter future for everyone.
+              {page.intro}
             </p>
           </div>
         </section>
@@ -82,233 +99,44 @@ export default function ProgramsPage() {
         >
           <div className="max-w-6xl mx-auto px-6 lg:px-12">
             <div className="space-y-16 lg:space-y-20">
-              {/* Food as Medicine */}
-              <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                <div className="relative overflow-hidden rounded-lg shadow-md">
-                  <Image
-                    src="/programs/1.png"
-                    alt="Food as Medicine"
-                    width={500}
-                    height={350}
-                    className="w-full h-auto object-cover"
-                    sizes="(max-width: 768px) 100vw, 500px"
-                  />
-                </div>
-                <div className="space-y-6">
-                  <h3
-                    className="text-3xl lg:text-4xl font-bold"
-                    style={{
-                      color: "var(--green-deep)",
-                      fontFamily: "var(--font-merriweather), serif",
-                    }}
-                  >
-                    Food as Medicine
-                  </h3>
-                  <p
-                    className="text-lg leading-relaxed"
-                    style={{ color: "var(--text-mid)" }}
-                  >
-                    Our Food as Medicine (FAM Rx) program goes beyond simply providing food. It offers nutrition education and intervention, giving people access to fresh, nutritious produce at little to no cost, while empowering them with the knowledge to make healthier choices for lasting well-being.
-                  </p>
-                  <Link
-                    href="/food-as-medicine"
-                    className="inline-block px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90"
-                    style={{ background: "var(--green-deep)" }}
-                  >
-                    Learn More
-                  </Link>
-                </div>
-              </div>
-
-              {/* Community Pantry */}
-              <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                <div className="relative overflow-hidden rounded-lg shadow-md lg:order-2">
-                  <Image
-                    src="/programs/2.png"
-                    alt="Community Pantry"
-                    width={500}
-                    height={350}
-                    className="w-full h-auto object-cover"
-                    sizes="(max-width: 768px) 100vw, 500px"
-                  />
-                </div>
-                <div className="space-y-6 lg:order-1">
-                  <h3
-                    className="text-3xl lg:text-4xl font-bold"
-                    style={{
-                      color: "var(--green-deep)",
-                      fontFamily: "var(--font-merriweather), serif",
-                    }}
-                  >
-                    Community Pantry
-                  </h3>
-                  <p
-                    className="text-lg leading-relaxed"
-                    style={{ color: "var(--text-mid)" }}
-                  >
-                    Our Community Pantry partners with Howard County Schools and Prince George&apos;s County, Maryland to provide hunger relief and healthy access to food for vulnerable families.
-                  </p>
-                  <Link
-                    href="/community-pantry"
-                    className="inline-block px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90"
-                    style={{ background: "var(--green-deep)" }}
-                  >
-                    Learn More
-                  </Link>
-                </div>
-              </div>
-
-              {/* Resource Center */}
-              <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                <div className="relative overflow-hidden rounded-lg shadow-md">
-                  <Image
-                    src="/programs/3.png"
-                    alt="Community Resource Support Center"
-                    width={500}
-                    height={350}
-                    className="w-full h-auto object-cover"
-                    sizes="(max-width: 768px) 100vw, 500px"
-                  />
-                </div>
-                <div className="space-y-6">
-                  <h3
-                    className="text-3xl lg:text-4xl font-bold"
-                    style={{
-                      color: "var(--green-deep)",
-                      fontFamily: "var(--font-merriweather), serif",
-                    }}
-                  >
-                    New Community Resource Support Center
-                  </h3>
-                  <p
-                    className="text-lg leading-relaxed"
-                    style={{ color: "var(--text-mid)" }}
-                  >
-                    Our Youth and Family Stability program offers wrap around services for vulnerable parents and children affected by the loss of jobs and loved ones, eviction, transitional events, major medical illness and other difficult times.
-                  </p>
-                  <Link
-                    href="/new-community-resource-support-center"
-                    className="inline-block px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90"
-                    style={{ background: "var(--green-deep)" }}
-                  >
-                    Learn More
-                  </Link>
-                </div>
-              </div>
-
-              {/* Youth Volunteerism */}
-              <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                <div className="relative overflow-hidden rounded-lg shadow-md lg:order-2">
-                  <Image
-                    src="/programs/4.png"
-                    alt="Youth Volunteerism"
-                    width={500}
-                    height={350}
-                    className="w-full h-auto object-cover"
-                    sizes="(max-width: 768px) 100vw, 500px"
-                  />
-                </div>
-                <div className="space-y-6 lg:order-1">
-                  <h3
-                    className="text-3xl lg:text-4xl font-bold"
-                    style={{
-                      color: "var(--green-deep)",
-                      fontFamily: "var(--font-merriweather), serif",
-                    }}
-                  >
-                    Youth Volunteerism
-                  </h3>
-                  <p
-                    className="text-lg leading-relaxed"
-                    style={{ color: "var(--text-mid)" }}
-                  >
-                    LindaBen Foundation Youth Volunteers have the ability to change the world with missions like ending childhood hunger and homelessness in their school and local communities where they live.
-                  </p>
-                  <Link
-                    href="/youth-volunteerism"
-                    className="inline-block px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90"
-                    style={{ background: "var(--green-deep)" }}
-                  >
-                    Learn More
-                  </Link>
-                </div>
-              </div>
-
-              {/* Community Outreach */}
-              <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                <div className="relative overflow-hidden rounded-lg shadow-md">
-                  <Image
-                    src="/programs/5.png"
-                    alt="Community Outreach"
-                    width={500}
-                    height={350}
-                    className="w-full h-auto object-cover"
-                    sizes="(max-width: 768px) 100vw, 500px"
-                  />
-                </div>
-                <div className="space-y-6">
-                  <h3
-                    className="text-3xl lg:text-4xl font-bold"
-                    style={{
-                      color: "var(--green-deep)",
-                      fontFamily: "var(--font-merriweather), serif",
-                    }}
-                  >
-                    Community Outreach
-                  </h3>
-                  <p
-                    className="text-lg leading-relaxed"
-                    style={{ color: "var(--text-mid)" }}
-                  >
-                    Connect with like-minded Individuals and Community-Based Organizations to share their own stories, insights, resources to provide assistance and inspire others to help and be a part of a solution in ending childhood hunger and childhood homelessness.
-                  </p>
-                  <Link
-                    href="/community-outreach"
-                    className="inline-block px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90"
-                    style={{ background: "var(--green-deep)" }}
-                  >
-                    Learn More
-                  </Link>
-                </div>
-              </div>
-
-              {/* Partnerships */}
-              <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                <div className="relative overflow-hidden rounded-lg shadow-md lg:order-2">
-                  <Image
-                    src="/programs/6.png"
-                    alt="Partnerships"
-                    width={500}
-                    height={350}
-                    className="w-full h-auto object-cover"
-                    sizes="(max-width: 768px) 100vw, 500px"
-                  />
-                </div>
-                <div className="space-y-6 lg:order-1">
-                  <h3
-                    className="text-3xl lg:text-4xl font-bold"
-                    style={{
-                      color: "var(--green-deep)",
-                      fontFamily: "var(--font-merriweather), serif",
-                    }}
-                  >
-                    Partnerships
-                  </h3>
-                  <p
-                    className="text-lg leading-relaxed"
-                    style={{ color: "var(--text-mid)" }}
-                  >
-                    LindaBen Foundation has partnered with programs to provide food, supplies, and services to the vulnerable, for example the Capital Area Food Bank that helps our Community Pantry and Blessings in a Backpack that feeds school children.
-                  </p>
-                  <Link
-                    href="/partnerships-programs"
-                    className="inline-block px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90"
-                    style={{ background: "var(--green-deep)" }}
-                  >
-                    Learn More
-                  </Link>
-                </div>
-              </div>
+              {programItems.map((item, index) => {
+                const title = dictionary.nav[item.titleKey];
+                return (
+                  <div key={item.href} className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                    <div className={`relative overflow-hidden rounded-lg shadow-md ${item.reverse ? "lg:order-2" : ""}`}>
+                      <Image
+                        src={item.image}
+                        alt={title}
+                        width={500}
+                        height={350}
+                        className="w-full h-auto object-cover"
+                        sizes="(max-width: 768px) 100vw, 500px"
+                      />
+                    </div>
+                    <div className={`space-y-6 ${item.reverse ? "lg:order-1" : ""}`}>
+                      <h3
+                        className="text-3xl lg:text-4xl font-bold"
+                        style={{
+                          color: "var(--green-deep)",
+                          fontFamily: "var(--font-merriweather), serif",
+                        }}
+                      >
+                        {title}
+                      </h3>
+                      <p className="text-lg leading-relaxed" style={{ color: "var(--text-mid)" }}>
+                        {page.descriptions[index]}
+                      </p>
+                      <Link
+                        href={withLocale(item.href, locale)}
+                        className="inline-block px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90"
+                        style={{ background: "var(--green-deep)" }}
+                      >
+                        {dictionary.common.learnMore}
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>

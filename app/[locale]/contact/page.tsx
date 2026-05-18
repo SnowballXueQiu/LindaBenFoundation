@@ -4,14 +4,28 @@ import ContactForm from "@/components/ContactForm";
 import DonationCTA from "@/components/DonationCTA";
 import ParallaxBg from "@/components/ParallaxBg";
 import type { Metadata } from "next";
+import { defaultLocale, getAlternates, isSupportedLocale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
-export const metadata: Metadata = {
-  title: "Contact Us — LindaBen Foundation",
-  description:
-    "Get in touch with LindaBen Foundation. We're here to help and listen. Contact us today!",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const dictionary = await getDictionary(locale);
+  const contact = dictionary.pages.contact;
 
-export default function ContactPage() {
+  return {
+    title: `${contact.heroTitle} — LindaBen Foundation`,
+    description: contact.metaDescription,
+    alternates: { canonical: `/${locale}/contact`, languages: getAlternates("/contact") },
+  };
+}
+
+export default async function ContactPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const dictionary = await getDictionary(locale);
+  const contact = dictionary.pages.contact;
+
   return (
     <>
       <Header />
@@ -31,7 +45,7 @@ export default function ContactPage() {
               className="text-4xl lg:text-6xl font-bold text-white mb-8"
               style={{ fontFamily: "var(--font-merriweather), serif" }}
             >
-              Contact Us
+              {contact.heroTitle}
             </h1>
           </div>
         </section>
@@ -54,7 +68,7 @@ export default function ContactPage() {
                       fontFamily: "var(--font-merriweather), serif" 
                     }}
                   >
-                    Main Office Location
+                    {contact.mainOfficeLocation}
                   </h3>
                   <div className="rounded-xl overflow-hidden shadow-lg" style={{ aspectRatio: "16/9" }}>
                     <iframe
@@ -65,7 +79,7 @@ export default function ContactPage() {
                       allowFullScreen
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
-                      title="Main Office Location"
+                      title={contact.mainOfficeLocation}
                     />
                   </div>
                   <p className="text-sm mt-2" style={{ color: "var(--text-mid)" }}>
@@ -82,7 +96,7 @@ export default function ContactPage() {
                       fontFamily: "var(--font-merriweather), serif" 
                     }}
                   >
-                    Other Mailing Address
+                    {contact.otherMailingAddress}
                   </h3>
                   <div className="rounded-xl overflow-hidden shadow-lg" style={{ aspectRatio: "16/9" }}>
                     <iframe
@@ -93,7 +107,7 @@ export default function ContactPage() {
                       allowFullScreen
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
-                      title="Other Mailing Address"
+                      title={contact.otherMailingAddress}
                     />
                   </div>
                   <p className="text-sm mt-2" style={{ color: "var(--text-mid)" }}>
@@ -108,7 +122,7 @@ export default function ContactPage() {
                   className="text-sm font-semibold tracking-[0.18em] uppercase mb-4"
                   style={{ color: "var(--green-mid)" }}
                 >
-                  Reach Out
+                  {contact.reachOut}
                 </p>
                 <h2
                   className="text-3xl lg:text-4xl font-bold mb-6 leading-snug"
@@ -117,7 +131,7 @@ export default function ContactPage() {
                     fontFamily: "var(--font-merriweather), serif",
                   }}
                 >
-                  We&rsquo;re here to help & listen. Get in touch today!
+                  {contact.headline}
                 </h2>
 
                 <div className="space-y-8 mb-10">
@@ -127,7 +141,7 @@ export default function ContactPage() {
                       className="text-lg font-bold mb-2"
                       style={{ color: "var(--green-deep)" }}
                     >
-                      Phone Number:
+                      {contact.phoneNumber}
                     </h4>
                     <a
                       href="tel:+12404619442"
@@ -144,7 +158,7 @@ export default function ContactPage() {
                       className="text-lg font-bold mb-2"
                       style={{ color: "var(--green-deep)" }}
                     >
-                      Email Address:
+                      {contact.emailAddress}
                     </h4>
                     <a
                       href="mailto:info@lindabenfoundation.org"
@@ -161,7 +175,7 @@ export default function ContactPage() {
                       className="text-lg font-bold mb-2"
                       style={{ color: "var(--green-deep)" }}
                     >
-                      Main Office Address:
+                      {contact.mainOfficeAddress}
                     </h4>
                     <p
                       className="text-base leading-relaxed"
@@ -177,7 +191,7 @@ export default function ContactPage() {
                       className="text-lg font-bold mb-2"
                       style={{ color: "var(--green-deep)" }}
                     >
-                      Other Mailing Address:
+                      {contact.otherMailingAddressLabel}
                     </h4>
                     <p
                       className="text-base leading-relaxed"
@@ -194,7 +208,7 @@ export default function ContactPage() {
                     className="text-lg font-bold mb-4"
                     style={{ color: "var(--green-deep)" }}
                   >
-                    Connect With Us:
+                    {contact.connectWithUs}
                   </h4>
                   <div className="flex items-center gap-4">
                     {[
@@ -252,7 +266,7 @@ export default function ContactPage() {
                   className="inline-block px-8 py-4 rounded-full font-semibold text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
                   style={{ background: "var(--green-deep)" }}
                 >
-                  Make an Appointment
+                  {contact.makeAppointment}
                 </a>
               </div>
             </div>

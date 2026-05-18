@@ -5,7 +5,11 @@
     "donateNow": "立即捐赠",
     "readMore": "阅读更多",
     "learnMore": "了解更多",
-    "contact": "联系"
+    "contact": "联系",
+    "changeLanguage": "切换语言",
+    "toggleMenu": "打开菜单",
+    "close": "关闭",
+    "by": "作者"
   },
   "nav": {
     "home": "首页",
@@ -27,7 +31,6 @@
     "resources": "资源",
     "donations": "捐赠",
     "blog": "博客",
-    "news": "新闻",
     "newsletter": "简报",
     "events": "近期活动",
     "testimonials": "见证",
@@ -38,14 +41,9 @@
   "blog": {
     "eyebrow": "最新故事",
     "title": "我们的博客",
-    "description": "了解我们的最新故事、新闻，以及帮助社区的实用信息。",
+    "description": "了解我们的最新故事、通讯和帮助社区的实用内容。",
     "more": "更多博客文章",
     "empty": "暂无已发布文章。"
-  },
-  "news": {
-    "title": "新闻",
-    "description": "LindaBen Foundation 的最新新闻与公告。",
-    "empty": "暂无已发布新闻。"
   },
   "footer": {
     "quickLinks": "快速链接",
@@ -57,6 +55,489 @@
     "tagline": "服务有需要与被忽视的人群。我们怀着关爱服务马里兰社区。",
     "recognition": "认可",
     "affiliations": "我们的联盟",
-    "rights": "版权所有 | LindaBen Foundation | 隐私政策"
+    "rights": "版权所有 | LindaBen Foundation | 隐私政策",
+    "copyright": "版权所有 — LindaBen Foundation",
+    "privacyPolicy": "隐私政策"
+  },
+  "home": {
+    "heroEyebrow": "马里兰社区基金会",
+    "heroTitleLine1": "The LindaBen",
+    "heroTitleLine2": "Foundation",
+    "heroSubtitle": "服务有需要与被忽视的人群",
+    "waysToGive": "捐助方式",
+    "helpMyPeople": "帮助我的人民",
+    "missionTitle": "我们的使命",
+    "missionText": "LindaBen Foundation 的使命是提供营养食物、促进健康、减少食物浪费，并通过营养教育帮助儿童和家庭克服食物不安全、改善健康。",
+    "visionTitle": "我们的愿景",
+    "visionText": "我们希望没有任何儿童或家庭挨饿，每个人都能获得健康食物和改变生活的资源。通过社区合作、教育和关怀，我们致力于改善本地食物系统，创造持久积极的改变。",
+    "programsTitle": "我们的项目",
+    "programsDescription": "我们为马里兰州弱势和高风险人群提供服务。",
+    "partnershipPrograms": "合作项目",
+    "moreAboutUs": "更多关于我们",
+    "getInTouch": "联系我们！",
+    "impactEyebrow": "我们的影响",
+    "impactTitle": "用数字讲述我们的故事",
+    "mealsProvided": "已提供餐食",
+    "individualsServed": "服务人数",
+    "poundsRecovered": "回收食物磅数",
+    "poundsDistributed": "分发食物磅数",
+    "hungerFreeWeekends": "无饥饿周末",
+    "babyEssentials": "已分发婴儿必需品",
+    "helpEyebrow": "成为弟兄姐妹的守护者",
+    "helpTitle": "你可以如何帮助",
+    "donateHelp": "线上捐赠安全、便捷、省心。我们也接受现金、支票和实物捐赠。你的礼物将帮助有需要的人获得更多机会和更光明的未来。",
+    "volunteer": "志愿服务",
+    "volunteerHelp": "今天就成为志愿者。你可以在改善食物不安全人群生活方面发挥重要作用。",
+    "subscribe": "订阅",
+    "subscribeHelp": "订阅我们的通讯，了解粮食不安全相关动态、活动和文章，也欢迎捐赠支持我们持续推进项目。",
+    "equalOpportunity": "LindaBen 是一个机会平等的雇主，致力于多元、公平、平等、包容和正义。",
+    "testimonialsEyebrow": "来自社区",
+    "testimonialsTitle": "见证",
+    "communityMember": "社区成员",
+    "readMoreTestimonials": "阅读更多见证",
+    "aboutEyebrow": "我们是谁",
+    "aboutTitle": "关于我们",
+    "servingMaryland": "服务马里兰",
+    "aboutText1": "LindaBen Foundation 通过创新方案加强食物安全、减少食物浪费并应对健康差距。我们提供营养丰富食物、营养教育和资源连接，服务弱势群体。",
+    "aboutText2": "通过外展和合作，我们提升服务能力，改善更多人的生活质量。",
+    "partnersEyebrow": "携手更强",
+    "partnersTitle": "合作伙伴",
+    "donationEyebrow": "祝福他人，也蒙祝福",
+    "donationTitle": "你的捐赠很重要！",
+    "donationText": "你的慷慨让我们能够改善服务对象和家庭的生活条件。每一美元都能带来真实改变。",
+    "donationButton": "访问捐赠页面"
+  },
+  "contactForm": {
+    "eyebrow": "联系我们",
+    "titleLine1": "我们希望",
+    "titleLine2": "与你联系",
+    "description": "无论你有问题、想做志愿者，还是只是想打个招呼，我们都很乐意听到你的声音。",
+    "phone": "电话",
+    "email": "邮箱",
+    "mainOffice": "主办公室",
+    "receivedTitle": "消息已收到！",
+    "receivedText": "感谢联系。我们会尽快回复。",
+    "formTitle": "联系我们！",
+    "fullName": "姓名",
+    "phoneNumber": "电话号码",
+    "subject": "主题",
+    "subjectPlaceholder": "我们能如何帮助？",
+    "message": "留言",
+    "messagePlaceholder": "你的留言...",
+    "smsConsent": "我同意在所提供的电话号码接收短信。",
+    "send": "发送消息"
+  },
+  "pages": {
+    "contact": {
+      "heroTitle": "联系我们",
+      "metaDescription": "联系 LindaBen Foundation。我们愿意帮助并倾听你的声音。",
+      "mainOfficeLocation": "主办公室位置",
+      "otherMailingAddress": "其他邮寄地址",
+      "reachOut": "联系我们",
+      "headline": "我们愿意帮助并倾听。今天就联系我们！",
+      "phoneNumber": "电话号码：",
+      "emailAddress": "电子邮箱：",
+      "mainOfficeAddress": "主办公室地址：",
+      "otherMailingAddressLabel": "其他邮寄地址：",
+      "connectWithUs": "关注我们：",
+      "makeAppointment": "预约咨询"
+    },
+    "donations": {
+      "metaDescription": "通过安全在线捐赠、愿望清单物品、实物捐赠和志愿时间支持 LindaBen Foundation。",
+      "heroTitle": "捐赠",
+      "heroAlt": "捐赠页面图片",
+      "eyebrow": "祝福他人，也收获祝福",
+      "waysTitle": "捐赠方式",
+      "intro": "你的慷慨让我们能够改善服务对象和家庭的处境，并支持我们的使命。",
+      "donateOnce": "一次性或每月捐赠",
+      "donateOnceText": "成为月度捐赠者，为我们提供稳定且珍贵的支持，帮助使命持续推进。",
+      "donateOnline": "在线捐赠",
+      "learnMoreDonate": "了解更多并捐赠",
+      "otherWaysTitle": "其他捐赠方式",
+      "contactUs": "联系我们",
+      "otherWaysText": "直接进行实物捐赠，支持有需要的人。",
+      "textCode": "发送代码",
+      "toPhone": "至 (240) 461-9442",
+      "trustEyebrow": "值得信赖的捐赠",
+      "statusTitle": "我们的 501(c)(3) 资格",
+      "statusText": "LindaBen Foundation 是注册的 501(c)(3) 非营利组织，你的捐赠可依法抵税，并将直接用于支持我们的使命。你的贡献帮助我们为有需要的人提供重要服务和项目，在社区中创造真实影响。",
+      "sectionAlt": "捐赠方式",
+      "statusAlt": "501(c)(3) 资格",
+      "stats": [
+        "货币捐赠",
+        "实物捐赠",
+        "志愿服务小时"
+      ],
+      "cards": [
+        [
+          "一次性或每月捐赠",
+          "成为月度捐赠者，为我们提供稳定且珍贵的支持，帮助使命持续推进。"
+        ],
+        [
+          "提供无饥饿周末",
+          "支持 Blessings in a Backpack，每周五为可能在周末挨饿的儿童提供食物。"
+        ],
+        [
+          "捐赠愿望清单物品",
+          "从我们的 Amazon 愿望清单购买并捐赠物品，支持社区食品储藏室。"
+        ],
+        [
+          "便捷电子捐赠",
+          "为有需要的个人和家庭带来希望。感谢你帮助我们持续服务。"
+        ],
+        [
+          "支持个人筹款",
+          "我们的点对点筹款改善了服务对象和家庭的生活。"
+        ],
+        [
+          "邮寄现金或支票",
+          "LindaBen Foundation\n11720 Beltsville Dr., Ste 500-M8\nBeltsville, MD 20705\n\n支票抬头请写：\nLindaBen Foundation, Inc."
+        ]
+      ]
+    },
+    "forms": {
+      "loading": "正在加载...",
+      "communityPantryIntakeTitle": "社区食品领取登记",
+      "communityPantryIntakeForm": "社区食品领取登记表",
+      "joinUsTitle": "加入我们",
+      "joinUsForm": "加入我们表格",
+      "volunteerHoursTitle": "时间追踪与服务小时表",
+      "volunteerHoursForm": "时间追踪与服务小时表"
+    },
+    "ourPartners": {
+      "heroTitle": "合作伙伴",
+      "description": "LindaBen Foundation 与多个伙伴合作，共同推进使命与目标。"
+    },
+    "financials": {
+      "heroTitle": "财务信息",
+      "downloadTitle": "下载我们的财务报告",
+      "reportFor": "财政年度财务报告",
+      "downloadPdf": "下载 PDF",
+      "imageAlt": "财务报告"
+    },
+    "programs": {
+      "metaDescription": "通过富有同理心的项目改变生命。从食物即良药到青少年志愿服务，了解我们如何为社区建设更光明的未来。",
+      "eyebrow": "把爱化为行动",
+      "introTitle": "通过关怀项目改变生命",
+      "intro": "LindaBen Foundation 的项目旨在提升并赋能我们的社区。我们提供重要服务，帮助有需要的儿童和家庭获得稳定、健康与成长。从营养食物、住房支持，到青少年志愿服务和社区外展，我们的行动致力于创造持久的积极改变。",
+      "descriptions": [
+        "我们的食物即良药项目不只是提供食物，也提供营养教育和干预，让人们以很低或免费的方式获得新鲜营养的农产品，并学习做出更健康的长期选择。",
+        "我们的社区食品储藏室与 Howard County Schools 和马里兰州 Prince George’s County 合作，为弱势家庭提供饥饿救助和健康食物。",
+        "我们的青少年与家庭稳定项目为经历失业、亲人离世、驱逐、过渡事件、重大疾病和其他困难时期的家长与儿童提供综合支持。",
+        "LindaBen Foundation 的青少年志愿者能够在学校和本地社区中参与终结儿童饥饿与无家可归的使命，改变世界。",
+        "我们连接志同道合的个人和社区组织，分享故事、见解和资源，提供帮助并激励更多人参与解决儿童饥饿和无家可归问题。",
+        "LindaBen Foundation 与多个项目合作，为弱势群体提供食物、用品和服务，包括支持社区食品储藏室的 Capital Area Food Bank 和为学生提供食物的 Blessings in a Backpack。"
+      ]
+    },
+    "foodAsMedicine": {
+      "title": "食物即良药",
+      "metaDescription": "通过食物即良药项目，把餐食变成疗愈时刻。免费营养食物箱满足不同营养需求。",
+      "eyebrow1": "一次一箱，滋养家庭",
+      "sectionTitle1": "食物即良药农产品箱",
+      "blocks": [
+        [
+          "我们提供什么：",
+          "每个家庭会收到两箱新鲜水果、蔬菜、鸡蛋、主食、调味品、即食餐、米、豆类和面粉；条件允许时也会包含优质肉类和鱼类。"
+        ],
+        [
+          "按需求调整：",
+          "我们会根据预算、容量和反馈调整内容，提供尊重文化并符合社区需求的食物选择。"
+        ],
+        [
+          "支持本地农业：",
+          "我们优先选择有机和本地农产品，在保证质量的同时支持本地农户和可持续发展。"
+        ],
+        [
+          "营养之外的教育：",
+          "每个食物箱包含双语指南，提供烹饪建议、营养信息和生活技能，帮助学生和家庭建立更健康的生活方式。"
+        ]
+      ],
+      "blog": "博客",
+      "contactInfo": "咨询信息",
+      "imageAlt1": "新鲜营养食物箱",
+      "imageAlt2": "移动市场和社区支持",
+      "eyebrow2": "吃得好，感觉更好，生活更充分",
+      "sectionTitle2": "用自然好食材滋养身体",
+      "sectionText2": "我们的食物即良药项目把餐食变成疗愈时刻，并根据独特营养需求定制，让每一口都更有价值。",
+      "cost": "费用：",
+      "costValue": "免费",
+      "locations": "移动市场地点：",
+      "locationsValue": "Bryant Woods, Blue Heron Ln, Columbia, MD",
+      "supportedBy": "支持方：",
+      "supportedByValue": "Howard County Innovation Grant、MyVeggieVan.org、MikeandMelCruiseIn.com、St. Francis Fulton、HCPSS、LHIC 等。",
+      "signupAlt": "报名参加食物即良药项目"
+    },
+    "resourceCenter": {
+      "title": "新社区资源支持中心",
+      "metaDescription": "社区资源支持中心通过紧急食物援助和教育项目解决食物不安全与健康社会因素。",
+      "paragraphs": [
+        "LindaBen Foundation 很高兴宣布新社区资源支持中心开放。该项目为服务不足社区提供补充紧急食物和社区支持。",
+        "新地点将作为服务枢纽，让个人和家庭预约获得符合时间安排的紧急食物援助，也提供社区资源、活动和工作坊信息。",
+        "终结饥饿不只是提供食物，也需要教育和赋能社区。资源中心提供营养教育、烹饪课程和健康工作坊。"
+      ],
+      "imageAlt": "新社区资源支持中心",
+      "cards": [
+        [
+          "紧急食物援助",
+          "预约制的个性化支持。"
+        ],
+        [
+          "资源中心",
+          "获取本地活动、工作坊和社区资源信息。"
+        ],
+        [
+          "教育项目入口",
+          "营养教育、园艺机会、烹饪课程和健康工作坊，促进健康生活。"
+        ]
+      ]
+    },
+    "youthVolunteerism": {
+      "title": "青少年志愿服务",
+      "metaDescription": "赋能下一代改变者。加入青少年志愿者，一起在本地社区对抗儿童饥饿和无家可归。",
+      "eyebrow": "赋能下一代",
+      "heading": "加入改变者的行动",
+      "paragraphs": [
+        "LindaBen Foundation 的青少年志愿者肩负重要使命，在学校和本地社区对抗儿童饥饿和无家可归，创造积极改变。",
+        "志愿者对暑期项目和其他活动至关重要。我们邀请你一起创造持久解决方案。"
+      ],
+      "submitHours": "提交时数",
+      "signUp": "报名",
+      "imageAlt": "青少年志愿服务",
+      "cards": [
+        [
+          "创造改变",
+          "志愿服务让你直接帮助缓解饥饿并改善社区福祉。"
+        ],
+        [
+          "提升技能",
+          "参与食物救援、社交媒体倡导等不同角色，在贡献中提升能力。"
+        ],
+        [
+          "建立有影响力的连接",
+          "认识志同道合的人，建立致力于社区成长与福祉的网络。"
+        ]
+      ]
+    },
+    "communityOutreach": {
+      "title": "社区外展",
+      "metaDescription": "携手同心服务社区。加入由 30 多个组织组成的网络，共同终结儿童饥饿和无家可归。",
+      "eyebrow": "携手同心服务",
+      "heading": "让你的声音在社区中回响",
+      "paragraphs": [
+        "我们与本地和非营利机构的合作至关重要，使我们在第一年就能联合 30 多个组织，共同鼓励更广泛社区参与终结儿童饥饿和无家可归。",
+        "我们邀请你加入这项行动。你的参与帮助我们建立强大的援助网络，为迫切需要帮助的人提供支持。"
+      ],
+      "imageAlt": "社区外展"
+    },
+    "partnershipsPrograms": {
+      "title": "合作伙伴",
+      "metaDescription": "通过战略合作建设更强社区，了解我们与 Capital Area Food Bank、Blessings in a Backpack 等组织的合作。",
+      "eyebrow": "携手更强",
+      "heading": "为更好的社区搭建桥梁",
+      "paragraphs": [
+        "LindaBen Foundation 与多个项目合作，为弱势群体提供食物、用品和服务，包括 Capital Area Food Bank 和 Blessings in a Backpack。",
+        "通过战略合作和协同行动，我们扩大影响力，服务马里兰及更广范围内更多有需要的家庭。"
+      ],
+      "imageAlt": "合作伙伴",
+      "cards": [
+        [
+          "Blessings in a Backpack",
+          "为周末可能无法获得充足营养的小学生提供周末食物项目。"
+        ],
+        [
+          "Capital Area Food Bank",
+          "为我们的社区食品储藏室提供新鲜农产品、主食和营养食物，支持食物不安全家庭。"
+        ],
+        [
+          "Greater Riverdale Cares",
+          "在社区外展和资源共享方面合作，更好服务 Greater Riverdale 地区家庭。"
+        ]
+      ]
+    },
+    "communityPantry": {
+      "title": "社区食品储藏室",
+      "metaDescription": "通过社区食品储藏室正面应对饥饿问题，每月为 850 多个家庭提供新鲜食物和重要资源。",
+      "eyebrow": "正面应对饥饿",
+      "heading": "滋养我们的社区",
+      "paragraphs": [
+        "在美国，饥饿仍然是紧迫问题。受经济压力影响，许多家庭不得不购买更便宜、营养较低的食物来延长预算。",
+        "LindaBen Foundation 通过直接干预和连接社区资源来回应这些挑战。"
+      ],
+      "impactTitle": "我们的影响",
+      "impactText": "在 Capital Area Food Bank、Whole Foods、Costco、Amazon、Passion & Compassion 以及 Howard 和 Prince George’s County 公立学校系统等伙伴支持下，我们的社区食品储藏室平均每月服务 30,000 磅食物，支持 850 多个家庭，约 3,000 人受益。",
+      "locationsTitle": "服务地点",
+      "location1Title": "地点 #1：LindaBen Community Food Hub",
+      "location1Address": "10739 Tucker St, ste 222, Beltsville, MD 20705",
+      "location1Times": [
+        "周二：下午 4:30 - 6:00",
+        "周三：下午 4:30 - 6:00",
+        "周六：上午 10:00 - 11:30"
+      ],
+      "location2Title": "地点 #2：Saint Bernard Catholic Church",
+      "location2Address": "5700 St Bernard Dr, Riverdale, MD 20737",
+      "location2Times": [
+        "周二：上午 11:00 - 下午 1:00"
+      ],
+      "scheduleNote": "详情请查看下方 2025 食物分发时间表",
+      "supportedBy": "支持方：",
+      "supporters": "Capital Area Food Bank, Maryland Diaper Bank, MD State Community Development, Prince Georges Health Department, Celestial Manna, FDC, Central Union Mission, Amazon Local Good, UMD Ext SNAP Ed",
+      "contactStart": "如需你所在地区的其他社区资源，请联系",
+      "contactEnd": "以便获得协助",
+      "foodDistribution": "2025 食物分发",
+      "clickSchedule": "点击查看时间表",
+      "signUpVolunteer": "报名志愿服务",
+      "imageAlt": "社区食品储藏室",
+      "contactUs": "联系我们",
+      "assistance": "获取协助或更多详情。",
+      "cards": [
+        [
+          "食物分发时间表",
+          "社区食品储藏室以有尊严的方式提供饥饿救助，每周欢迎弱势家庭领取食物支持。"
+        ],
+        [
+          "尿布分发",
+          "我们确保婴幼儿拥有必要用品。"
+        ],
+        [
+          "社区健康伙伴",
+          "我们致力于全人关怀，并与健康伙伴合作，在不同食品储藏室时段提供补充支持。"
+        ]
+      ],
+      "healthSchedule": "每周二和周三，通过场外与现场支持进行。"
+    },
+    "volunteer": {
+      "title": "志愿与报名机会",
+      "heroAlt": "志愿服务图片",
+      "quote": "若有人说自己有信心，却没有行为，有什么益处呢？你将你没有行为的信心指给我看，我便借着我的行为，将我的信心指给你看。",
+      "cite": "雅各书 2:18",
+      "signUpHere": "在此报名",
+      "logHoursHere": "在此记录时数",
+      "seeMoreHere": "查看更多",
+      "visitSharedFolder": "访问共享文件夹",
+      "diaperLogLink": "尿布分发记录",
+      "imageAlt": "志愿者社区",
+      "sections": [
+        [
+          "社区食品领取登记",
+          "我们目前非常需要司机帮助领取食物捐赠，并为无法到访食品储藏室的家庭传递信息和支持。"
+        ],
+        [
+          "加入我们",
+          "LindaBen 寻找志同道合的人，为本地社区改变提供动力。如果你能贡献时间，请告诉我们你可以如何帮助。"
+        ],
+        [
+          "志愿时数与时间追踪",
+          "已经在志愿服务或与我们合作？请使用在线表格记录服务时数，以便审核、确认并用于学校或组织记录。"
+        ],
+        [
+          "其他报名机会",
+          "加入 LindaBen Foundation 志愿者社区。"
+        ],
+        [
+          "志愿者文件",
+          "需要 Google 登录。"
+        ],
+        [
+          "尿布分发记录",
+          "婴幼儿必需品"
+        ]
+      ]
+    },
+    "aboutUs": {
+      "title": "关于我们",
+      "metaDescription": "Learn about LindaBen Foundation's mission to be a channel of safe haven for the homeless, at-risk population and underserved community.",
+      "heroText": "LindaBen Foundation 为本地社区和过渡期家庭提供儿童与家庭稳定服务、可负担住房支持、健康食物获取、综合服务和自立路径。",
+      "missionTitle": "我们的使命",
+      "missionText": "成为无家可归者、高风险人群和服务不足社区的安全港湾，以爱与友谊为基础改善他们的处境并提供综合支持。",
+      "visionTitle": "我们的愿景",
+      "visionText": "赋能有需要和被忽视的人，让他们提升生活质量，并在社区中感到有价值、安全和被接纳。",
+      "historyEyebrow": "关怀之旅",
+      "historyTitle": "我们的历史",
+      "historyText": "LindaBen Foundation 为纪念 Anna S. Beavan 的父母 Linda Santos 和 Ben Dimatangal 而成立，也献给那些无家可归、贫困、抑郁、精神健康困扰或成瘾中受苦的人。",
+      "fullStory": "查看完整故事",
+      "historyAlt": "LindaBen Foundation 历史",
+      "leadersEyebrow": "服务型领导者",
+      "leadershipTitle": "领导力",
+      "leadershipTexts": [
+        "成功的领导始于真诚服务他人并守护使命的愿望。",
+        "董事会成员和志愿者在改善有需要者生活、推进使命方面发挥关键作用。"
+      ],
+      "peopleEyebrow": "希望的守护者",
+      "peopleTitle": "我们的团队",
+      "boardTitle": "董事会",
+      "operationsTitle": "运营团队",
+      "boardRole": "董事会成员",
+      "teamRole": "运营团队成员"
+    },
+    "history": {
+      "title": "我们的历史",
+      "metaDescription": "了解 LindaBen Foundation 的创立故事：从信仰与关怀的个人旅程，到服务有需要人群的使命。",
+      "quote": "我知道怎样处卑贱，也知道怎样处丰富；或饱足、或饥饿、或有余、或缺乏，随事随在，我都得了秘诀。靠着那加给我力量的，我凡事都能做。",
+      "cite": "腓立比书 4:12-13",
+      "messageTitle": "Anna Beavan（Dimatangal）创始人与主席的个人信息",
+      "imageAlt1": "Anna Beavan 早年",
+      "imageAlt2": "Anna Beavan 家庭与基金会",
+      "paragraphs": [
+        "Anna Beavan 年轻时接触到关于第二次机会的故事，这塑造了她的信仰与关怀。失去母亲后，她获得了新的视角，也埋下了使命的种子。",
+        "多年后，家庭经历、无家可归者服务和重新燃起的信仰，让创立基金会的想法更加清晰。LindaBen Foundation 源于爱、纪念，以及扶起被遗忘生命的愿望。",
+        "父亲的离世和他生命中的艰难经历，让她更加确定自己要建立怎样的基金会。",
+        "2020 年带来不确定和痛苦时，Anna 选择凭信心继续前行，因为她相信此时更需要帮助之手和善良之心。"
+      ]
+    },
+    "resources": {
+      "title": "帮助与资源",
+      "intro": "查找与 LindaBen Foundation 项目相关的问卷、支持工具、伙伴资源和糖尿病意识材料。",
+      "surveyButton": "填写问卷",
+      "externalResource": "打开资源",
+      "diabetesTitle": "糖尿病意识资源",
+      "cardsTitle": "资源伙伴",
+      "items": [
+        "食物即良药新鲜农产品箱前测问卷",
+        "食物即良药新鲜农产品箱后测问卷",
+        "Eat Well Be Well 前测问卷",
+        "Eat Well Be Well 后测问卷",
+        "社区食物与营养安全问卷",
+        "Levitate TLF 问卷"
+      ]
+    },
+    "events": {
+      "title": "近期活动",
+      "today": "今天",
+      "previousYear": "上一年",
+      "nextYear": "下一年",
+      "previousMonth": "上个月",
+      "nextMonth": "下个月",
+      "months": [
+        "一月",
+        "二月",
+        "三月",
+        "四月",
+        "五月",
+        "六月",
+        "七月",
+        "八月",
+        "九月",
+        "十月",
+        "十一月",
+        "十二月"
+      ],
+      "days": [
+        "星期日",
+        "星期一",
+        "星期二",
+        "星期三",
+        "星期四",
+        "星期五",
+        "星期六"
+      ],
+      "marketTitle": "LindaBen 健康食品市集（食物发放）",
+      "marketDescription": "每周三凌晨 1 点至 3 点提供自主选择式食物发放，登记于午夜 12 点开始。",
+      "marketRelief": "LindaBen 通过社区食品储藏室，为脆弱家庭提供饥饿救助和健康食品获取支持。"
+    }
+  },
+  "newsletter": {
+    "title": "通讯",
+    "description": "LindaBen Foundation 最新通讯、项目动态和公告。",
+    "empty": "暂无已发布的通讯内容。"
   }
 }

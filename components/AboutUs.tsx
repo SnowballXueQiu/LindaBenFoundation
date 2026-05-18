@@ -1,7 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useI18n } from "@/lib/i18n/client";
+import { withLocale } from "@/lib/i18n/config";
 
 export default function AboutUs() {
+  const { locale, dictionary } = useI18n();
+  const home = dictionary.home;
+
   return (
     <section
       id="about"
@@ -34,7 +41,7 @@ export default function AboutUs() {
                 MD
               </span>
               <span className="text-xs mt-1 opacity-80 leading-tight px-2">
-                Serving Maryland
+                {home.servingMaryland}
               </span>
             </div>
           </div>
@@ -45,7 +52,7 @@ export default function AboutUs() {
               className="text-sm font-semibold tracking-[0.18em] uppercase mb-4"
               style={{ color: "var(--green-mid)" }}
             >
-              Who We Are
+              {home.aboutEyebrow}
             </p>
             <h2
               className="text-3xl lg:text-4xl font-bold mb-6 leading-snug"
@@ -54,33 +61,26 @@ export default function AboutUs() {
                 fontFamily: "var(--font-merriweather), serif",
               }}
             >
-              About Us
+              {home.aboutTitle}
             </h2>
             <p
               className="text-base leading-relaxed mb-6"
               style={{ color: "var(--text-mid)" }}
             >
-              The LindaBen Foundation offers various innovative solutions to
-              strengthen food security, address food waste reduction and address
-              health disparities. We provide equitable access to nutrient dense
-              food along with nutrition education workshops and access to
-              resources promoting well being of the underserved and vulnerable
-              population.
+              {home.aboutText1}
             </p>
             <p
               className="text-base leading-relaxed mb-8"
               style={{ color: "var(--text-mid)" }}
             >
-              Through outreach and partnerships, we increase our capacity to
-              improve quality of life of many. Together, our dedicated team turns
-              our moral convictions into actions.
+              {home.aboutText2}
             </p>
             <Link
-              href="/about-us"
+              href={withLocale("/about-us", locale)}
               className="inline-block px-7 py-3.5 rounded-full font-semibold text-white transition-all duration-200 hover:opacity-90"
               style={{ background: "var(--green-deep)" }}
             >
-              More About Us
+              {home.moreAboutUs}
             </Link>
           </div>
         </div>

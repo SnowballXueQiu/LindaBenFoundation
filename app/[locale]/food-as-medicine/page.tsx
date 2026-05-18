@@ -7,14 +7,28 @@ import ScrollAnimatedImage from "@/components/ScrollAnimatedImage";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { defaultLocale, getAlternates, isSupportedLocale, withLocale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
-export const metadata: Metadata = {
-  title: "Food as Medicine — LindaBen Foundation",
-  description:
-    "Transform meals into healing moments with our Food as Medicine program. Free nutritious food boxes designed to meet unique nutritional needs.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const dictionary = await getDictionary(locale);
+  const page = dictionary.pages.foodAsMedicine;
 
-export default function FoodAsMedicinePage() {
+  return {
+    title: `${page.title} — LindaBen Foundation`,
+    description: page.metaDescription,
+    alternates: { canonical: `/${locale}/food-as-medicine`, languages: getAlternates("/food-as-medicine") },
+  };
+}
+
+export default async function FoodAsMedicinePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const dictionary = await getDictionary(locale);
+  const page = dictionary.pages.foodAsMedicine;
+
   return (
     <>
       <Header />
@@ -34,7 +48,7 @@ export default function FoodAsMedicinePage() {
               className="text-4xl lg:text-6xl font-bold text-white mb-8"
               style={{ fontFamily: "var(--font-merriweather), serif" }}
             >
-              Food as Medicine
+              {page.title}
             </h1>
           </div>
         </section>
@@ -52,7 +66,7 @@ export default function FoodAsMedicinePage() {
                   className="text-sm font-semibold tracking-[0.18em] uppercase mb-4"
                   style={{ color: "var(--green-mid)" }}
                 >
-                  Nourishing Families, One Box at a Time
+                  {page.eyebrow1}
                 </p>
                 
                 <h2
@@ -62,11 +76,12 @@ export default function FoodAsMedicinePage() {
                     fontFamily: "var(--font-merriweather), serif",
                   }}
                 >
-                  Food as Medicine Produce Box
+                  {page.sectionTitle1}
                 </h2>
                 
                 <div className="space-y-8">
-                  <div>
+                  {page.blocks.map(([title, text]) => (
+                  <div key={title}>
                     <h3
                       className="text-xl font-bold mb-4"
                       style={{ 
@@ -74,96 +89,36 @@ export default function FoodAsMedicinePage() {
                         fontFamily: "var(--font-merriweather), serif" 
                       }}
                     >
-                      What We Curate:
-                    </h3>
-                    <p
-                      className="text-base leading-relaxed"
-                      style={{ color: "var(--text-mid)" }}
-                    >
-                      Each family receives two boxes filled with fresh fruits, vegetables, eggs, 
-                      pantry staples like pasta kits, oils, seasonings, ready-to-eat meals, rice, 
-                      beans, and flour. When available, premium meat and fish are also included.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3
-                      className="text-xl font-bold mb-4"
-                      style={{ 
-                        color: "var(--green-deep)",
-                        fontFamily: "var(--font-merriweather), serif" 
-                      }}
-                    >
-                      Customizable to Fit Your Needs:
-                    </h3>
-                    <p
-                      className="text-base leading-relaxed"
-                      style={{ color: "var(--text-mid)" }}
-                    >
-                      We adapt our offerings based on your budget and capacity. By listening to 
-                      your feedback, we create food options that are culturally sensitive and 
-                      meet the unique needs of your community.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3
-                      className="text-xl font-bold mb-4"
-                      style={{ 
-                        color: "var(--green-deep)",
-                        fontFamily: "var(--font-merriweather), serif" 
-                      }}
-                    >
-                      Supporting Local Agriculture:
-                    </h3>
-                    <p
-                      className="text-base leading-relaxed"
-                      style={{ color: "var(--text-mid)" }}
-                    >
-                      We prioritize organic, regionally sourced produce, ensuring high-quality 
-                      food while supporting local farmers and promoting sustainability.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3
-                      className="text-xl font-bold mb-4"
-                      style={{ 
-                        color: "var(--green-deep)",
-                        fontFamily: "var(--font-merriweather), serif" 
-                      }}
-                    >
-                      Education Beyond Nutrition:
+                      {title}
                     </h3>
                     <p
                       className="text-base leading-relaxed mb-8"
                       style={{ color: "var(--text-mid)" }}
                     >
-                      Each box includes a bilingual guide with cooking tips, nutritional 
-                      information, and life-skills to encourage healthier lifestyle choices 
-                      for students and families.
+                      {text}
                     </p>
                   </div>
+                  ))}
                 </div>
 
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link
-                    href="/newsletter"
+                    href={withLocale("/blogs", locale)}
                     className="inline-block px-7 py-3.5 rounded-full font-semibold text-white transition-all duration-200 hover:opacity-90 text-center"
                     style={{ background: "var(--green-deep)" }}
                   >
-                    Blog
+                    {page.blog}
                   </Link>
                   <Link
-                    href="/contact"
+                    href={withLocale("/contact", locale)}
                     className="inline-block px-7 py-3.5 rounded-full font-semibold transition-all duration-200 hover:opacity-90 text-center border-2"
                     style={{ 
                       color: "var(--green-deep)", 
                       borderColor: "var(--green-deep)" 
                     }}
                   >
-                    Contact for Information
+                    {page.contactInfo}
                   </Link>
                 </div>
               </div>
@@ -172,7 +127,7 @@ export default function FoodAsMedicinePage() {
               <div className="order-1 lg:order-2 flex justify-center">
                 <ScrollAnimatedImage
                   src="/food-as-medicine/1.png"
-                  alt="Fresh nutritious food boxes"
+                  alt={page.imageAlt1}
                   width={320}
                   height={320}
                   animationDelay={0.2}
@@ -193,7 +148,7 @@ export default function FoodAsMedicinePage() {
               <div className="flex justify-center">
                 <ScrollAnimatedImage
                   src="/food-as-medicine/2.png"
-                  alt="Mobile market and community support"
+                  alt={page.imageAlt2}
                   width={320}
                   height={320}
                   animationDelay={0.3}
@@ -206,7 +161,7 @@ export default function FoodAsMedicinePage() {
                   className="text-sm font-semibold tracking-[0.18em] uppercase mb-4"
                   style={{ color: "var(--green-mid)" }}
                 >
-                  Eat Well, Feel Better, Live Fully
+                  {page.eyebrow2}
                 </p>
                 
                 <h2
@@ -216,16 +171,14 @@ export default function FoodAsMedicinePage() {
                     fontFamily: "var(--font-merriweather), serif",
                   }}
                 >
-                  Fuel Your Body with Nature&rsquo;s Best
+                  {page.sectionTitle2}
                 </h2>
 
                 <p
                   className="text-base lg:text-lg leading-relaxed mb-8"
                   style={{ color: "var(--text-mid)" }}
                 >
-                  Our Food as Medicine (FAM) Rx Program is designed to transform meals into 
-                  healing moments. Tailored to meet unique nutritional needs, this program 
-                  ensures every bite counts, helping you feel better and live fully.
+                  {page.sectionText2}
                 </p>
 
                 <div className="space-y-6 mb-8">
@@ -234,13 +187,13 @@ export default function FoodAsMedicinePage() {
                       className="text-lg font-bold mb-2"
                       style={{ color: "var(--green-deep)" }}
                     >
-                      Cost:
+                      {page.cost}
                     </h4>
                     <p
                       className="text-base"
                       style={{ color: "var(--text-dark)" }}
                     >
-                      Free
+                      {page.costValue}
                     </p>
                   </div>
 
@@ -249,13 +202,13 @@ export default function FoodAsMedicinePage() {
                       className="text-lg font-bold mb-2"
                       style={{ color: "var(--green-deep)" }}
                     >
-                      Mobile Market Locations:
+                      {page.locations}
                     </h4>
                     <p
                       className="text-base"
                       style={{ color: "var(--text-dark)" }}
                     >
-                      Bryant Woods, Blue Heron Ln, Columbia, MD
+                      {page.locationsValue}
                     </p>
                   </div>
 
@@ -264,14 +217,13 @@ export default function FoodAsMedicinePage() {
                       className="text-lg font-bold mb-2"
                       style={{ color: "var(--green-deep)" }}
                     >
-                      Supported by:
+                      {page.supportedBy}
                     </h4>
                     <p
                       className="text-base leading-relaxed"
                       style={{ color: "var(--text-dark)" }}
                     >
-                      Howard County Innovation Grant, MyVeggieVan.org, MikeandMelCruiseIn.com, 
-                      St. Francis Fulton, HCPSS, LHIC, and more.
+                      {page.supportedByValue}
                     </p>
                   </div>
                 </div>
@@ -279,11 +231,11 @@ export default function FoodAsMedicinePage() {
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 items-center">
                   <Link
-                    href="/donations"
+                    href={withLocale("/donations", locale)}
                     className="inline-block px-7 py-3.5 rounded-full font-semibold text-white transition-all duration-200 hover:opacity-90"
                     style={{ background: "var(--green-deep)" }}
                   >
-                    Donate
+                    {dictionary.common.donate}
                   </Link>
                   <a
                     href="https://signup.com/go/QhdcRuv"
@@ -293,7 +245,7 @@ export default function FoodAsMedicinePage() {
                   >
                     <Image
                       src="/food-as-medicine/signup.png"
-                      alt="Sign up for Food as Medicine program"
+                      alt={page.signupAlt}
                       width={120}
                       height={48}
                       className="h-12 w-auto"

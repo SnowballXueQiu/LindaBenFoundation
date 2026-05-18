@@ -5,8 +5,15 @@ import DonationCTA from "@/components/DonationCTA";
 import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
 import { partners } from "@/lib/partners";
+import { defaultLocale, isSupportedLocale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
-export default function OurPartnersPage() {
+export default async function OurPartnersPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const dictionary = await getDictionary(locale);
+  const page = dictionary.pages.ourPartners;
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -26,7 +33,7 @@ export default function OurPartnersPage() {
             className="text-4xl lg:text-6xl font-bold text-white"
             style={{ fontFamily: "var(--font-merriweather), serif" }}
           >
-            Collaborative Partners
+            {page.heroTitle}
           </h1>
         </div>
       </section>
@@ -39,7 +46,7 @@ export default function OurPartnersPage() {
               className="text-lg lg:text-xl leading-relaxed"
               style={{ color: "var(--text-mid)" }}
             >
-              LindaBen Foundation partners with several allies to further its mission and goal.
+              {page.description}
             </p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">

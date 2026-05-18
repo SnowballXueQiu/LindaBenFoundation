@@ -1,27 +1,35 @@
+"use client";
+
 import Image from "next/image";
+import Link from "next/link";
+import { useI18n } from "@/lib/i18n/client";
+import { withLocale } from "@/lib/i18n/config";
 
 const cards = [
   {
-    title: "Donate",
-    text: "Giving online has never been more secure, convenient or hassle-free. We also accept cash or checks, and donations in kind. Your gift will help equip those in need with more opportunity and a brighter future.",
+    titleKey: "donate",
+    textKey: "donateHelp",
     img: "/you_can_help/donate.png",
     href: "/donations",
   },
   {
-    title: "Volunteer",
-    text: "Get involved today by becoming a volunteer. Play a vital role improving the lives of people who experience food insecurity. Learn more about opportunities and ways you can help.",
+    titleKey: "volunteer",
+    textKey: "volunteerHelp",
     img: "/you_can_help/volunteer.png",
     href: "/volunteer",
   },
   {
-    title: "Subscribe",
-    text: "Subscribe to our newsletter to stay informed about food insecurity, including news, events and articles, or donate and contribute and help us sustain programs and meet our goals.",
+    titleKey: "subscribe",
+    textKey: "subscribeHelp",
     img: "/you_can_help/subscribe.png",
     href: "/newsletter",
   },
-];
+] as const;
 
 export default function HowToHelp() {
+  const { locale, dictionary } = useI18n();
+  const home = dictionary.home;
+
   return (
     <section
       className="py-20 lg:py-28"
@@ -34,7 +42,7 @@ export default function HowToHelp() {
             className="text-sm font-semibold tracking-[0.18em] uppercase mb-3"
             style={{ color: "var(--green-mid)" }}
           >
-            Be Your Brother&rsquo;s &amp; Sister&rsquo;s Keepers
+            {home.helpEyebrow}
           </p>
           <h2
             className="text-3xl lg:text-4xl font-bold"
@@ -43,23 +51,25 @@ export default function HowToHelp() {
               fontFamily: "var(--font-merriweather), serif",
             }}
           >
-            How You Can Help
+            {home.helpTitle}
           </h2>
         </div>
 
         {/* Cards */}
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-          {cards.map((card) => (
-            <a
-              key={card.title}
-              href={card.href}
+          {cards.map((card) => {
+            const title = card.titleKey === "donate" ? dictionary.common.donate : home[card.titleKey];
+            return (
+            <Link
+              key={card.titleKey}
+              href={withLocale(card.href, locale)}
               className="group relative rounded-2xl overflow-hidden block"
               style={{ aspectRatio: "4/5" }}
             >
               {/* Image */}
               <Image
                 src={card.img}
-                alt={card.title}
+                alt={title}
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 33vw"
@@ -76,14 +86,14 @@ export default function HowToHelp() {
                   className="text-3xl lg:text-4xl font-bold text-white mb-4"
                   style={{ fontFamily: "var(--font-merriweather), serif" }}
                 >
-                  {card.title}
+                  {title}
                 </h3>
                 <p className="text-sm leading-relaxed text-white/90 max-w-xs">
-                  {card.text}
+                  {home[card.textKey]}
                 </p>
               </div>
-            </a>
-          ))}
+            </Link>
+          )})}
         </div>
 
         {/* Equal opportunity note */}
@@ -91,8 +101,7 @@ export default function HowToHelp() {
           className="text-center text-xs font-semibold tracking-[0.12em] uppercase mt-14 opacity-60"
           style={{ color: "var(--text-mid)" }}
         >
-          LindaBen is an equal opportunity employer committed to diversity,
-          equity, equality, inclusion and justice.
+          {home.equalOpportunity}
         </p>
       </div>
     </section>

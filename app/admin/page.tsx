@@ -5,13 +5,13 @@ import type { ArticleType } from "@/lib/content/types";
 
 const sections: Array<{ type: ArticleType; title: string }> = [
   { type: "blogs", title: "Blogs" },
-  { type: "news", title: "News" },
+  { type: "newsletter", title: "Newsletter" },
 ];
 
 export default async function AdminDashboardPage() {
   await requireAdmin();
-  const [blogs, news] = await Promise.all([listArticles("blogs", undefined, true), listArticles("news", undefined, true)]);
-  const articles = { blogs, news };
+  const [blogs, newsletter] = await Promise.all([listArticles("blogs", undefined, true), listArticles("newsletter", undefined, true)]);
+  const articles = { blogs, newsletter };
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-10">

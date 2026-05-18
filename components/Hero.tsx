@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useI18n } from "@/lib/i18n/client";
+import { withLocale } from "@/lib/i18n/config";
 
 const smoothScrollTo = (elementId: string) => {
   const element = document.getElementById(elementId);
@@ -41,6 +43,8 @@ const slides = [
 
 export default function Hero() {
   const [current, setCurrent] = useState(0);
+  const { locale, dictionary } = useI18n();
+  const home = dictionary.home;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -86,21 +90,21 @@ export default function Hero() {
               className="text-sm font-semibold tracking-[0.2em] uppercase mb-4"
               style={{ color: "var(--green-light)" }}
             >
-              Maryland&rsquo;s Community Foundation
+              {home.heroEyebrow}
             </p>
             <h1
               className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.08] mb-5 text-white"
               style={{ fontFamily: "var(--font-merriweather), serif" }}
             >
-              The LindaBen
+              {home.heroTitleLine1}
               <br />
-              Foundation
+              {home.heroTitleLine2}
             </h1>
             <p
               className="text-lg md:text-xl font-light mb-10 leading-relaxed"
               style={{ color: "rgba(255,255,255,0.88)" }}
             >
-              Servants of Those in Need &amp; The Invisible
+              {home.heroSubtitle}
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -109,13 +113,13 @@ export default function Hero() {
                 className="px-7 py-3.5 rounded-full font-semibold text-white transition-all duration-200 hover:brightness-110 hover:scale-[1.02] active:scale-[0.98]"
                 style={{ background: "var(--green-mid)" }}
               >
-                Our Programs
+                {home.programsTitle}
               </button>
               <Link
-                href="/donations"
+                href={withLocale("/donations", locale)}
                 className="px-7 py-3.5 rounded-full font-semibold border-2 border-white text-white transition-all duration-200 hover:bg-white hover:text-[--green-deep] active:scale-[0.98]"
               >
-                Ways to Give
+                {home.waysToGive}
               </Link>
             </div>
           </div>

@@ -1,4 +1,4 @@
-export const DEFAULT_SUPPORTED_LOCALES = ["en", "zh"] as const;
+export const DEFAULT_SUPPORTED_LOCALES = ["en", "es", "fa", "fr", "ur", "ko", "ps", "zh"] as const;
 
 export type Locale = (typeof DEFAULT_SUPPORTED_LOCALES)[number] | string;
 

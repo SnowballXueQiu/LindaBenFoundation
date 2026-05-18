@@ -3,8 +3,15 @@ import Header from "@/components/Header";
 import DonationCTA from "@/components/DonationCTA";
 import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
+import { defaultLocale, isSupportedLocale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
-export default function FinancialsPage() {
+export default async function FinancialsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const dictionary = await getDictionary(locale);
+  const page = dictionary.pages.financials;
+
   const financialReports = [
     {
       year: "FY 2022",
@@ -52,7 +59,7 @@ export default function FinancialsPage() {
               fontFamily: "var(--font-merriweather), serif",
             }}
           >
-            Financials
+            {page.heroTitle}
           </h1>
         </div>
       </section>
@@ -69,7 +76,7 @@ export default function FinancialsPage() {
                   fontFamily: "var(--font-merriweather), serif",
                 }}
               >
-                Download Our Financial Reports
+                {page.downloadTitle}
               </h2>
               <div className="space-y-6">
                 {financialReports.map((report, index) => (
@@ -89,7 +96,7 @@ export default function FinancialsPage() {
                         className="text-sm"
                         style={{ color: "var(--text-mid)" }}
                       >
-                        Financial report for fiscal year
+                        {page.reportFor}
                       </p>
                     </div>
                     <a
@@ -112,7 +119,7 @@ export default function FinancialsPage() {
                           d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                         />
                       </svg>
-                      Download PDF
+                      {page.downloadPdf}
                     </a>
                   </div>
                 ))}
@@ -122,7 +129,7 @@ export default function FinancialsPage() {
               <div className="w-80 h-80 rounded-full overflow-hidden shadow-lg">
                 <Image
                   src="/financials/image.png"
-                  alt="Financial Reports"
+                  alt={page.imageAlt}
                   width={320}
                   height={320}
                   loading="eager"

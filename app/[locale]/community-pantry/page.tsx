@@ -6,14 +6,28 @@ import ParallaxBg from "@/components/ParallaxBg";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { defaultLocale, getAlternates, isSupportedLocale, withLocale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
-export const metadata: Metadata = {
-  title: "Community Pantry — LindaBen Foundation",
-  description:
-    "Addressing hunger head-on through our Community Pantry program. Serving over 850 households monthly with fresh food and essential resources.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const dictionary = await getDictionary(locale);
+  const page = dictionary.pages.communityPantry;
 
-export default function CommunityPantryPage() {
+  return {
+    title: `${page.title} — LindaBen Foundation`,
+    description: page.metaDescription,
+    alternates: { canonical: `/${locale}/community-pantry`, languages: getAlternates("/community-pantry") },
+  };
+}
+
+export default async function CommunityPantryPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: rawLocale } = await params;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const dictionary = await getDictionary(locale);
+  const page = dictionary.pages.communityPantry;
+
   return (
     <>
       <Header />
@@ -31,7 +45,7 @@ export default function CommunityPantryPage() {
               className="text-4xl lg:text-6xl font-bold text-white mb-8"
               style={{ fontFamily: "var(--font-merriweather), serif" }}
             >
-              Community Pantry
+              {page.title}
             </h1>
           </div>
         </section>
@@ -50,7 +64,7 @@ export default function CommunityPantryPage() {
                     className="text-sm font-semibold tracking-[0.18em] uppercase"
                     style={{ color: "var(--green-mid)" }}
                   >
-                    Addressing Hunger Head-On
+                    {page.eyebrow}
                   </p>
                   
                   <h2
@@ -60,24 +74,20 @@ export default function CommunityPantryPage() {
                       fontFamily: "var(--font-merriweather), serif",
                     }}
                   >
-                    Nourishing Our Community
+                    {page.heading}
                   </h2>
                   
                   <div className="space-y-6 text-base leading-relaxed" style={{ color: "var(--text-mid)" }}>
-                    <p>
-                      In the United States, hunger remains a pressing concern, with approximately one in six children at risk due to the economic impact of recent global events, including the coronavirus pandemic. It is reported by Feeding America that 84% of households are purchasing less expensive, often less nutritious food to stretch their budgets further.
-                    </p>
-                    
-                    <p>
-                      At LindaBen Foundation, we respond to these challenges through direct intervention and support methodologies that are linked to community resources.
-                    </p>
+                    {page.paragraphs.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
                     
                     <div className="bg-white rounded-xl p-6 border-l-4" style={{ borderColor: "var(--green-mid)" }}>
                       <p className="font-semibold text-lg mb-3" style={{ color: "var(--green-deep)" }}>
-                        Our Impact
+                        {page.impactTitle}
                       </p>
                       <p>
-                        With the partnership of the Capital Area Food Bank, Whole Foods, Costco, Amazon, Passion & Compassion and public-school systems in Howard and Prince George&apos;s County, Maryland, our community pantries proudly serve an average of <strong>30,000 lbs of food monthly</strong>. This effort translates to supporting over <strong>850 households</strong> and feeding around <strong>3,000 individuals</strong> every month.
+                        {page.impactText}
                       </p>
                     </div>
                   </div>
@@ -86,13 +96,13 @@ export default function CommunityPantryPage() {
                 {/* Locations */}
                 <div className="space-y-6">
                   <h3 className="text-xl font-bold" style={{ color: "var(--green-deep)", fontFamily: "var(--font-merriweather), serif" }}>
-                    Our Service Locations
+                    {page.locationsTitle}
                   </h3>
                   
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="bg-white rounded-lg p-6 shadow-md">
                       <h4 className="font-bold text-lg mb-3" style={{ color: "var(--green-deep)" }}>
-                        Location #1: LindaBen Community Food Hub
+                        {page.location1Title}
                       </h4>
                       <div className="space-y-2 text-sm">
                         <Link 
@@ -102,19 +112,17 @@ export default function CommunityPantryPage() {
                           className="block font-medium hover:underline"
                           style={{ color: "var(--green-deep)" }}
                         >
-                          📍 10739 Tucker St, ste 222, Beltsville, MD 20705
+                          📍 {page.location1Address}
                         </Link>
                         <div className="space-y-1" style={{ color: "var(--text-mid)" }}>
-                          <p>• Tuesday: 4:30pm - 6:00pm</p>
-                          <p>• Wednesday: 4:30pm - 6:00pm</p>
-                          <p>• Saturday: 10:00am - 11:30am</p>
+                          {page.location1Times.map((time) => <p key={time}>• {time}</p>)}
                         </div>
                       </div>
                     </div>
                     
                     <div className="bg-white rounded-lg p-6 shadow-md">
                       <h4 className="font-bold text-lg mb-3" style={{ color: "var(--green-deep)" }}>
-                        Location #2: Saint Bernard Catholic Church
+                        {page.location2Title}
                       </h4>
                       <div className="space-y-2 text-sm">
                         <Link 
@@ -124,11 +132,11 @@ export default function CommunityPantryPage() {
                           className="block font-medium hover:underline"
                           style={{ color: "var(--green-deep)" }}
                         >
-                          📍 5700 St Bernard Dr, Riverdale, MD 20737
+                          📍 {page.location2Address}
                         </Link>
                         <div className="space-y-1" style={{ color: "var(--text-mid)" }}>
-                          <p>• Tuesday: 11:00am - 1:00pm</p>
-                          <p className="text-xs italic">(See 2025 Food Distribution Schedule below for details)</p>
+                          {page.location2Times.map((time) => <p key={time}>• {time}</p>)}
+                          <p className="text-xs italic">({page.scheduleNote})</p>
                         </div>
                       </div>
                     </div>
@@ -138,17 +146,17 @@ export default function CommunityPantryPage() {
                 {/* Partners */}
                 <div className="bg-gray-50 rounded-lg p-6">
                   <h4 className="font-semibold text-base mb-3" style={{ color: "var(--green-deep)" }}>
-                    Supported By:
+                    {page.supportedBy}
                   </h4>
                   <p className="text-sm leading-relaxed" style={{ color: "var(--text-mid)" }}>
-                    Capital Area Food Bank, Maryland Diaper Bank, MD State Community Development, Prince Georges Health Department, Celestial Manna, FDC, Central Union Mission, Amazon Local Good, UMD Ext SNAP Ed
+                    {page.supporters}
                   </p>
                 </div>
                 
                 {/* Contact Info */}
                 <div className="text-sm">
                   <p style={{ color: "var(--text-mid)" }}>
-                    For other community resources need in your area, contact us at{" "}
+                    {page.contactStart}{" "}
                     <Link 
                       href="mailto:info@lindabenfoundation.org"
                       className="font-medium hover:underline"
@@ -156,7 +164,7 @@ export default function CommunityPantryPage() {
                     >
                       info@lindabenfoundation.org
                     </Link>{" "}
-                    for accommodations
+                    {page.contactEnd}
                   </p>
                 </div>
                 
@@ -170,10 +178,10 @@ export default function CommunityPantryPage() {
                       className="block w-full text-center px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90"
                       style={{ background: "var(--green-deep)" }}
                     >
-                      Food Distribution 2025
+                      {page.foodDistribution}
                     </Link>
                     <p className="text-xs text-center mt-2" style={{ color: "var(--text-mid)" }}>
-                      *Click Here for Schedule*
+                      *{page.clickSchedule}*
                     </p>
                   </div>
                   <div className="flex-1">
@@ -184,7 +192,7 @@ export default function CommunityPantryPage() {
                       className="block w-full text-center px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90"
                       style={{ background: "var(--green-mid)" }}
                     >
-                      Sign Up to Volunteer
+                      {page.signUpVolunteer}
                     </Link>
                   </div>
                 </div>
@@ -195,7 +203,7 @@ export default function CommunityPantryPage() {
                 <div className="sticky top-32">
                   <Image
                     src="/community-pantry/image.png"
-                    alt="Community Pantry"
+                    alt={page.imageAlt}
                     width={500}
                     height={600}
                     className="w-full h-auto rounded-2xl shadow-xl"
@@ -216,16 +224,16 @@ export default function CommunityPantryPage() {
         >
           <div className="max-w-6xl mx-auto px-6 lg:px-12">
             <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
-              {/* Food Distribution Schedule */}
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+              {page.cards.map(([title, text], index) => (
+              <div key={title} className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
                 <div className="space-y-6">
                   <div 
                     className="w-16 h-16 rounded-full flex items-center justify-center"
                     style={{ background: "var(--green-pale)" }}
                   >
                     <Image
-                      src="/community-pantry/card_icon_1.svg"
-                      alt="Food Distribution Schedule"
+                      src={`/community-pantry/card_icon_${index + 1}.svg`}
+                      alt={title}
                       width={32}
                       height={32}
                       className="w-8 h-8"
@@ -239,7 +247,7 @@ export default function CommunityPantryPage() {
                       fontFamily: "var(--font-merriweather), serif",
                     }}
                   >
-                    Food Distribution Schedule
+                    {title}
                   </h3>
                   
                   <div className="space-y-4 text-sm" style={{ color: "var(--text-mid)" }}>
@@ -252,11 +260,9 @@ export default function CommunityPantryPage() {
                         className="hover:underline"
                         style={{ color: "var(--green-deep)" }}
                       >
-                        10739 Tucker St, ste 222, Beltsville, MD 20705
+                        {page.location1Address}
                       </Link>
-                      <p>Tuesday: 4:30pm - 6pm</p>
-                      <p>Wednesday: 4:30pm - 6pm</p>
-                      <p>Saturdays: 10:00am - 11:30am</p>
+                      {page.location1Times.map((time) => <p key={time}>{time}</p>)}
                     </div>
                     
                     <div>
@@ -268,113 +274,22 @@ export default function CommunityPantryPage() {
                         className="hover:underline"
                         style={{ color: "var(--green-deep)" }}
                       >
-                        5700 St Bernard Dr, Riverdale, MD 20737
+                        {page.location2Address}
                       </Link>
-                      <p>Tuesdays: 11am - 1pm</p>
+                      {page.location2Times.map((time) => <p key={time}>{time}</p>)}
                     </div>
                     
                     <p>
-                      <Link href="/contact" className="hover:underline" style={{ color: "var(--green-deep)" }}>Contact us</Link> for assistance or further details.
+                      <Link href={withLocale("/contact", locale)} className="hover:underline" style={{ color: "var(--green-deep)" }}>{page.contactUs}</Link> {page.assistance}
                     </p>
                     
                     <p className="text-xs italic">
-                      Offering hunger-relief with dignity, the Community Pantry welcomes vulnerable families every Tuesday for food support
+                      {index === 2 ? page.healthSchedule : text}
                     </p>
                   </div>
                 </div>
               </div>
-
-              {/* Diaper Distribution */}
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-                <div className="space-y-6">
-                  <div 
-                    className="w-16 h-16 rounded-full flex items-center justify-center"
-                    style={{ background: "var(--green-pale)" }}
-                  >
-                    <Image
-                      src="/community-pantry/card_icon_2.svg"
-                      alt="Diaper Distribution"
-                      width={32}
-                      height={32}
-                      className="w-8 h-8"
-                    />
-                  </div>
-                  
-                  <h3
-                    className="text-xl font-bold"
-                    style={{
-                      color: "var(--green-deep)",
-                      fontFamily: "var(--font-merriweather), serif",
-                    }}
-                  >
-                    Diaper Distribution
-                  </h3>
-                  
-                  <div className="space-y-4 text-sm" style={{ color: "var(--text-mid)" }}>
-                    <div>
-                      <Link 
-                        href="https://maps.app.goo.gl/tgsaZq7Epn5Lma2E8"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-semibold hover:underline"
-                        style={{ color: "var(--green-deep)" }}
-                      >
-                        10739 Tucker St, ste 222, Beltsville, MD 20705
-                      </Link>
-                      <p>Tuesdays: 5pm - 6pm</p>
-                      <p>Wednesdays: 4:30pm - 6pm</p>
-                    </div>
-                    
-                    <p>
-                      <Link href="/contact" className="hover:underline" style={{ color: "var(--green-deep)" }}>Contact us</Link> for assistance or further details.
-                    </p>
-                    
-                    <p className="text-xs italic">
-                      We ensure infants and toddlers have the essentials.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Community Health Partners */}
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-                <div className="space-y-6">
-                  <div 
-                    className="w-16 h-16 rounded-full flex items-center justify-center"
-                    style={{ background: "var(--green-pale)" }}
-                  >
-                    <Image
-                      src="/community-pantry/card_icon_3.svg"
-                      alt="Community Health Partners"
-                      width={32}
-                      height={32}
-                      className="w-8 h-8"
-                    />
-                  </div>
-                  
-                  <h3
-                    className="text-xl font-bold"
-                    style={{
-                      color: "var(--green-deep)",
-                      fontFamily: "var(--font-merriweather), serif",
-                    }}
-                  >
-                    Community Health Partners
-                  </h3>
-                  
-                  <div className="space-y-4 text-sm" style={{ color: "var(--text-mid)" }}>
-                    <p>Every Tuesdays and Wednesdays using offsite & onsite.</p>
-                    
-                    <p>
-                      <Link href="/contact" className="hover:underline" style={{ color: "var(--green-deep)" }}>Contact us</Link> for assistance or further details.
-                    </p>
-                    
-                    <p className="text-xs italic">
-                      Committed to whole-person care, we collaborate with health partners for complementary support during alternate pantry sessions.
-                    </p>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>

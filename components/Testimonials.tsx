@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useI18n } from "@/lib/i18n/client";
 
 const testimonials = [
   "Thank you for giving back and helping the community.",
@@ -66,6 +67,8 @@ export default function Testimonials() {
   const [fade, setFade] = useState(true);
   const [height, setHeight] = useState<number | undefined>(undefined);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { dictionary } = useI18n();
+  const home = dictionary.home;
 
   const goTo = useCallback((index: number) => {
     setFade(false);
@@ -105,7 +108,7 @@ export default function Testimonials() {
             className="text-sm font-semibold tracking-[0.18em] uppercase mb-3"
             style={{ color: "var(--green-mid)" }}
           >
-            From Our Community
+            {home.testimonialsEyebrow}
           </p>
           <h2
             className="text-3xl lg:text-4xl font-bold"
@@ -114,7 +117,7 @@ export default function Testimonials() {
               fontFamily: "var(--font-merriweather), serif",
             }}
           >
-            Testimonials
+            {home.testimonialsTitle}
           </h2>
         </div>
 
@@ -162,7 +165,7 @@ export default function Testimonials() {
                   className="text-sm font-medium"
                   style={{ color: "var(--green-mid)" }}
                 >
-                  Community Member
+                  {home.communityMember}
                 </span>
                 <span className="text-xs" style={{ color: "var(--text-mid)" }}>
                   · Maryland
@@ -182,7 +185,7 @@ export default function Testimonials() {
               color: "var(--green-deep)",
             }}
           >
-            Read More Testimonials
+            {home.readMoreTestimonials}
           </a>
         </div>
       </div>

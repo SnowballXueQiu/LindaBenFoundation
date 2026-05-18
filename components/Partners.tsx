@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { partners } from "@/lib/partners";
+import { useI18n } from "@/lib/i18n/client";
 
 // Split into two rows
 const mid = Math.ceil(partners.length / 2);
@@ -29,6 +32,9 @@ function LogoItem({ partner, idx }: { partner: typeof partners[0]; idx: number }
 }
 
 export default function Partners() {
+  const { dictionary } = useI18n();
+  const home = dictionary.home;
+
   return (
     <section
       id="partners"
@@ -40,7 +46,7 @@ export default function Partners() {
           className="text-sm font-semibold tracking-[0.18em] uppercase mb-3"
           style={{ color: "var(--green-mid)" }}
         >
-          Together We&rsquo;re Stronger
+          {home.partnersEyebrow}
         </p>
         <h2
           className="text-3xl lg:text-4xl font-bold"
@@ -49,12 +55,12 @@ export default function Partners() {
             fontFamily: "var(--font-merriweather), serif",
           }}
         >
-          Collaborative Partners
+          {home.partnersTitle}
         </h2>
       </div>
 
       {/* Row 1 — scrolls left */}
-      <div className="marquee-row relative mb-4">
+      <div className="marquee-row relative mb-4" dir="ltr">
         <div
           className="absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
           style={{ background: "linear-gradient(to right, var(--cream), transparent)" }}
@@ -71,7 +77,7 @@ export default function Partners() {
       </div>
 
       {/* Row 2 — scrolls right (reverse) */}
-      <div className="marquee-row relative">
+      <div className="marquee-row relative" dir="ltr">
         <div
           className="absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
           style={{ background: "linear-gradient(to right, var(--cream), transparent)" }}
