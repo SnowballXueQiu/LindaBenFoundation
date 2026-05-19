@@ -197,7 +197,7 @@ function NewsletterListPage({
                 <article key={`card-${article.slug}-${article.locale}`} className="overflow-hidden rounded-sm border bg-white shadow-md" style={{ borderColor: "var(--green-pale)" }}>
                   {article.coverImage && (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={article.coverImage} alt="" className="aspect-[16/8] w-full object-cover" />
+                    <img src={article.coverImage} alt="" className="aspect-16/8 w-full object-cover" />
                   )}
                   <div className="p-5">
                     <h3 className="line-clamp-2 text-base font-bold" style={{ color: "var(--green-deep)" }}>

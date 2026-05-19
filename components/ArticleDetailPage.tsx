@@ -46,7 +46,7 @@ export default function ArticleDetailPage({ article, locale, dictionary }: { art
               <div className="mx-auto max-w-4xl px-6 lg:px-12">
                 {article.coverImage && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={article.coverImage} alt="" className="mb-10 aspect-[16/7] w-full object-cover shadow-md" />
+                  <img src={article.coverImage} alt="" className="mb-10 aspect-16/7 w-full object-cover shadow-md" />
                 )}
                 <div
                   className="article-prose prose prose-lg max-w-none"
@@ -66,7 +66,7 @@ export default function ArticleDetailPage({ article, locale, dictionary }: { art
       <Header />
       <main>
         <article>
-          <section className="relative flex min-h-[420px] items-center justify-center overflow-hidden pt-24 text-center lg:min-h-[520px]">
+          <section className="relative flex min-h-105 items-center justify-center overflow-hidden pt-24 text-center lg:min-h-130">
             {article.coverImage && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={article.coverImage} alt="" className="absolute inset-0 h-full w-full object-cover" />
