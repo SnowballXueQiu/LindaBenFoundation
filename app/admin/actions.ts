@@ -2,10 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { after } from "next/server";
 import { requireAdmin } from "@/lib/admin/auth";
 import { defaultLocale, isSupportedLocale, supportedLocales, type Locale } from "@/lib/i18n/config";
-import { deleteArticle, getArticleOriginLocale, markExistingArticleTranslationsPending, saveArticle, translateArticleToLocales } from "@/lib/content/repository";
+import { deleteArticle, getArticleOriginLocale, markExistingArticleTranslationsPending, saveArticle } from "@/lib/content/repository";
 import { makeSlug } from "@/lib/content/markdown";
 import { normalizeArticleMarkdown } from "@/lib/content/normalize-markdown";
 import { articleTypes, type Article, type ArticleStatus, type ArticleType } from "@/lib/content/types";
@@ -70,17 +69,7 @@ export async function saveArticleAction(_state: AdminActionState, formData: Form
   const originLocale = existingSlug ? await getArticleOriginLocale(type, slug, locale) : locale;
   const shouldTranslateFromOrigin = locale === originLocale;
   const saved = await saveArticle(article, { translateMissing: shouldTranslateFromOrigin });
-  const autoTargets = supportedLocales.filter((targetLocale) => targetLocale !== saved.locale);
-  if (shouldTranslateFromOrigin) {
-    after(async () => {
-      const translated = await translateArticleToLocales(type, slug, saved.locale, autoTargets);
-      revalidatePath("/admin");
-      for (const translatedArticle of translated) {
-        revalidatePath(`/${translatedArticle.locale}/${type}`);
-        revalidatePath(`/${translatedArticle.locale}/${type}/${slug}`);
-      }
-    });
-  }
+  const queuedCount = shouldTranslateFromOrigin ? supportedLocales.filter((targetLocale) => targetLocale !== saved.locale).length : 0;
 
   revalidatePath("/");
   revalidatePath(`/${locale}`);
@@ -91,7 +80,7 @@ export async function saveArticleAction(_state: AdminActionState, formData: Form
     revalidatePath(`/${locale}/newsletter/${slug}`);
   }
   revalidatePath("/admin");
-  redirect(`/admin/articles/${type}/${slug}?locale=${locale}`);
+  redirect(`/admin/articles/${type}/${slug}?locale=${locale}${queuedCount ? `&queued=${queuedCount}` : ""}`);
 }
 
 export async function translateArticleAction(formData: FormData) {
@@ -109,14 +98,6 @@ export async function translateArticleAction(formData: FormData) {
     : selected.filter(isSupportedLocale);
 
   await markExistingArticleTranslationsPending(type, slug, sourceLocale as Locale, targetLocales);
-  after(async () => {
-    const translated = await translateArticleToLocales(type, slug, sourceLocale as Locale, targetLocales);
-    revalidatePath("/admin");
-    for (const translatedArticle of translated) {
-      revalidatePath(`/${translatedArticle.locale}/${type}`);
-      revalidatePath(`/${translatedArticle.locale}/${type}/${slug}`);
-    }
-  });
 
   revalidatePath("/");
   revalidatePath("/admin");

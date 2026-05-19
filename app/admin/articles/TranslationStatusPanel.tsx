@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { ArticleTranslationStatus, ArticleType } from "@/lib/content/types";
 
 function isActiveState(state: string) {
@@ -54,6 +54,7 @@ export default function TranslationStatusPanel({
 }) {
   const [statuses, setStatuses] = useState(initialStatuses);
   const [lastUpdated, setLastUpdated] = useState("");
+  const workerInFlightRef = useRef(false);
   const statusByLocale = useMemo(() => new Map(statuses.map((status) => [status.locale, status])), [statuses]);
   const activeTranslationCount = statuses.filter((status) => isActiveState(status.state)).length;
   const processingTranslationCount = statuses.filter((status) => status.state === "processing" || status.state === "translating").length;
@@ -66,24 +67,40 @@ export default function TranslationStatusPanel({
 
     let cancelled = false;
     let timer: number | undefined;
-    const poll = async () => {
-      try {
-        const response = await fetch(`/api/admin/articles/${type}/${slug}/status?sourceLocale=${currentLocale}`, {
-          cache: "no-store",
-        });
-        if (response.ok) {
-          const result = (await response.json()) as StatusResponse;
-          if (!cancelled) {
-            setStatuses(result.statuses);
-            setLastUpdated(new Date(result.updatedAt).toLocaleTimeString());
-          }
-        }
-      } finally {
-        if (!cancelled) timer = window.setTimeout(poll, 900);
+
+    const refresh = async () => {
+      const response = await fetch(`/api/admin/articles/${type}/${slug}/status?sourceLocale=${currentLocale}`, {
+        cache: "no-store",
+      });
+      if (!response.ok) return;
+      const result = (await response.json()) as StatusResponse;
+      if (!cancelled) {
+        setStatuses(result.statuses);
+        setLastUpdated(new Date(result.updatedAt).toLocaleTimeString());
       }
     };
 
-    timer = window.setTimeout(poll, 250);
+    const kickWorker = async () => {
+      if (workerInFlightRef.current) return;
+      workerInFlightRef.current = true;
+      try {
+        await fetch(`/api/admin/articles/${type}/${slug}/translate-next`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sourceLocale: currentLocale }),
+        });
+      } finally {
+        workerInFlightRef.current = false;
+      }
+    };
+
+    const loop = async () => {
+      await refresh().catch(() => undefined);
+      void kickWorker().then(() => refresh().catch(() => undefined));
+      if (!cancelled) timer = window.setTimeout(loop, 900);
+    };
+
+    timer = window.setTimeout(loop, 250);
     return () => {
       cancelled = true;
       if (timer) window.clearTimeout(timer);
