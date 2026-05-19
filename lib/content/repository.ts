@@ -3,7 +3,7 @@ import "server-only";
 import { cache } from "react";
 import { defaultLocale, supportedLocales, type Locale } from "@/lib/i18n/config";
 import { deleteObject, getObjectJson, getObjectText, getS3PublicUrl, hasS3Config, listObjects, putObject } from "@/lib/storage/s3";
-import { articleToSummary, parseArticleMarkdown, serializeArticle } from "./markdown";
+import { articleStorageKey, articleToSummary, parseArticleMarkdown, serializeArticle } from "./markdown";
 import { translateArticle } from "@/lib/translation/bedrock";
 import type { Article, ArticleIndex, ArticleSummary, ArticleType } from "./types";
 
@@ -189,8 +189,36 @@ function indexKey(type: ArticleType) {
   return `content/${type}/index.json`;
 }
 
-function articleKey(type: ArticleType, slug: string, locale: Locale) {
+function articleSummary(article: Article): ArticleSummary {
+  return {
+    ...articleToSummary(article),
+    storageKey: articleStorageKey(article),
+  };
+}
+
+function legacyArticleKey(type: ArticleType, slug: string, locale: Locale) {
   return `content/${type}/${slug}.${locale}.md`;
+}
+
+function storageKeyForSummary(summary: ArticleSummary) {
+  return summary.storageKey || legacyArticleKey(summary.type, summary.slug, summary.locale);
+}
+
+async function findArticleKeyInStorage(type: ArticleType, slug: string, locale: Locale) {
+  const objects = await listObjects(`content/${type}/${slug}/`);
+  const folderKey = objects
+    .map((object) => object.key)
+    .find((key) => key.endsWith(`-${locale}.md`));
+
+  if (folderKey) return folderKey;
+
+  const legacyKey = legacyArticleKey(type, slug, locale);
+  try {
+    await getObjectText(legacyKey);
+    return legacyKey;
+  } catch {
+    return null;
+  }
 }
 
 function sortByPublishedAt(a: ArticleSummary, b: ArticleSummary) {
@@ -200,7 +228,7 @@ function sortByPublishedAt(a: ArticleSummary, b: ArticleSummary) {
 function getFallbackIndex(type: ArticleType): ArticleIndex {
   const articles = type === "blogs" ? allFallbackBlogs : allFallbackNewsletters;
   return {
-    articles: articles.map(articleToSummary),
+    articles: articles.map(articleSummary),
     updatedAt: new Date(0).toISOString(),
   };
 }
@@ -249,10 +277,23 @@ export async function getArticle(type: ArticleType, slug: string, locale: Locale
   if (!hasS3Config()) return getFallbackArticle(type, slug, locale);
 
   const localesToTry = [locale, defaultLocale, ...supportedLocales].filter((item, index, arr) => arr.indexOf(item) === index);
+  const index = await getArticleIndex(type);
 
   for (const candidate of localesToTry) {
+    const summary = index.articles.find((item) => item.slug === slug && item.locale === candidate);
+    if (!summary) {
+      const storageKey = await findArticleKeyInStorage(type, slug, candidate);
+      if (!storageKey) continue;
+      try {
+        const markdown = await getObjectText(storageKey);
+        return parseArticleMarkdown(markdown, { type, slug, locale: candidate });
+      } catch {
+        continue;
+      }
+    }
+
     try {
-      const markdown = await getObjectText(articleKey(type, slug, candidate));
+      const markdown = await getObjectText(storageKeyForSummary(summary));
       return parseArticleMarkdown(markdown, { type, slug, locale: candidate });
     } catch {
       continue;
@@ -268,14 +309,20 @@ export async function saveArticle(article: Article, options: { translateMissing?
     updatedAt: new Date().toISOString(),
   };
 
-  await putObject(articleKey(normalized.type, normalized.slug, normalized.locale), serializeArticle(normalized), "text/markdown; charset=utf-8");
-
   const index = await getArticleIndex(normalized.type);
+  const current = index.articles.find((item) => item.slug === normalized.slug && item.locale === normalized.locale);
+  const normalizedKey = articleStorageKey(normalized);
+
+  await putObject(normalizedKey, serializeArticle(normalized), "text/markdown; charset=utf-8");
+  if (current && storageKeyForSummary(current) !== normalizedKey) {
+    await deleteObject(storageKeyForSummary(current));
+  }
+
   const withoutCurrent = index.articles.filter(
     (item) => !(item.slug === normalized.slug && item.locale === normalized.locale),
   );
 
-  let nextArticles = [...withoutCurrent, articleToSummary(normalized)];
+  let nextArticles = [...withoutCurrent, articleSummary(normalized)];
 
   if (options.translateMissing) {
     const existingLocales = new Set(nextArticles.filter((item) => item.slug === normalized.slug).map((item) => item.locale));
@@ -284,8 +331,8 @@ export async function saveArticle(article: Article, options: { translateMissing?
     for (const targetLocale of missingLocales) {
       const translated = await translateArticle(normalized, targetLocale);
       if (!translated) continue;
-      await putObject(articleKey(translated.type, translated.slug, translated.locale), serializeArticle(translated), "text/markdown; charset=utf-8");
-      nextArticles = [...nextArticles, articleToSummary(translated)];
+      await putObject(articleStorageKey(translated), serializeArticle(translated), "text/markdown; charset=utf-8");
+      nextArticles = [...nextArticles, articleSummary(translated)];
     }
   }
 
@@ -298,7 +345,7 @@ export async function deleteArticle(type: ArticleType, slug: string) {
   const matches = index.articles.filter((article) => article.slug === slug);
 
   for (const article of matches) {
-    await deleteObject(articleKey(type, slug, article.locale));
+    await deleteObject(storageKeyForSummary(article));
   }
 
   await putArticleIndex(

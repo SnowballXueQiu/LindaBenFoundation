@@ -6,6 +6,7 @@ import { requireAdmin } from "@/lib/admin/auth";
 import { defaultLocale, isSupportedLocale } from "@/lib/i18n/config";
 import { deleteArticle, saveArticle } from "@/lib/content/repository";
 import { makeSlug } from "@/lib/content/markdown";
+import { normalizeArticleMarkdown } from "@/lib/content/normalize-markdown";
 import { articleTypes, type Article, type ArticleStatus, type ArticleType } from "@/lib/content/types";
 
 export type AdminActionState = {
@@ -35,7 +36,7 @@ export async function saveArticleAction(_state: AdminActionState, formData: Form
   const existingSlug = stringValue(formData, "existingSlug");
   const slug = stringValue(formData, "slug") || existingSlug || makeSlug(title);
   const locale = stringValue(formData, "locale") || defaultLocale;
-  const body = stringValue(formData, "body");
+  const body = normalizeArticleMarkdown(stringValue(formData, "body"));
 
   if (!title || !slug || !body) {
     return { ok: false, message: "Title, slug, and content are required." };

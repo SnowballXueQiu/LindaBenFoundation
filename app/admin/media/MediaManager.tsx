@@ -20,6 +20,8 @@ export default function MediaManager({ initialMedia }: { initialMedia: MediaItem
   const [media, setMedia] = useState(initialMedia);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [dragging, setDragging] = useState(false);
 
   const sortedMedia = useMemo(
     () =>
@@ -30,8 +32,7 @@ export default function MediaManager({ initialMedia }: { initialMedia: MediaItem
     [media],
   );
 
-  async function uploadSelectedFiles() {
-    const files = Array.from(fileRef.current?.files || []);
+  async function uploadFiles(files: File[]) {
     if (!files.length) return;
 
     setUploading(true);
@@ -48,12 +49,23 @@ export default function MediaManager({ initialMedia }: { initialMedia: MediaItem
       }
       setMedia((items) => [...uploaded, ...items]);
       setMessage(`${uploaded.length} image${uploaded.length === 1 ? "" : "s"} uploaded.`);
+      setSelectedFiles([]);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Upload failed.");
     } finally {
       setUploading(false);
       if (fileRef.current) fileRef.current.value = "";
     }
+  }
+
+  function chooseFiles(files: FileList | null) {
+    setSelectedFiles(Array.from(files || []).filter((file) => file.type.startsWith("image/")));
+  }
+
+  function handleDrop(event: React.DragEvent<HTMLLabelElement>) {
+    event.preventDefault();
+    setDragging(false);
+    chooseFiles(event.dataTransfer.files);
   }
 
   async function deleteItem(key: string) {
@@ -86,15 +98,47 @@ export default function MediaManager({ initialMedia }: { initialMedia: MediaItem
         <p className="mt-1 text-sm text-slate-600">
           Images uploaded here are available in the Newsletter and Blog editors.
         </p>
-        <div className="mt-5 flex flex-wrap items-center gap-3">
-          <input ref={fileRef} type="file" accept="image/*" multiple className="block text-sm" />
+        <div className="mt-5 space-y-4">
+          <label
+            htmlFor="mediaUpload"
+            onDragOver={(event) => {
+              event.preventDefault();
+              setDragging(true);
+            }}
+            onDragLeave={() => setDragging(false)}
+            onDrop={handleDrop}
+            className={`flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed px-6 py-10 text-center transition-colors ${
+              dragging
+                ? "border-emerald-700 bg-emerald-50"
+                : "border-slate-300 bg-slate-50 hover:border-emerald-700 hover:bg-emerald-50/60"
+            }`}
+          >
+            <span className="rounded-full bg-emerald-800 px-4 py-2 text-sm font-bold text-white">
+              Choose or drop images
+            </span>
+            <span className="mt-3 text-sm font-medium text-slate-700">
+              Drag files here, or click to browse
+            </span>
+            <span className="mt-1 text-xs text-slate-500">
+              {selectedFiles.length ? `${selectedFiles.length} selected` : "PNG, JPG, GIF, or WebP"}
+            </span>
+          </label>
+          <input
+            ref={fileRef}
+            id="mediaUpload"
+            type="file"
+            accept="image/*"
+            multiple
+            className="sr-only"
+            onChange={(event) => chooseFiles(event.target.files)}
+          />
           <button
             type="button"
-            onClick={uploadSelectedFiles}
-            disabled={uploading}
-            className="rounded-md bg-emerald-800 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+            onClick={() => uploadFiles(selectedFiles)}
+            disabled={uploading || !selectedFiles.length}
+            className="w-full rounded-md bg-emerald-800 px-4 py-3 text-sm font-bold text-white shadow-sm transition-opacity disabled:opacity-50"
           >
-            {uploading ? "Uploading..." : "Upload"}
+            {uploading ? "Uploading..." : `Upload ${selectedFiles.length || ""} image${selectedFiles.length === 1 ? "" : "s"}`}
           </button>
         </div>
         {message && <p className="mt-3 text-sm text-slate-700">{message}</p>}

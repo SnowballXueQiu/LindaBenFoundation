@@ -2,6 +2,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
+import ArticleBody from "@/components/ArticleBody";
 import { markdownToSafeHtml } from "@/lib/content/markdown";
 import type { Article } from "@/lib/content/types";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
@@ -48,10 +49,7 @@ export default function ArticleDetailPage({ article, locale, dictionary }: { art
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={article.coverImage} alt="" className="mb-10 aspect-16/7 w-full object-cover shadow-md" />
                 )}
-                <div
-                  className="article-prose prose prose-lg max-w-none"
-                  dangerouslySetInnerHTML={{ __html: html }}
-                />
+                <ArticleBody html={html} className="article-prose prose prose-lg max-w-none" />
               </div>
             </section>
           </article>
@@ -83,10 +81,7 @@ export default function ArticleDetailPage({ article, locale, dictionary }: { art
             </div>
           </section>
           <section className="py-16 lg:py-24" style={{ background: "var(--warm-white)" }}>
-            <div
-              className="article-prose prose prose-lg mx-auto max-w-5xl px-6 lg:px-12"
-              dangerouslySetInnerHTML={{ __html: html }}
-            />
+            <ArticleBody html={html} className="article-prose prose prose-lg mx-auto max-w-5xl px-6 lg:px-12" />
             <div className="mx-auto mt-12 max-w-5xl px-6 lg:px-12">
               <Link href={withLocale("/blogs", locale)} className="inline-flex rounded-full px-8 py-3 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90" style={{ background: "var(--green-deep)" }}>
                 ← {dictionary.blog.olderPost}

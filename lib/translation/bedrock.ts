@@ -60,8 +60,17 @@ async function translateJson<T>(payload: T, targetLocale: Locale): Promise<T | n
     },
   });
 
-  const response = await bedrock.send(command);
-  const text = extractText(response);
+  let text = "";
+  try {
+    const response = await bedrock.send(command);
+    text = extractText(response);
+  } catch (error) {
+    const name = error instanceof Error ? error.name : "BedrockError";
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`Skipping ${targetLocale} translation after ${name}: ${message}`);
+    return null;
+  }
+
   if (!text) return null;
 
   try {

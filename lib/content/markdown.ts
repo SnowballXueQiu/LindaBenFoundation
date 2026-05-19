@@ -25,6 +25,72 @@ function normalizeTags(value: unknown) {
   return [];
 }
 
+function escapeAttribute(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function parseAttachAttributes(rawAttributes: string) {
+  const get = (name: string) => rawAttributes.match(new RegExp(`\\b${name}=["']([^"']+)["']`, "i"))?.[1]?.trim();
+  return {
+    key: get("key") || get("src") || "",
+    alt: get("alt") || "",
+    title: get("title") || "",
+  };
+}
+
+function mediaReferenceToUrl(reference: string) {
+  const value = reference.trim();
+  if (!value) return "";
+  if (/^https?:\/\//i.test(value) || value.startsWith("/")) return value;
+  if (!value.startsWith("media/")) return "";
+  return `/api/media/${value.split("/").map(encodeURIComponent).join("/")}`;
+}
+
+function renderAttach(rawAttributes: string, content: string, inGallery = false) {
+  const attrs = parseAttachAttributes(rawAttributes);
+  const reference = attrs.key || content.trim();
+  const src = mediaReferenceToUrl(reference);
+  if (!src) return "";
+
+  const alt = attrs.alt || attrs.title || "";
+  const image = `<img src="${escapeAttribute(src)}" alt="${escapeAttribute(alt)}" loading="lazy" />`;
+  if (inGallery) return `<figure class="article-gallery-item">${image}</figure>`;
+  return `<figure class="article-attachment">${image}</figure>`;
+}
+
+function renderAttachTags(markdown: string, inGallery = false) {
+  return markdown.replace(/<attach\b([^>]*)>([\s\S]*?)<\/attach>/gi, (_match, rawAttributes: string, content: string) =>
+    renderAttach(rawAttributes || "", content || "", inGallery),
+  );
+}
+
+function renderContentTags(markdown: string) {
+  const protectedBlocks: string[] = [];
+  const placeholderPrefix = "%%LBF_MARKDOWN_CODE_";
+  const protect = (value: string) => {
+    protectedBlocks.push(value);
+    return `${placeholderPrefix}${protectedBlocks.length - 1}%%`;
+  };
+
+  const protectedMarkdown = markdown
+    .replace(/```[\s\S]*?```/g, protect)
+    .replace(/`[^`\n]+`/g, protect);
+
+  const rendered = renderAttachTags(
+    protectedMarkdown.replace(/<gallery\b[^>]*>([\s\S]*?)<\/gallery>/gi, (_match, content: string) => {
+      const items = renderAttachTags(content || "", true).trim();
+      if (!items) return "";
+      return `<div class="article-gallery">${items}</div>`;
+    }),
+  );
+
+  return rendered.replace(new RegExp(`${placeholderPrefix}(\\d+)%%`, "g"), (_match, index: string) => protectedBlocks[Number(index)] || "");
+}
+
 export function serializeArticle(article: Article) {
   const frontmatter: ArticleFrontmatter = {
     title: article.title,
@@ -78,14 +144,55 @@ export function articleToSummary(article: Article) {
   };
 }
 
+export function makeMarkdownFileTitle(title: string, fallback: string) {
+  return (
+    title
+      .normalize("NFKC")
+      .trim()
+      .toLowerCase()
+      .replace(/[\\/#?%*:|"<>]+/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 120) || fallback
+  );
+}
+
+export function articleStorageKey(article: Pick<Article, "type" | "slug" | "locale" | "title">) {
+  const fileTitle = makeMarkdownFileTitle(article.title, article.slug);
+  return `content/${article.type}/${article.slug}/${fileTitle}-${article.locale}.md`;
+}
+
 export function markdownToSafeHtml(markdown: string) {
-  const rawHtml = marked.parse(markdown) as string;
+  const rawHtml = marked.parse(renderContentTags(markdown)) as string;
 
   return sanitizeHtml(rawHtml, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "iframe", "h1", "h2", "h3"]),
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat([
+      "img",
+      "iframe",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "div",
+      "figure",
+      "figcaption",
+      "table",
+      "thead",
+      "tbody",
+      "tr",
+      "th",
+      "td",
+      "del",
+    ]),
     allowedAttributes: {
       ...sanitizeHtml.defaults.allowedAttributes,
       a: ["href", "name", "target", "rel"],
+      div: ["class"],
+      figure: ["class"],
+      figcaption: ["class"],
       img: ["src", "alt", "title", "width", "height", "loading"],
       iframe: ["src", "title", "width", "height", "allow", "allowfullscreen", "loading", "referrerpolicy"],
     },

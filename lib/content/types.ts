@@ -28,6 +28,7 @@ export type ArticleSummary = ArticleFrontmatter & {
   type: ArticleType;
   slug: string;
   locale: Locale;
+  storageKey?: string;
 };
 
 export type ArticleIndex = {
