@@ -112,20 +112,6 @@ const starterMarkdown = [
   "<iframe src=\"https://www.youtube.com/embed/dQw4w9WgXcQ\" title=\"Embedded video\" width=\"100%\" height=\"420\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>",
 ].join("\n");
 
-function insertTextAtCursor(textarea: HTMLTextAreaElement, value: string) {
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-  const current = textarea.value;
-  const prefix = current.slice(0, start);
-  const suffix = current.slice(end);
-  const next = `${prefix}${value}${suffix}`;
-  textarea.value = next;
-  textarea.focus();
-  const cursor = start + value.length;
-  textarea.setSelectionRange(cursor, cursor);
-  return next;
-}
-
 function stripQuotes(value: string) {
   return value.trim().replace(/^["']|["']$/g, "");
 }
@@ -221,6 +207,7 @@ export default function ArticleEditor({
   const formRef = useRef<HTMLFormElement>(null);
   const bodyRef = useRef<HTMLTextAreaElement>(null);
   const highlightRef = useRef<HTMLPreElement>(null);
+  const selectionRef = useRef<{ start: number; end: number } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const markdownFileRef = useRef<HTMLInputElement>(null);
   const [body, setBody] = useState(normalizeArticleMarkdown(article?.body || starterMarkdown));
@@ -259,10 +246,55 @@ export default function ArticleEditor({
     if (typeof cursor === "number") updateCompletion(value, cursor);
   }
 
+  function rememberSelection(textarea = bodyRef.current) {
+    if (!textarea) return;
+    selectionRef.current = { start: textarea.selectionStart, end: textarea.selectionEnd };
+  }
+
+  function getSavedSelection(textarea: HTMLTextAreaElement) {
+    return selectionRef.current || { start: textarea.value.length, end: textarea.value.length };
+  }
+
+  function restoreEditorViewport(textarea: HTMLTextAreaElement, scrollTop: number, scrollLeft: number) {
+    textarea.scrollTop = scrollTop;
+    textarea.scrollLeft = scrollLeft;
+    if (highlightRef.current) {
+      highlightRef.current.scrollTop = scrollTop;
+      highlightRef.current.scrollLeft = scrollLeft;
+    }
+    window.requestAnimationFrame(() => {
+      textarea.scrollTop = scrollTop;
+      textarea.scrollLeft = scrollLeft;
+      if (highlightRef.current) {
+        highlightRef.current.scrollTop = scrollTop;
+        highlightRef.current.scrollLeft = scrollLeft;
+      }
+    });
+  }
+
+  function commitEditorChange(next: string, selectionStart: number, selectionEnd = selectionStart) {
+    const textarea = bodyRef.current;
+    if (!textarea) {
+      setEditorBody(next, selectionStart);
+      return;
+    }
+
+    const scrollTop = textarea.scrollTop;
+    const scrollLeft = textarea.scrollLeft;
+    textarea.value = next;
+    setEditorBody(next, selectionStart);
+    textarea.focus({ preventScroll: true });
+    textarea.setSelectionRange(selectionStart, selectionEnd);
+    selectionRef.current = { start: selectionStart, end: selectionEnd };
+    restoreEditorViewport(textarea, scrollTop, scrollLeft);
+  }
+
   function insertMarkdown(value: string) {
-    if (!bodyRef.current) return;
-    const next = insertTextAtCursor(bodyRef.current, value);
-    setEditorBody(next, bodyRef.current.selectionStart);
+    const textarea = bodyRef.current;
+    if (!textarea) return;
+    const { start, end } = getSavedSelection(textarea);
+    const next = `${textarea.value.slice(0, start)}${value}${textarea.value.slice(end)}`;
+    commitEditorChange(next, start + value.length);
   }
 
   function setFormField(name: string, value: string) {
@@ -306,41 +338,29 @@ export default function ArticleEditor({
   function replaceSelection(value: string, cursorOffset = value.length) {
     const textarea = bodyRef.current;
     if (!textarea) return;
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
+    const { start, end } = getSavedSelection(textarea);
     const next = `${textarea.value.slice(0, start)}${value}${textarea.value.slice(end)}`;
-    textarea.value = next;
-    setEditorBody(next, start + cursorOffset);
-    textarea.focus();
-    textarea.setSelectionRange(start + cursorOffset, start + cursorOffset);
+    commitEditorChange(next, start + cursorOffset);
   }
 
   function wrapSelection(before: string, after = before, fallback = "text") {
     const textarea = bodyRef.current;
     if (!textarea) return;
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
+    const { start, end } = getSavedSelection(textarea);
     const selected = textarea.value.slice(start, end) || fallback;
     const next = `${textarea.value.slice(0, start)}${before}${selected}${after}${textarea.value.slice(end)}`;
-    textarea.value = next;
-    setEditorBody(next, start + before.length + selected.length);
-    textarea.focus();
-    textarea.setSelectionRange(start + before.length, start + before.length + selected.length);
+    commitEditorChange(next, start + before.length, start + before.length + selected.length);
   }
 
   function prefixSelection(prefix: string, fallback = "Text") {
     const textarea = bodyRef.current;
     if (!textarea) return;
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
+    const { start, end } = getSavedSelection(textarea);
     const selected = textarea.value.slice(start, end) || fallback;
     const lines = selected.split("\n");
     const nextBlock = lines.map((line) => `${prefix}${line}`).join("\n");
     const next = `${textarea.value.slice(0, start)}${nextBlock}${textarea.value.slice(end)}`;
-    textarea.value = next;
-    setEditorBody(next, start + nextBlock.length);
-    textarea.focus();
-    textarea.setSelectionRange(start, start + nextBlock.length);
+    commitEditorChange(next, start, start + nextBlock.length);
   }
 
   function insertAttach(key: string) {
@@ -387,15 +407,13 @@ export default function ArticleEditor({
     const end = textarea.selectionStart;
     const next = `${body.slice(0, completion.start)}${snippet}${body.slice(end)}`;
     const cursor = completion.start + snippet.length;
-    textarea.value = next;
-    setEditorBody(next, cursor);
     setCompletion(null);
-    textarea.focus();
-    textarea.setSelectionRange(cursor, cursor);
+    commitEditorChange(next, cursor);
   }
 
   function handleBodyChange(event: ChangeEvent<HTMLTextAreaElement>) {
     setEditorBody(event.target.value, event.target.selectionStart);
+    rememberSelection(event.target);
   }
 
   function handleEditorKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
@@ -549,7 +567,14 @@ export default function ArticleEditor({
         </section>
 
         <section className="rounded-lg border border-slate-200 bg-white shadow-sm">
-          <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 bg-slate-50/70 p-3">
+          <div
+            className="flex flex-wrap items-center gap-2 border-b border-slate-200 bg-slate-50/70 p-3"
+            onMouseDown={(event) => {
+              if (event.target instanceof HTMLButtonElement || event.target instanceof HTMLAnchorElement) {
+                event.preventDefault();
+              }
+            }}
+          >
             <button type="button" onClick={() => prefixSelection("# ", "Heading")} className="editor-toolbar-button">H1</button>
             <button type="button" onClick={() => prefixSelection("## ", "Heading")} className="editor-toolbar-button">H2</button>
             <button type="button" onClick={() => prefixSelection("### ", "Heading")} className="editor-toolbar-button">H3</button>
@@ -599,8 +624,16 @@ export default function ArticleEditor({
               onChange={handleBodyChange}
               onKeyDown={handleEditorKeyDown}
               onScroll={syncHighlightScroll}
-              onClick={(event) => updateCompletion(event.currentTarget.value, event.currentTarget.selectionStart)}
-              onKeyUp={(event) => updateCompletion(event.currentTarget.value, event.currentTarget.selectionStart)}
+              onClick={(event) => {
+                rememberSelection(event.currentTarget);
+                updateCompletion(event.currentTarget.value, event.currentTarget.selectionStart);
+              }}
+              onSelect={(event) => rememberSelection(event.currentTarget)}
+              onKeyUp={(event) => {
+                rememberSelection(event.currentTarget);
+                updateCompletion(event.currentTarget.value, event.currentTarget.selectionStart);
+              }}
+              onFocus={(event) => rememberSelection(event.currentTarget)}
               className="editor-textarea"
               spellCheck={false}
               required

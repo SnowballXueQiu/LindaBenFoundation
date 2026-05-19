@@ -35,3 +35,19 @@ export type ArticleIndex = {
   articles: ArticleSummary[];
   updatedAt: string;
 };
+
+export type ArticleTranslationState = "origin" | "missing" | "pending" | "translating" | "done" | "failed" | "stale";
+
+export type ArticleTranslationStatus = {
+  locale: Locale;
+  state: ArticleTranslationState;
+  sourceLocale?: Locale;
+  sourceHash?: string;
+  updatedAt?: string;
+  error?: string;
+};
+
+export type ArticleTranslationStatusStore = {
+  statuses: Record<string, ArticleTranslationStatus>;
+  updatedAt: string;
+};

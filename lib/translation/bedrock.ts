@@ -26,58 +26,86 @@ function extractText(response: unknown) {
   return output.output?.message?.content?.map((part) => part.text || "").join("").trim() || "";
 }
 
-async function translateJson<T>(payload: T, targetLocale: Locale): Promise<T | null> {
-  if (!hasBedrockConfig()) return null;
-
-  const command = new ConverseCommand({
-    modelId: process.env.BEDROCK_MODEL_ID || DEFAULT_MODEL_ID,
-    system: [
-      {
-        text: [
-          "You are a professional nonprofit website translator.",
-          "Translate user-facing text into the target locale.",
-          "Return valid JSON only, with the exact same keys and shape.",
-          "Do not translate URLs, slugs, dates, HTML tag names, Markdown syntax, or frontmatter keys.",
-        ].join(" "),
-      },
-    ],
-    messages: [
-      {
-        role: "user",
-        content: [
-          {
-            text: JSON.stringify({
-              targetLocale,
-              payload,
-            }),
-          },
-        ],
-      },
-    ],
-    inferenceConfig: {
-      maxTokens: 6000,
-      temperature: 0.2,
-    },
-  });
-
-  let text = "";
-  try {
-    const response = await bedrock.send(command);
-    text = extractText(response);
-  } catch (error) {
-    const name = error instanceof Error ? error.name : "BedrockError";
-    const message = error instanceof Error ? error.message : String(error);
-    console.warn(`Skipping ${targetLocale} translation after ${name}: ${message}`);
-    return null;
+function getModelCandidates() {
+  const configured = process.env.BEDROCK_MODEL_ID || DEFAULT_MODEL_ID;
+  const candidates = [configured];
+  if (!configured.startsWith("arn:") && !configured.includes(".anthropic.") && configured.startsWith("anthropic.")) {
+    candidates.push(`us.${configured}`);
   }
+  return [...new Set(candidates)];
+}
 
-  if (!text) return null;
+function parseJsonResponse<T>(text: string): T | null {
+  const cleaned = text
+    .trim()
+    .replace(/^```(?:json)?\s*/i, "")
+    .replace(/\s*```$/i, "")
+    .trim();
 
   try {
-    return JSON.parse(text) as T;
+    const parsed = JSON.parse(cleaned) as T | { payload?: T };
+    if (parsed && typeof parsed === "object" && "payload" in parsed && (parsed as { payload?: T }).payload) {
+      return (parsed as { payload: T }).payload;
+    }
+    return parsed as T;
   } catch {
     return null;
   }
+}
+
+async function translateJson<T>(payload: T, targetLocale: Locale): Promise<T | null> {
+  if (!hasBedrockConfig()) return null;
+
+  for (const modelId of getModelCandidates()) {
+    const command = new ConverseCommand({
+      modelId,
+      system: [
+        {
+          text: [
+            "You are a professional nonprofit website translator.",
+            "Translate user-facing text into the target locale.",
+            "Return valid JSON only. Return the translated payload object itself, not a wrapper.",
+            "Keep the exact same keys and shape as the payload object.",
+            "Do not translate URLs, slugs, dates, HTML tag names, Markdown syntax, frontmatter keys, or media keys inside attach tags.",
+          ].join(" "),
+        },
+      ],
+      messages: [
+        {
+          role: "user",
+          content: [
+            {
+              text: JSON.stringify({
+                targetLocale,
+                payload,
+              }),
+            },
+          ],
+        },
+      ],
+      inferenceConfig: {
+        maxTokens: 12000,
+        temperature: 0.2,
+      },
+    });
+
+    let text = "";
+    try {
+      const response = await bedrock.send(command);
+      text = extractText(response);
+    } catch (error) {
+      const name = error instanceof Error ? error.name : "BedrockError";
+      const message = error instanceof Error ? error.message : String(error);
+      console.warn(`Skipping ${targetLocale} translation attempt with ${modelId} after ${name}: ${message}`);
+      continue;
+    }
+
+    if (!text) continue;
+    const parsed = parseJsonResponse<T>(text);
+    if (parsed) return parsed;
+  }
+
+  return null;
 }
 
 export async function translateArticle(article: Article, targetLocale: Locale): Promise<Article | null> {

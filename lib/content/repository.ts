@@ -1,13 +1,15 @@
 import "server-only";
 
+import { createHash } from "crypto";
 import { cache } from "react";
 import { defaultLocale, supportedLocales, type Locale } from "@/lib/i18n/config";
 import { deleteObject, getObjectJson, getObjectText, getS3PublicUrl, hasS3Config, listObjects, putObject } from "@/lib/storage/s3";
 import { articleStorageKey, articleToSummary, parseArticleMarkdown, serializeArticle } from "./markdown";
 import { translateArticle } from "@/lib/translation/bedrock";
-import type { Article, ArticleIndex, ArticleSummary, ArticleType } from "./types";
+import type { Article, ArticleIndex, ArticleSummary, ArticleTranslationStatus, ArticleTranslationStatusStore, ArticleType } from "./types";
 
 const emptyIndex: ArticleIndex = { articles: [], updatedAt: new Date(0).toISOString() };
+const emptyTranslationStatusStore: ArticleTranslationStatusStore = { statuses: {}, updatedAt: new Date(0).toISOString() };
 
 const fallbackBlogs: Article[] = [
   {
@@ -189,6 +191,10 @@ function indexKey(type: ArticleType) {
   return `content/${type}/index.json`;
 }
 
+function translationStatusKey(type: ArticleType, slug: string) {
+  return `content/${type}/${slug}/translation-status.json`;
+}
+
 function articleSummary(article: Article): ArticleSummary {
   return {
     ...articleToSummary(article),
@@ -225,6 +231,24 @@ function sortByPublishedAt(a: ArticleSummary, b: ArticleSummary) {
   return (Date.parse(b.publishedAt || b.updatedAt) || 0) - (Date.parse(a.publishedAt || a.updatedAt) || 0);
 }
 
+function articleSourceHash(article: Article) {
+  return createHash("sha256")
+    .update(
+      JSON.stringify({
+        title: article.title,
+        excerpt: article.excerpt,
+        category: article.category || "",
+        tags: article.tags,
+        coverImage: article.coverImage || "",
+        author: article.author || "",
+        publishedAt: article.publishedAt || "",
+        status: article.status,
+        body: article.body,
+      }),
+    )
+    .digest("hex");
+}
+
 function getFallbackIndex(type: ArticleType): ArticleIndex {
   const articles = type === "blogs" ? allFallbackBlogs : allFallbackNewsletters;
   return {
@@ -256,6 +280,91 @@ export async function putArticleIndex(type: ArticleType, articles: ArticleSummar
   );
 }
 
+async function getTranslationStatusStore(type: ArticleType, slug: string) {
+  if (!hasS3Config()) return emptyTranslationStatusStore;
+  return getObjectJson<ArticleTranslationStatusStore>(translationStatusKey(type, slug), emptyTranslationStatusStore);
+}
+
+async function putTranslationStatusStore(type: ArticleType, slug: string, store: ArticleTranslationStatusStore) {
+  await putObject(
+    translationStatusKey(type, slug),
+    JSON.stringify({ ...store, updatedAt: new Date().toISOString() }, null, 2),
+    "application/json",
+  );
+}
+
+export async function listArticleTranslationStatuses(type: ArticleType, slug: string, sourceLocale: Locale = defaultLocale) {
+  const [translations, store, source] = await Promise.all([
+    listArticleTranslations(type, slug),
+    getTranslationStatusStore(type, slug),
+    getArticleExact(type, slug, sourceLocale),
+  ]);
+  const existingLocales = new Set(translations.map((article) => article.locale));
+  const sourceHash = source ? articleSourceHash(source) : "";
+
+  return supportedLocales.map((locale): ArticleTranslationStatus => {
+    const stored = store.statuses[locale];
+    const exists = existingLocales.has(locale);
+
+    if (locale === sourceLocale && exists) {
+      return { locale, state: "origin", sourceLocale, sourceHash, updatedAt: source?.updatedAt };
+    }
+
+    if (stored?.state === "pending" || stored?.state === "translating" || stored?.state === "failed") {
+      return stored;
+    }
+
+    if (!exists) {
+      return { locale, state: "missing", sourceLocale, sourceHash };
+    }
+
+    if (stored?.sourceHash && sourceHash && stored.sourceHash !== sourceHash) {
+      return { ...stored, state: "stale" };
+    }
+
+    return stored || { locale, state: "done", sourceLocale, sourceHash };
+  });
+}
+
+export async function markArticleTranslationsPending(article: Article, targetLocales: Locale[]) {
+  if (!hasS3Config()) return [];
+  const now = new Date().toISOString();
+  const sourceHash = articleSourceHash(article);
+  const store = await getTranslationStatusStore(article.type, article.slug);
+  const uniqueTargets = targetLocales.filter(
+    (locale, index, arr) => locale !== article.locale && supportedLocales.includes(locale) && arr.indexOf(locale) === index,
+  );
+
+  for (const locale of uniqueTargets) {
+    store.statuses[locale] = {
+      locale,
+      state: "pending",
+      sourceLocale: article.locale,
+      sourceHash,
+      updatedAt: now,
+    };
+  }
+
+  store.statuses[article.locale] = {
+    locale: article.locale,
+    state: "origin",
+    sourceLocale: article.locale,
+    sourceHash,
+    updatedAt: now,
+  };
+
+  await putTranslationStatusStore(article.type, article.slug, store);
+  return uniqueTargets;
+}
+
+export async function markExistingArticleTranslationsPending(type: ArticleType, slug: string, sourceLocale: Locale, targetLocales: Locale[]) {
+  const source = await getArticleExact(type, slug, sourceLocale);
+  if (!source) {
+    throw new Error("Source article not found.");
+  }
+  return markArticleTranslationsPending(source, targetLocales);
+}
+
 export async function listArticles(type: ArticleType, locale?: Locale, includeDrafts = false) {
   const index = await getArticleIndex(type);
   const articles = includeDrafts ? index.articles : index.articles.filter((article) => article.status === "published");
@@ -273,13 +382,55 @@ export async function listArticles(type: ArticleType, locale?: Locale, includeDr
   return [...grouped.values()].toSorted(sortByPublishedAt);
 }
 
+export async function listArticleTranslations(type: ArticleType, slug: string) {
+  const index = await getArticleIndex(type);
+  return index.articles
+    .filter((article) => article.slug === slug)
+    .toSorted((a, b) => supportedLocales.indexOf(a.locale) - supportedLocales.indexOf(b.locale));
+}
+
+export async function getArticleExact(type: ArticleType, slug: string, locale: Locale): Promise<Article | null> {
+  if (!hasS3Config()) {
+    const articles = type === "blogs" ? allFallbackBlogs : allFallbackNewsletters;
+    return articles.find((item) => item.slug === slug && item.locale === locale) || null;
+  }
+
+  const index = await getArticleIndex(type);
+  const summary = index.articles.find((item) => item.slug === slug && item.locale === locale);
+
+  if (summary) {
+    try {
+      const markdown = await getObjectText(storageKeyForSummary(summary));
+      return parseArticleMarkdown(markdown, { type, slug, locale });
+    } catch {
+      return null;
+    }
+  }
+
+  const storageKey = await findArticleKeyInStorage(type, slug, locale);
+  if (!storageKey) return null;
+
+  try {
+    const markdown = await getObjectText(storageKey);
+    return parseArticleMarkdown(markdown, { type, slug, locale });
+  } catch {
+    return null;
+  }
+}
+
 export async function getArticle(type: ArticleType, slug: string, locale: Locale): Promise<Article | null> {
   if (!hasS3Config()) return getFallbackArticle(type, slug, locale);
 
   const localesToTry = [locale, defaultLocale, ...supportedLocales].filter((item, index, arr) => arr.indexOf(item) === index);
   const index = await getArticleIndex(type);
+  const statusStore = await getTranslationStatusStore(type, slug);
 
   for (const candidate of localesToTry) {
+    const state = statusStore.statuses[candidate]?.state;
+    if (candidate === locale && ["pending", "translating", "failed", "stale"].includes(state || "")) {
+      continue;
+    }
+
     const summary = index.articles.find((item) => item.slug === slug && item.locale === candidate);
     if (!summary) {
       const storageKey = await findArticleKeyInStorage(type, slug, candidate);
@@ -322,22 +473,94 @@ export async function saveArticle(article: Article, options: { translateMissing?
     (item) => !(item.slug === normalized.slug && item.locale === normalized.locale),
   );
 
-  let nextArticles = [...withoutCurrent, articleSummary(normalized)];
+  const nextArticles = [...withoutCurrent, articleSummary(normalized)];
+
+  await putArticleIndex(normalized.type, nextArticles);
 
   if (options.translateMissing) {
-    const existingLocales = new Set(nextArticles.filter((item) => item.slug === normalized.slug).map((item) => item.locale));
-    const missingLocales = supportedLocales.filter((locale) => locale !== normalized.locale && !existingLocales.has(locale));
+    await markArticleTranslationsPending(
+      normalized,
+      supportedLocales.filter((locale) => locale !== normalized.locale),
+    );
+  }
 
-    for (const targetLocale of missingLocales) {
-      const translated = await translateArticle(normalized, targetLocale);
-      if (!translated) continue;
+  return normalized;
+}
+
+export async function translateArticleToLocales(type: ArticleType, slug: string, sourceLocale: Locale, targetLocales: Locale[]) {
+  const source = await getArticleExact(type, slug, sourceLocale);
+  if (!source) {
+    throw new Error("Source article not found.");
+  }
+
+  const uniqueTargets = targetLocales.filter(
+    (locale, index, arr) => locale !== sourceLocale && supportedLocales.includes(locale) && arr.indexOf(locale) === index,
+  );
+  if (!uniqueTargets.length) return [];
+
+  const index = await getArticleIndex(type);
+  const sourceHash = articleSourceHash(source);
+  const now = new Date().toISOString();
+  const store = await getTranslationStatusStore(type, slug);
+  let nextArticles = index.articles.filter(
+    (item) => !(item.slug === slug && uniqueTargets.includes(item.locale)),
+  );
+  const translatedArticles: Article[] = [];
+
+  for (const targetLocale of uniqueTargets) {
+    store.statuses[targetLocale] = {
+      locale: targetLocale,
+      state: "translating",
+      sourceLocale,
+      sourceHash,
+      updatedAt: now,
+    };
+    await putTranslationStatusStore(type, slug, store);
+
+    try {
+      const translated = await translateArticle(source, targetLocale);
+      if (!translated) {
+        store.statuses[targetLocale] = {
+          locale: targetLocale,
+          state: "failed",
+          sourceLocale,
+          sourceHash,
+          updatedAt: new Date().toISOString(),
+          error: "Bedrock returned no translation.",
+        };
+        await putTranslationStatusStore(type, slug, store);
+        continue;
+      }
+
       await putObject(articleStorageKey(translated), serializeArticle(translated), "text/markdown; charset=utf-8");
+      translatedArticles.push(translated);
       nextArticles = [...nextArticles, articleSummary(translated)];
+      store.statuses[targetLocale] = {
+        locale: targetLocale,
+        state: "done",
+        sourceLocale,
+        sourceHash,
+        updatedAt: new Date().toISOString(),
+      };
+      await putTranslationStatusStore(type, slug, store);
+    } catch (error) {
+      store.statuses[targetLocale] = {
+        locale: targetLocale,
+        state: "failed",
+        sourceLocale,
+        sourceHash,
+        updatedAt: new Date().toISOString(),
+        error: error instanceof Error ? error.message : String(error),
+      };
+      await putTranslationStatusStore(type, slug, store);
     }
   }
 
-  await putArticleIndex(normalized.type, nextArticles);
-  return normalized;
+  if (translatedArticles.length) {
+    await putArticleIndex(type, nextArticles);
+  }
+
+  return translatedArticles;
 }
 
 export async function deleteArticle(type: ArticleType, slug: string) {
