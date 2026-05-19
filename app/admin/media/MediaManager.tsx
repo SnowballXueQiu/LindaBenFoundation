@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { type DragEvent, useMemo, useRef, useState } from "react";
 
 export type MediaItem = {
   key: string;
@@ -62,10 +62,13 @@ export default function MediaManager({ initialMedia }: { initialMedia: MediaItem
     setSelectedFiles(Array.from(files || []).filter((file) => file.type.startsWith("image/")));
   }
 
-  function handleDrop(event: React.DragEvent<HTMLLabelElement>) {
+  function handleDrop(event: DragEvent<HTMLLabelElement>) {
     event.preventDefault();
+    event.stopPropagation();
     setDragging(false);
-    chooseFiles(event.dataTransfer.files);
+    const files = Array.from(event.dataTransfer.files).filter((file) => file.type.startsWith("image/"));
+    setSelectedFiles(files);
+    void uploadFiles(files);
   }
 
   async function deleteItem(key: string) {
@@ -92,7 +95,7 @@ export default function MediaManager({ initialMedia }: { initialMedia: MediaItem
   }
 
   return (
-    <div>
+    <div onDragOver={(event) => event.preventDefault()} onDrop={(event) => event.preventDefault()}>
       <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
         <h2 className="text-lg font-bold text-slate-950">Upload images</h2>
         <p className="mt-1 text-sm text-slate-600">

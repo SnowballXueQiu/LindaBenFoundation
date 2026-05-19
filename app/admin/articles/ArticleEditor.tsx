@@ -1,6 +1,6 @@
 "use client";
 
-import { type ChangeEvent, type KeyboardEvent, type UIEvent, useActionState, useEffect, useMemo, useRef, useState } from "react";
+import { type ChangeEvent, type DragEvent, type KeyboardEvent, type UIEvent, useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { saveArticleAction, type AdminActionState } from "@/app/admin/actions";
 import ArticleBody from "@/components/ArticleBody";
 import { normalizeArticleMarkdown } from "@/lib/content/normalize-markdown";
@@ -229,6 +229,8 @@ export default function ArticleEditor({
   const [uploading, setUploading] = useState(false);
   const [selectedImageName, setSelectedImageName] = useState("");
   const [selectedMarkdownName, setSelectedMarkdownName] = useState("");
+  const [draggingImage, setDraggingImage] = useState(false);
+  const [draggingMarkdown, setDraggingMarkdown] = useState(false);
   const [previewing, setPreviewing] = useState(false);
   const [previewHtml, setPreviewHtml] = useState("");
   const [showPreview, setShowPreview] = useState(false);
@@ -270,10 +272,7 @@ export default function ArticleEditor({
     }
   }
 
-  async function uploadMarkdownFile() {
-    const file = markdownFileRef.current?.files?.[0];
-    if (!file) return;
-
+  async function loadMarkdownFile(file: File) {
     const text = await file.text();
     const { metadata, body } = parseMarkdownUpload(text);
     const fieldMap: Record<string, string> = {
@@ -293,6 +292,14 @@ export default function ArticleEditor({
     }
 
     setEditorBody(normalizeArticleMarkdown(body));
+    setSelectedMarkdownName(file.name);
+  }
+
+  async function uploadMarkdownFile() {
+    const file = markdownFileRef.current?.files?.[0];
+    if (!file) return;
+
+    await loadMarkdownFile(file);
     if (markdownFileRef.current) markdownFileRef.current.value = "";
   }
 
@@ -415,10 +422,7 @@ export default function ArticleEditor({
     highlightRef.current.scrollLeft = event.currentTarget.scrollLeft;
   }
 
-  async function uploadSelectedFile() {
-    const file = fileRef.current?.files?.[0];
-    if (!file) return;
-
+  async function uploadImageFile(file: File) {
     setUploading(true);
     const formData = new FormData();
     formData.set("file", file);
@@ -434,6 +438,12 @@ export default function ArticleEditor({
       setSelectedImageName("");
       if (fileRef.current) fileRef.current.value = "";
     }
+  }
+
+  async function uploadSelectedFile() {
+    const file = fileRef.current?.files?.[0];
+    if (!file) return;
+    await uploadImageFile(file);
   }
 
   async function previewArticle() {
@@ -464,8 +474,34 @@ export default function ArticleEditor({
     setSelectedMarkdownName(files?.[0]?.name || "");
   }
 
+  async function handleMarkdownDrop(event: DragEvent<HTMLLabelElement>) {
+    event.preventDefault();
+    event.stopPropagation();
+    setDraggingMarkdown(false);
+    const file = Array.from(event.dataTransfer.files).find((item) => item.name.endsWith(".md") || item.type.startsWith("text/"));
+    if (!file) return;
+    await loadMarkdownFile(file);
+    if (markdownFileRef.current) markdownFileRef.current.value = "";
+  }
+
+  async function handleImageDrop(event: DragEvent<HTMLLabelElement>) {
+    event.preventDefault();
+    event.stopPropagation();
+    setDraggingImage(false);
+    const file = Array.from(event.dataTransfer.files).find((item) => item.type.startsWith("image/"));
+    if (!file) return;
+    setSelectedImageName(file.name);
+    await uploadImageFile(file);
+  }
+
   return (
-    <form ref={formRef} action={action} className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
+    <form
+      ref={formRef}
+      action={action}
+      onDragOver={(event) => event.preventDefault()}
+      onDrop={(event) => event.preventDefault()}
+      className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]"
+    >
       <input type="hidden" name="type" value={type} />
       <input type="hidden" name="existingSlug" value={article?.slug || ""} />
 
@@ -617,9 +653,20 @@ export default function ArticleEditor({
         <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
           <h2 className="text-sm font-bold uppercase tracking-wide text-slate-700">Publishing</h2>
           <label className="mt-4 block text-sm font-medium text-slate-700" htmlFor="markdownUpload">Upload Markdown</label>
-          <label htmlFor="markdownUpload" className="mt-2 flex cursor-pointer flex-col rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 p-4 text-sm transition-colors hover:border-emerald-700 hover:bg-emerald-50/60">
+          <label
+            htmlFor="markdownUpload"
+            onDragOver={(event) => {
+              event.preventDefault();
+              setDraggingMarkdown(true);
+            }}
+            onDragLeave={() => setDraggingMarkdown(false)}
+            onDrop={handleMarkdownDrop}
+            className={`mt-2 flex cursor-pointer flex-col rounded-lg border-2 border-dashed p-4 text-sm transition-colors ${
+              draggingMarkdown ? "border-emerald-700 bg-emerald-50" : "border-slate-300 bg-slate-50 hover:border-emerald-700 hover:bg-emerald-50/60"
+            }`}
+          >
             <span className="font-bold text-emerald-800">Choose Markdown file</span>
-            <span className="mt-1 truncate text-xs text-slate-500">{selectedMarkdownName || ".md or text/markdown"}</span>
+            <span className="mt-1 truncate text-xs text-slate-500">{selectedMarkdownName || "Drop .md here or click to browse"}</span>
           </label>
           <input
             ref={markdownFileRef}
@@ -658,9 +705,20 @@ export default function ArticleEditor({
         <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
           <h2 className="text-sm font-bold uppercase tracking-wide text-slate-700">Local media library</h2>
           <p className="mt-1 text-xs text-slate-500">Click Insert to add an attach tag. Select multiple images, then use Gallery.</p>
-          <label htmlFor="articleImageUpload" className="mt-4 flex cursor-pointer flex-col rounded-lg border-2 border-dashed border-emerald-700 bg-emerald-50 p-4 text-sm transition-colors hover:bg-emerald-100">
+          <label
+            htmlFor="articleImageUpload"
+            onDragOver={(event) => {
+              event.preventDefault();
+              setDraggingImage(true);
+            }}
+            onDragLeave={() => setDraggingImage(false)}
+            onDrop={handleImageDrop}
+            className={`mt-4 flex cursor-pointer flex-col rounded-lg border-2 border-dashed p-4 text-sm transition-colors ${
+              draggingImage ? "border-emerald-900 bg-emerald-100" : "border-emerald-700 bg-emerald-50 hover:bg-emerald-100"
+            }`}
+          >
             <span className="font-bold text-emerald-900">Choose image to upload</span>
-            <span className="mt-1 truncate text-xs text-emerald-900/70">{selectedImageName || "Upload to library and insert <attach>"}</span>
+            <span className="mt-1 truncate text-xs text-emerald-900/70">{selectedImageName || "Drop image here to upload and insert <attach>"}</span>
           </label>
           <input
             ref={fileRef}
