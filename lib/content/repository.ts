@@ -89,25 +89,14 @@ async function putTranslationStatusStore(type: ArticleType, slug: string, store:
 }
 
 export async function listArticleTranslationStatuses(type: ArticleType, slug: string, requestedSourceLocale: Locale = defaultLocale) {
-  const [translations, store, storageObjects] = await Promise.all([
+  const [translations, store] = await Promise.all([
     listArticleTranslations(type, slug),
     getTranslationStatusStore(type, slug),
-    hasS3Config() ? listObjects(`content/${type}/${slug}/`) : Promise.resolve([]),
   ]);
   const existingLocales = new Set(translations.map((article) => article.locale));
   const existingUpdatedAt = new Map<Locale, string>();
   for (const article of translations) {
     existingUpdatedAt.set(article.locale, article.updatedAt);
-  }
-  for (const object of storageObjects) {
-    const match = object.key.match(/-([a-z]{2})\.md$/i);
-    if (match && supportedLocales.includes(match[1])) {
-      const locale = match[1];
-      existingLocales.add(locale);
-      if (object.lastModified) {
-        existingUpdatedAt.set(locale, object.lastModified.toISOString());
-      }
-    }
   }
 
   const storedOrigin = Object.values(store.statuses).find((status) => status.state === "origin" && existingLocales.has(status.locale))?.locale;
@@ -117,8 +106,15 @@ export async function listArticleTranslationStatuses(type: ArticleType, slug: st
     (existingLocales.has(defaultLocale) ? defaultLocale : undefined) ||
     translations[0]?.locale ||
     defaultLocale;
-  const source = await getArticleExact(type, slug, sourceLocale) || await getArticle(type, slug, sourceLocale);
-  const sourceHash = source ? articleSourceHash(source) : "";
+  const sourceSummary = translations.find((article) => article.locale === sourceLocale);
+  const sourceStatus = store.statuses[sourceLocale];
+  let sourceHash = sourceStatus?.sourceHash || "";
+  let sourceUpdatedAt = sourceSummary?.updatedAt;
+  if (!sourceHash) {
+    const source = await getArticleExact(type, slug, sourceLocale) || await getArticle(type, slug, sourceLocale);
+    sourceHash = source ? articleSourceHash(source) : "";
+    sourceUpdatedAt = source?.updatedAt || sourceUpdatedAt;
+  }
 
   return supportedLocales.map((locale): ArticleTranslationStatus => {
     const stored = store.statuses[locale];
@@ -129,7 +125,7 @@ export async function listArticleTranslationStatuses(type: ArticleType, slug: st
     const hasFreshExistingFile = exists && (!activeState || !Number.isFinite(storedUpdatedAt) || (Number.isFinite(existingTime) && existingTime >= storedUpdatedAt - 1000));
 
     if (locale === sourceLocale && exists) {
-      return { locale, state: "origin", sourceLocale, sourceHash, updatedAt: source?.updatedAt };
+      return { locale, state: "origin", sourceLocale, sourceHash, updatedAt: sourceUpdatedAt };
     }
 
     if (hasFreshExistingFile && stored?.sourceHash && sourceHash && stored.sourceHash !== sourceHash) {

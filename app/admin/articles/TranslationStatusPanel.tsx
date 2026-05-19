@@ -8,6 +8,21 @@ function isActiveState(state: string) {
   return state === "pending" || state === "processing" || state === "translating";
 }
 
+const staleProcessingMs = 60_000;
+
+function isFreshProcessing(status: ArticleTranslationStatus) {
+  if (status.state !== "processing" && status.state !== "translating") return false;
+  const updatedAt = Date.parse(status.updatedAt || "");
+  return Number.isFinite(updatedAt) && Date.now() - updatedAt <= staleProcessingMs;
+}
+
+function shouldKickWorker(statuses: ArticleTranslationStatus[]) {
+  const hasFreshProcessing = statuses.some(isFreshProcessing);
+  const hasPending = statuses.some((status) => status.state === "pending");
+  const hasStaleProcessing = statuses.some((status) => (status.state === "processing" || status.state === "translating") && !isFreshProcessing(status));
+  return hasStaleProcessing || (hasPending && !hasFreshProcessing);
+}
+
 function canPreview(state: string) {
   return state === "done" || state === "origin" || state === "stale";
 }
@@ -72,12 +87,13 @@ export default function TranslationStatusPanel({
       const response = await fetch(`/api/admin/articles/${type}/${slug}/status?sourceLocale=${currentLocale}`, {
         cache: "no-store",
       });
-      if (!response.ok) return;
+      if (!response.ok) return null;
       const result = (await response.json()) as StatusResponse;
       if (!cancelled) {
         setStatuses(result.statuses);
         setLastUpdated(new Date(result.updatedAt).toLocaleTimeString());
       }
+      return result.statuses;
     };
 
     const kickWorker = async () => {
@@ -95,8 +111,10 @@ export default function TranslationStatusPanel({
     };
 
     const loop = async () => {
-      await refresh().catch(() => undefined);
-      void kickWorker().then(() => refresh().catch(() => undefined));
+      const nextStatuses = await refresh().catch(() => null);
+      if (nextStatuses && shouldKickWorker(nextStatuses)) {
+        void kickWorker().then(() => refresh().catch(() => undefined));
+      }
       if (!cancelled) timer = window.setTimeout(loop, 900);
     };
 
@@ -177,7 +195,11 @@ export default function TranslationStatusPanel({
 
             return (
               <div key={locale} className={`rounded-md border px-3 py-2 text-sm ${currentLocale === locale ? "border-emerald-700 bg-emerald-50" : "border-slate-200 bg-white"}`}>
-                <Link href={`/admin/articles/${type}/${slug}?locale=${locale}`} className={preview ? "font-bold text-slate-950" : "font-semibold text-slate-500"}>
+                <Link
+                  href={`/admin/articles/${type}/${slug}?locale=${locale}`}
+                  prefetch={false}
+                  className={preview ? "font-bold text-slate-950" : "font-semibold text-slate-500"}
+                >
                   {locale.toUpperCase()}
                 </Link>
                 <span className={`ml-2 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold uppercase ${statusClassName(state)}`}>
@@ -185,7 +207,7 @@ export default function TranslationStatusPanel({
                   {statusLabel(state)}
                 </span>
                 {preview ? (
-                  <Link href={`/${locale}/${type}/${slug}`} target="_blank" className="ml-3 text-xs font-semibold text-emerald-800">
+                  <Link href={`/${locale}/${type}/${slug}`} target="_blank" prefetch={false} className="ml-3 text-xs font-semibold text-emerald-800">
                     Preview
                   </Link>
                 ) : (
