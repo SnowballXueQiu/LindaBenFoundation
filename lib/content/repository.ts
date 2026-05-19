@@ -114,6 +114,77 @@ const fallbackNewsletters: Article[] = [
   },
 ];
 
+const extraFallbackBlogs: Article[] = [
+  ["mental-health-food-insecurity", "Mental Health & Food Insecurity: The Hidden Connection", "When we talk about mental health, we often focus on therapy, self-care, and support systems. But there is a powerful factor that is frequently overlooked.", "https://picsum.photos/id/1027/900/620", "2026-05-12"],
+  ["earth-month-local-farmers", "Earth Month: How Supporting Local Farmers Strengthens Health + Sustainability", "Earth Month invites us to reflect on how daily choices impact the planet and each other.", "https://picsum.photos/id/292/900/620", "2026-04-22"],
+  ["rising-food-costs", "How Rising Food Costs Are Impacting Families in Maryland Right Now", "Grocery costs continue to climb, creating pressure for families already working hard to make ends meet.", "https://picsum.photos/id/1080/900/620", "2026-03-19"],
+  ["national-volunteer-month", "National Volunteer Month: Why Youth Volunteerism Is Changing Communities", "Volunteers bring energy, compassion, and practical help to local families experiencing food insecurity.", "https://picsum.photos/id/1060/900/620", "2026-03-02"],
+  ["food-insecurity-hunger-health", "Why Food Insecurity Isn't Just Hunger: The Health Connection", "Food insecurity can affect stress, focus, chronic disease risk, and whole-family stability.", "https://picsum.photos/id/1062/900/620", "2026-02-14"],
+  ["heart-healthy-eating-budget", "Food as Medicine: Heart-Healthy Eating on a Budget", "Healthy eating can be affordable when families have access to practical recipes and reliable ingredients.", "https://picsum.photos/id/431/900/620", "2026-02-01"],
+  ["pantry-staples-heart-healthy", "5 Pantry Staples for Heart-Healthy Meals", "A few pantry staples can make it easier to prepare nourishing meals at home.", "https://picsum.photos/id/488/900/620", "2026-01-18"],
+  ["myth-vs-fact-food-insecurity", "Myth vs. Fact: Food Insecurity in Maryland", "Food insecurity is often misunderstood. Clear facts help communities respond with dignity and care.", "https://picsum.photos/id/225/900/620", "2026-01-08"],
+  ["volunteer-resolutions", "Volunteer Resolutions: 5 Realistic Ways to Show Up Consistently", "Small, consistent commitments can create meaningful impact throughout the year.", "https://picsum.photos/id/674/900/620", "2026-01-02"],
+  ["healthy-holidays", "Healthy Holidays: Nourishing Meals, Bright Traditions, and Recipes You'll Actually Want to Make", "The holidays can be joyful and nourishing, even when budgets are tight.", "https://picsum.photos/id/493/900/620", "2025-12-19"],
+  ["hunger-free-holidays", "No One Should Go Hungry for the Holidays: Understanding Food Insecurity", "The season can bring extra pressure for families, making community food support especially important.", "https://picsum.photos/id/429/900/620", "2025-12-03"],
+  ["september-hunger-action-month", "September Is Hunger Action Month: How LindaBen Foundation Helps Fight Hunger", "Hunger Action Month is a reminder that reliable food access changes lives.", "https://picsum.photos/id/102/900/620", "2025-09-10"],
+].map(([slug, title, excerpt, coverImage, publishedAt]) => ({
+  type: "blogs",
+  slug,
+  locale: "en",
+  title,
+  excerpt,
+  status: "published",
+  coverImage,
+  author: "LindaBen Foundation",
+  publishedAt,
+  updatedAt: `${publishedAt}T00:00:00.000Z`,
+  tags: ["Food Insecurity"],
+  category: "Community",
+  body: [
+    `## ${title}`,
+    excerpt,
+    "LindaBen Foundation sees food as more than a meal. Reliable access to nutritious food supports dignity, stability, learning, and whole-person wellness.",
+    "Through community partnerships, volunteer support, and direct pantry programs, families receive practical help when they need it most.",
+  ].join("\n\n"),
+})) satisfies Article[];
+
+const extraFallbackNewsletters: Article[] = [
+  ["tlf-healthy-foods-may-2026", "TLF Healthy Foods May 2026 Newsletter", "May Nutrition Tips, spring produce ideas, and healthy recipes for families.", "https://picsum.photos/id/488/900/560", "2026-04-26"],
+  ["tlf-healthy-foods-april-2026", "TLF Healthy Foods April 2026 Newsletter", "April Nutrition Tips and seasonal foods to support balanced meals.", "https://picsum.photos/id/493/900/560", "2026-03-31"],
+  ["tlf-healthy-foods-march-2026", "TLF Healthy Foods March 2026 Newsletter", "March Nutrition Tips with family-friendly meal ideas.", "https://picsum.photos/id/292/900/560", "2026-03-09"],
+  ["tlf-healthy-foods-february-2026", "TLF Healthy Foods February 2026 Newsletter", "February Nutrition Tips for heart health and comfort meals.", "https://picsum.photos/id/1060/900/560", "2026-02-09"],
+  ["tlf-healthy-foods-january-2025", "TLF Healthy Foods January 2025 Newsletter", "Start the year strong with simple nourishing choices.", "https://picsum.photos/id/431/900/560", "2025-12-25"],
+  ["tlf-healthy-foods-december-2025", "TLF Healthy Foods December 2025 Newsletter", "Seasonal produce choices, family meals, and wellness reminders.", "https://picsum.photos/id/102/900/560", "2025-12-15"],
+  ["tlf-healthy-foods-november-2025", "TLF Healthy Foods November 2025 Newsletter", "Simple meals, immune support, and pantry-friendly ingredients.", "https://picsum.photos/id/674/900/560", "2025-11-03"],
+  ["lindaben-scribes-quarter-2-2025", "LindaBen Scribes, Quarter 2 2025 Edition", "Stories, updates, and highlights from the heart of our work.", "/icons/logo.svg", "2025-06-15"],
+].map(([slug, title, excerpt, coverImage, publishedAt]) => ({
+  type: "newsletter",
+  slug,
+  locale: "en",
+  title,
+  excerpt,
+  status: "published",
+  coverImage,
+  author: "Annabelle Beavan",
+  publishedAt,
+  updatedAt: `${publishedAt}T00:00:00.000Z`,
+  tags: ["Nutrition Tips"],
+  category: "Newsletter",
+  body: [
+    `## ${title}`,
+    "🌱 Nutrition Tips",
+    excerpt,
+    "This sample newsletter demonstrates how monthly updates, recipes, and education notes render on the public site before Garage/S3 content is populated.",
+    "## Food Traditions of Renewal",
+    "Healthy meals can honor tradition while helping families build energy, focus, and resilience.",
+    "## Take Our Survey",
+    "Community feedback helps LindaBen Foundation improve programs and meet families where they are.",
+  ].join("\n\n"),
+})) satisfies Article[];
+
+const allFallbackBlogs = [...fallbackBlogs, ...extraFallbackBlogs];
+const allFallbackNewsletters = [...fallbackNewsletters, ...extraFallbackNewsletters];
+
 function indexKey(type: ArticleType) {
   return `content/${type}/index.json`;
 }
@@ -127,7 +198,7 @@ function sortByPublishedAt(a: ArticleSummary, b: ArticleSummary) {
 }
 
 function getFallbackIndex(type: ArticleType): ArticleIndex {
-  const articles = type === "blogs" ? fallbackBlogs : fallbackNewsletters;
+  const articles = type === "blogs" ? allFallbackBlogs : allFallbackNewsletters;
   return {
     articles: articles.map(articleToSummary),
     updatedAt: new Date(0).toISOString(),
@@ -135,7 +206,7 @@ function getFallbackIndex(type: ArticleType): ArticleIndex {
 }
 
 function getFallbackArticle(type: ArticleType, slug: string, locale: Locale): Article | null {
-  const articles = type === "blogs" ? fallbackBlogs : fallbackNewsletters;
+  const articles = type === "blogs" ? allFallbackBlogs : allFallbackNewsletters;
   const article = articles.find((item) => item.slug === slug && (item.locale === locale || item.locale === defaultLocale));
   return article || null;
 }

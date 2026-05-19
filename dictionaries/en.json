@@ -43,7 +43,8 @@
     "title": "Our Blog",
     "description": "Stay updated with our latest stories, newsletters, and tips on helping the community.",
     "more": "More On Our Blog",
-    "empty": "No published posts yet."
+    "empty": "No published posts yet.",
+    "olderPost": "Older Post"
   },
   "footer": {
     "quickLinks": "Quick Links",
@@ -541,6 +542,8 @@
     "empty": "No published newsletter entries yet.",
     "subscribeTitle": "Subscribe to our newsletter!",
     "emailLabel": "Your Email",
-    "subscribeButton": "Subscribe"
+    "subscribeButton": "Subscribe",
+    "searchPlaceholder": "Search for a post",
+    "showMore": "Show More"
   }
 }

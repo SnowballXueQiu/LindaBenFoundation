@@ -44,7 +44,8 @@
     "title": "블로그",
     "description": "지역사회를 돕는 최신 이야기, 뉴스, 정보를 확인하세요.",
     "more": "블로그 더 보기",
-    "empty": "게시된 글이 없습니다."
+    "empty": "게시된 글이 없습니다.",
+    "olderPost": "이전 글"
   },
   "footer": {
     "quickLinks": "빠른 링크",
@@ -545,6 +546,8 @@
     "empty": "아직 게시된 뉴스레터가 없습니다.",
     "subscribeTitle": "뉴스레터를 구독하세요!",
     "emailLabel": "이메일 주소",
-    "subscribeButton": "구독"
+    "subscribeButton": "구독",
+    "searchPlaceholder": "게시물 검색",
+    "showMore": "더 보기"
   }
 }

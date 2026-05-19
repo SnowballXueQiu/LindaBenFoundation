@@ -43,7 +43,8 @@
     "title": "Notre blog",
     "description": "Suivez nos dernières histoires, actualités et conseils pour aider la communauté.",
     "more": "Plus sur notre blog",
-    "empty": "Aucun article publié pour le moment."
+    "empty": "Aucun article publié pour le moment.",
+    "olderPost": "Article précédent"
   },
   "footer": {
     "quickLinks": "Liens rapides",
@@ -541,6 +542,8 @@
     "empty": "Aucun bulletin publié pour le moment.",
     "subscribeTitle": "Abonnez-vous à notre bulletin !",
     "emailLabel": "Votre e-mail",
-    "subscribeButton": "S’abonner"
+    "subscribeButton": "S’abonner",
+    "searchPlaceholder": "Rechercher un article",
+    "showMore": "Afficher plus"
   }
 }

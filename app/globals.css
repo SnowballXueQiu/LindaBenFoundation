@@ -100,3 +100,49 @@ body {
 .marquee-row:hover .marquee-track-reverse {
   animation-play-state: paused !important;
 }
+
+.article-prose {
+  color: var(--text-dark);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.article-prose h1,
+.article-prose h2,
+.article-prose h3 {
+  color: var(--green-deep);
+  font-family: var(--font-merriweather), serif;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.article-prose h2 {
+  font-size: clamp(1.75rem, 2vw, 2.35rem);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.article-prose h3 {
+  font-size: 1.35rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.article-prose p {
+  margin: 0.85rem 0;
+}
+
+.article-prose ul,
+.article-prose ol {
+  margin: 0.85rem 0 1.1rem 1.25rem;
+}
+
+.article-prose li {
+  margin: 0.35rem 0;
+}
+
+.article-prose a {
+  color: var(--green-deep);
+  font-weight: 700;
+  text-decoration: underline;
+}

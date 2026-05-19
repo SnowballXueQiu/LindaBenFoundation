@@ -43,7 +43,8 @@
     "title": "我们的博客",
     "description": "了解我们的最新故事、通讯和帮助社区的实用内容。",
     "more": "更多博客文章",
-    "empty": "暂无已发布文章。"
+    "empty": "暂无已发布文章。",
+    "olderPost": "较早文章"
   },
   "footer": {
     "quickLinks": "快速链接",
@@ -541,6 +542,8 @@
     "empty": "暂无已发布的通讯内容。",
     "subscribeTitle": "订阅我们的通讯！",
     "emailLabel": "您的邮箱",
-    "subscribeButton": "订阅"
+    "subscribeButton": "订阅",
+    "searchPlaceholder": "搜索文章",
+    "showMore": "显示更多"
   }
 }

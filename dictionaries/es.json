@@ -43,7 +43,8 @@
     "title": "Nuestro blog",
     "description": "Mantente al día con nuestras historias, noticias y consejos para ayudar a la comunidad.",
     "more": "Más en nuestro blog",
-    "empty": "Aún no hay publicaciones."
+    "empty": "Aún no hay publicaciones.",
+    "olderPost": "Publicación anterior"
   },
   "footer": {
     "quickLinks": "Enlaces rápidos",
@@ -541,6 +542,8 @@
     "empty": "Aún no hay boletines publicados.",
     "subscribeTitle": "¡Suscríbete a nuestro boletín!",
     "emailLabel": "Tu correo electrónico",
-    "subscribeButton": "Suscribirse"
+    "subscribeButton": "Suscribirse",
+    "searchPlaceholder": "Buscar una publicación",
+    "showMore": "Mostrar más"
   }
 }
