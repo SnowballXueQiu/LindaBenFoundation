@@ -36,7 +36,7 @@ export type ArticleIndex = {
   updatedAt: string;
 };
 
-export type ArticleTranslationState = "origin" | "missing" | "pending" | "translating" | "done" | "failed" | "stale";
+export type ArticleTranslationState = "origin" | "missing" | "pending" | "processing" | "translating" | "done" | "failed" | "stale";
 
 export type ArticleTranslationStatus = {
   locale: Locale;

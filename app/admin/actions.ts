@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { after } from "next/server";
 import { requireAdmin } from "@/lib/admin/auth";
 import { defaultLocale, isSupportedLocale, supportedLocales, type Locale } from "@/lib/i18n/config";
-import { deleteArticle, markExistingArticleTranslationsPending, saveArticle, translateArticleToLocales } from "@/lib/content/repository";
+import { deleteArticle, getArticleOriginLocale, markExistingArticleTranslationsPending, saveArticle, translateArticleToLocales } from "@/lib/content/repository";
 import { makeSlug } from "@/lib/content/markdown";
 import { normalizeArticleMarkdown } from "@/lib/content/normalize-markdown";
 import { articleTypes, type Article, type ArticleStatus, type ArticleType } from "@/lib/content/types";
@@ -67,16 +67,20 @@ export async function saveArticleAction(_state: AdminActionState, formData: Form
     body,
   };
 
-  const saved = await saveArticle(article, { translateMissing: true });
-  const autoTargets = supportedLocales.filter((targetLocale) => targetLocale !== locale);
-  after(async () => {
-    const translated = await translateArticleToLocales(type, slug, saved.locale, autoTargets);
-    revalidatePath("/admin");
-    for (const translatedArticle of translated) {
-      revalidatePath(`/${translatedArticle.locale}/${type}`);
-      revalidatePath(`/${translatedArticle.locale}/${type}/${slug}`);
-    }
-  });
+  const originLocale = existingSlug ? await getArticleOriginLocale(type, slug, locale) : locale;
+  const shouldTranslateFromOrigin = locale === originLocale;
+  const saved = await saveArticle(article, { translateMissing: shouldTranslateFromOrigin });
+  const autoTargets = supportedLocales.filter((targetLocale) => targetLocale !== saved.locale);
+  if (shouldTranslateFromOrigin) {
+    after(async () => {
+      const translated = await translateArticleToLocales(type, slug, saved.locale, autoTargets);
+      revalidatePath("/admin");
+      for (const translatedArticle of translated) {
+        revalidatePath(`/${translatedArticle.locale}/${type}`);
+        revalidatePath(`/${translatedArticle.locale}/${type}/${slug}`);
+      }
+    });
+  }
 
   revalidatePath("/");
   revalidatePath(`/${locale}`);

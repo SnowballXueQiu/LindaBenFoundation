@@ -445,12 +445,13 @@ body {
 .editor-highlight-layer {
   pointer-events: none;
   color: rgb(15 23 42);
+  display: none;
 }
 
 .editor-textarea {
   z-index: 10;
-  background: transparent;
-  color: transparent;
+  background: white;
+  color: rgb(15 23 42);
   caret-color: rgb(15 23 42);
   outline: none;
 }

@@ -1,6 +1,7 @@
 "use client";
 
-import { type ChangeEvent, type DragEvent, type KeyboardEvent, type UIEvent, useActionState, useEffect, useMemo, useRef, useState } from "react";
+import { type ChangeEvent, type DragEvent, type KeyboardEvent, type UIEvent, useActionState, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { saveArticleAction, type AdminActionState } from "@/app/admin/actions";
 import ArticleBody from "@/components/ArticleBody";
 import { normalizeArticleMarkdown } from "@/lib/content/normalize-markdown";
@@ -203,14 +204,19 @@ export default function ArticleEditor({
   type: "blogs" | "newsletter";
   article?: Article | null;
 }) {
+  const router = useRouter();
   const [state, action, pending] = useActionState(saveArticleAction, initialState);
   const formRef = useRef<HTMLFormElement>(null);
   const bodyRef = useRef<HTMLTextAreaElement>(null);
   const highlightRef = useRef<HTMLPreElement>(null);
   const selectionRef = useRef<{ start: number; end: number } | null>(null);
+  const dirtyRef = useRef(false);
+  const currentLocaleRef = useRef(article?.locale || defaultLocale);
   const fileRef = useRef<HTMLInputElement>(null);
   const markdownFileRef = useRef<HTMLInputElement>(null);
   const [body, setBody] = useState(normalizeArticleMarkdown(article?.body || starterMarkdown));
+  const [dirty, setDirty] = useState(false);
+  const [autoSaving, setAutoSaving] = useState(false);
   const [media, setMedia] = useState<MediaItem[]>([]);
   const [selectedMedia, setSelectedMedia] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
@@ -234,6 +240,78 @@ export default function ArticleEditor({
       .then((items) => setMedia(items))
       .catch(() => setMedia([]));
   }, []);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (!dirtyRef.current) return;
+      event.preventDefault();
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, []);
+
+  function markDirty() {
+    dirtyRef.current = true;
+    setDirty(true);
+  }
+
+  const buildArticleFormData = useCallback((localeOverride?: string) => {
+    if (!formRef.current) return null;
+    const formData = new FormData(formRef.current);
+    formData.set("body", bodyRef.current?.value || body);
+    if (localeOverride) formData.set("locale", localeOverride);
+    return formData;
+  }, [body]);
+
+  const saveDraftViaApi = useCallback(async (localeOverride?: string) => {
+    const formData = buildArticleFormData(localeOverride);
+    if (!formData) throw new Error("Article form is not available.");
+
+    setAutoSaving(true);
+    try {
+      const response = await fetch("/api/admin/articles/autosave", {
+        method: "POST",
+        body: formData,
+      });
+      const result = (await response.json()) as { ok?: boolean; slug?: string; locale?: string; error?: string };
+      if (!response.ok || !result.ok || !result.slug || !result.locale) {
+        throw new Error(result.error || "Autosave failed.");
+      }
+
+      dirtyRef.current = false;
+      setDirty(false);
+      currentLocaleRef.current = result.locale;
+      return { slug: result.slug, locale: result.locale };
+    } finally {
+      setAutoSaving(false);
+    }
+  }, [buildArticleFormData]);
+
+  useEffect(() => {
+    const handleClick = (event: MouseEvent) => {
+      if (!article?.slug || !dirtyRef.current) return;
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const link = target.closest("a[href]");
+      if (!(link instanceof HTMLAnchorElement)) return;
+
+      const url = new URL(link.href);
+      if (url.origin !== window.location.origin) return;
+      if (!url.pathname.startsWith(`/admin/articles/${type}/${article.slug}`)) return;
+      if (url.searchParams.get("locale") === currentLocaleRef.current) return;
+
+      event.preventDefault();
+      if (!window.confirm("You have unsaved changes. Save this language before switching?")) return;
+
+      void saveDraftViaApi(currentLocaleRef.current)
+        .then((saved) => router.push(`/admin/articles/${type}/${saved.slug}${url.search}`))
+        .catch((error) => window.alert(error instanceof Error ? error.message : "Autosave failed."));
+    };
+
+    document.addEventListener("click", handleClick, true);
+    return () => document.removeEventListener("click", handleClick, true);
+  }, [article?.slug, router, saveDraftViaApi, type]);
 
   function updateCompletion(value: string, cursor: number) {
     const beforeCursor = value.slice(0, cursor);
@@ -283,6 +361,7 @@ export default function ArticleEditor({
     const scrollLeft = textarea.scrollLeft;
     textarea.value = next;
     setEditorBody(next, selectionStart);
+    markDirty();
     textarea.focus({ preventScroll: true });
     textarea.setSelectionRange(selectionStart, selectionEnd);
     selectionRef.current = { start: selectionStart, end: selectionEnd };
@@ -324,6 +403,7 @@ export default function ArticleEditor({
     }
 
     setEditorBody(normalizeArticleMarkdown(body));
+    markDirty();
     setSelectedMarkdownName(file.name);
   }
 
@@ -413,7 +493,35 @@ export default function ArticleEditor({
 
   function handleBodyChange(event: ChangeEvent<HTMLTextAreaElement>) {
     setEditorBody(event.target.value, event.target.selectionStart);
+    markDirty();
     rememberSelection(event.target);
+  }
+
+  async function handleLocaleChange(event: ChangeEvent<HTMLSelectElement>) {
+    const nextLocale = event.currentTarget.value;
+    const currentLocale = currentLocaleRef.current;
+    if (nextLocale === currentLocale) return;
+
+    if (!article?.slug) {
+      currentLocaleRef.current = nextLocale;
+      markDirty();
+      return;
+    }
+
+    event.currentTarget.value = currentLocale;
+
+    if (dirtyRef.current) {
+      if (!window.confirm("You have unsaved changes. Save this language before switching?")) return;
+      try {
+        const saved = await saveDraftViaApi(currentLocale);
+        router.push(`/admin/articles/${type}/${saved.slug}?locale=${nextLocale}`);
+      } catch (error) {
+        window.alert(error instanceof Error ? error.message : "Autosave failed.");
+      }
+      return;
+    }
+
+    router.push(`/admin/articles/${type}/${article.slug}?locale=${nextLocale}`);
   }
 
   function handleEditorKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
@@ -516,6 +624,12 @@ export default function ArticleEditor({
     <form
       ref={formRef}
       action={action}
+      onInputCapture={(event) => {
+        const target = event.target;
+        if (target instanceof HTMLInputElement && target.type === "file") return;
+        if (target instanceof HTMLSelectElement && target.name === "locale") return;
+        markDirty();
+      }}
       onDragOver={(event) => event.preventDefault()}
       onDrop={(event) => event.preventDefault()}
       className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]"
@@ -556,6 +670,7 @@ export default function ArticleEditor({
                 id="locale"
                 name="locale"
                 defaultValue={article?.locale || defaultLocale}
+                onChange={handleLocaleChange}
                 className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-emerald-700"
               >
                 {supportedLocales.map((locale) => (
@@ -567,14 +682,7 @@ export default function ArticleEditor({
         </section>
 
         <section className="rounded-lg border border-slate-200 bg-white shadow-sm">
-          <div
-            className="flex flex-wrap items-center gap-2 border-b border-slate-200 bg-slate-50/70 p-3"
-            onMouseDown={(event) => {
-              if (event.target instanceof HTMLButtonElement || event.target instanceof HTMLAnchorElement) {
-                event.preventDefault();
-              }
-            }}
-          >
+          <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 bg-slate-50/70 p-3">
             <button type="button" onClick={() => prefixSelection("# ", "Heading")} className="editor-toolbar-button">H1</button>
             <button type="button" onClick={() => prefixSelection("## ", "Heading")} className="editor-toolbar-button">H2</button>
             <button type="button" onClick={() => prefixSelection("### ", "Heading")} className="editor-toolbar-button">H3</button>
@@ -673,13 +781,17 @@ export default function ArticleEditor({
         )}
 
         {state.message && <p className="text-sm text-red-700">{state.message}</p>}
-        <button
-          type="submit"
-          disabled={pending}
-          className="rounded-md bg-emerald-800 px-5 py-3 text-sm font-semibold text-white disabled:opacity-60"
-        >
-          {pending ? "Saving..." : "Save article"}
-        </button>
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            type="submit"
+            disabled={pending || autoSaving}
+            className="rounded-md bg-emerald-800 px-5 py-3 text-sm font-semibold text-white disabled:opacity-60"
+          >
+            {pending ? "Saving..." : autoSaving ? "Autosaving..." : "Save article"}
+          </button>
+          {dirty && <span className="text-sm font-semibold text-amber-700">Unsaved changes</span>}
+          {!dirty && article && <span className="text-sm text-slate-400">Saved</span>}
+        </div>
       </div>
 
       <aside className="space-y-6">
