@@ -62,6 +62,20 @@ function isActiveTranslationState(state?: string) {
   return state === "pending" || state === "processing" || state === "translating";
 }
 
+const staleProcessingMs = 60_000;
+
+function isFreshProcessingState(status?: ArticleTranslationStatus) {
+  if (status?.state !== "processing" && status?.state !== "translating") return false;
+  const updatedAt = Date.parse(status.updatedAt || "");
+  return Number.isFinite(updatedAt) && Date.now() - updatedAt <= staleProcessingMs;
+}
+
+function needsTranslationWork(status: ArticleTranslationStatus) {
+  if (status.state === "pending") return true;
+  if (status.state !== "processing" && status.state !== "translating") return false;
+  return !isFreshProcessingState(status);
+}
+
 export async function getArticleIndex(type: ArticleType): Promise<ArticleIndex> {
   if (!hasS3Config()) return emptyIndex;
   return getObjectJson<ArticleIndex>(indexKey(type), emptyIndex);
@@ -228,6 +242,43 @@ export async function markExistingArticleTranslationsPending(type: ArticleType, 
     throw new Error("Source article not found.");
   }
   return markArticleTranslationsPending(source, targetLocales);
+}
+
+export async function claimNextArticleTranslation(type: ArticleType, slug: string, requestedSourceLocale: Locale = defaultLocale) {
+  const statuses = await listArticleTranslationStatuses(type, slug, requestedSourceLocale);
+  if (statuses.some(isFreshProcessingState)) {
+    return { idle: false, busy: true };
+  }
+
+  const next = statuses.find(needsTranslationWork);
+  if (!next || !supportedLocales.includes(next.locale)) {
+    return { idle: true, busy: false };
+  }
+
+  const sourceLocale = next.sourceLocale && supportedLocales.includes(next.sourceLocale)
+    ? next.sourceLocale
+    : requestedSourceLocale;
+  if (!sourceLocale || !supportedLocales.includes(sourceLocale)) {
+    return { idle: true, busy: false };
+  }
+
+  const store = await getTranslationStatusStore(type, slug);
+  const now = new Date().toISOString();
+  store.statuses[next.locale] = {
+    ...next,
+    locale: next.locale,
+    state: "processing",
+    sourceLocale,
+    updatedAt: now,
+  };
+  await putTranslationStatusStore(type, slug, store);
+
+  return {
+    idle: false,
+    busy: false,
+    sourceLocale,
+    targetLocale: next.locale,
+  };
 }
 
 export async function listArticles(type: ArticleType, locale?: Locale, includeDrafts = false) {
