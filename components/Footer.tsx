@@ -20,7 +20,7 @@ const socialIcons = [
   {
     name: "Instagram",
     href: "https://www.instagram.com/lindabenfoundationinc/",
-    path: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zm1.5-4.87h.01M6.5 3.5h11a3 3 0 0 1 3 3v11a3 3 0 0 1-3-3v-11a3 3 0 0 1 3-3z",
+    path: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zm1.5-4.87h.01M6.5 3.5h11a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3h-11a3 3 0 0 1-3-3v-11a3 3 0 0 1 3-3z",
   },
   {
     name: "YouTube",
