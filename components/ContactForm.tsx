@@ -7,12 +7,40 @@ import { useI18n } from "@/lib/i18n/client";
 export default function ContactForm() {
   const [smsConsent, setSmsConsent] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
   const { dictionary } = useI18n();
   const copy = dictionary.contactForm;
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSubmitted(true);
+    setError("");
+    setSubmitting(true);
+
+    const formData = new FormData(e.currentTarget);
+    const payload = {
+      fullName: String(formData.get("fullName") || ""),
+      phoneNumber: String(formData.get("phoneNumber") || ""),
+      email: String(formData.get("email") || ""),
+      subject: String(formData.get("subject") || ""),
+      message: String(formData.get("message") || ""),
+      smsConsent,
+    };
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = (await response.json().catch(() => ({}))) as { message?: string };
+      if (!response.ok) throw new Error(result.message || "Unable to send message.");
+      setSubmitted(true);
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : "Unable to send message.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -145,6 +173,7 @@ export default function ContactForm() {
                     </label>
                     <input
                       type="text"
+                      name="fullName"
                       required
                       placeholder="Jane Smith"
                       className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200 focus:ring-2"
@@ -163,6 +192,7 @@ export default function ContactForm() {
                     </label>
                     <input
                       type="tel"
+                      name="phoneNumber"
                       placeholder="+1 (240) 000-0000"
                       className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
                       style={{
@@ -182,6 +212,7 @@ export default function ContactForm() {
                   </label>
                   <input
                     type="email"
+                    name="email"
                     required
                     placeholder="jane@example.com"
                     className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
@@ -201,6 +232,7 @@ export default function ContactForm() {
                   </label>
                   <input
                     type="text"
+                    name="subject"
                     placeholder={copy.subjectPlaceholder}
                     className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
                     style={{
@@ -218,6 +250,7 @@ export default function ContactForm() {
                     {copy.message} <span style={{ color: "var(--green-mid)" }}>*</span>
                   </label>
                   <textarea
+                    name="message"
                     required
                     rows={4}
                     placeholder={copy.messagePlaceholder}
@@ -259,12 +292,19 @@ export default function ContactForm() {
                   </span>
                 </label>
 
+                {error && (
+                  <p className="rounded-lg bg-red-50 px-3 py-2 text-sm font-medium text-red-700">
+                    {error}
+                  </p>
+                )}
+
                 <button
                   type="submit"
+                  disabled={submitting}
                   className="w-full py-3.5 rounded-xl font-semibold text-white transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
                   style={{ background: "var(--green-deep)" }}
                 >
-                  {copy.send}
+                  {submitting ? "Sending..." : copy.send}
                 </button>
               </form>
             )}

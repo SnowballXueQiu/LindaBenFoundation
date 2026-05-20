@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/admin/auth";
+import { listContactSubmissions } from "@/lib/contact/submissions";
 import { getArticleOriginLocale, listArticles } from "@/lib/content/repository";
 import type { ArticleSummary, ArticleType } from "@/lib/content/types";
 
@@ -26,7 +27,11 @@ async function groupByOriginLanguage(type: ArticleType, articles: ArticleSummary
 
 export default async function AdminDashboardPage() {
   await requireAdmin();
-  const [blogs, newsletter] = await Promise.all([listArticles("blogs", undefined, true), listArticles("newsletter", undefined, true)]);
+  const [blogs, newsletter, contactSubmissions] = await Promise.all([
+    listArticles("blogs", undefined, true),
+    listArticles("newsletter", undefined, true),
+    listContactSubmissions(),
+  ]);
   const articles = {
     blogs: await groupByOriginLanguage("blogs", blogs),
     newsletter: await groupByOriginLanguage("newsletter", newsletter),
@@ -39,9 +44,14 @@ export default async function AdminDashboardPage() {
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">Dashboard</p>
           <h1 className="mt-2 text-3xl font-bold">Content management</h1>
         </div>
-        <Link href="/admin/media" className="rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white">
-          Manage media
-        </Link>
+        <div className="flex flex-wrap gap-3">
+          <Link href="/admin/contact" className="rounded-md border border-emerald-700 px-4 py-2 text-sm font-semibold text-emerald-800">
+            Contact Us ({contactSubmissions.length})
+          </Link>
+          <Link href="/admin/media" className="rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white">
+            Manage media
+          </Link>
+        </div>
       </div>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">

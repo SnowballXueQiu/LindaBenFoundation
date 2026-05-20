@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin/auth";
+import { deleteContactSubmission } from "@/lib/contact/submissions";
 import { defaultLocale, isSupportedLocale, supportedLocales, type Locale } from "@/lib/i18n/config";
 import { deleteArticle, getArticleOriginLocale, markExistingArticleTranslationsPending, saveArticle } from "@/lib/content/repository";
 import { makeSlug } from "@/lib/content/markdown";
@@ -118,4 +119,14 @@ export async function deleteArticleAction(formData: FormData) {
   revalidatePath("/");
   revalidatePath("/admin");
   redirect("/admin");
+}
+
+export async function deleteContactSubmissionAction(formData: FormData) {
+  await requireAdmin();
+  const id = stringValue(formData, "id");
+  if (!id) throw new Error("Missing contact submission id.");
+
+  await deleteContactSubmission(id);
+  revalidatePath("/admin");
+  revalidatePath("/admin/contact");
 }

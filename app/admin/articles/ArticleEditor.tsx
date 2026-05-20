@@ -157,6 +157,10 @@ function escapeHtml(value: string) {
     .replace(/>/g, "&gt;");
 }
 
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 function highlightInline(value: string) {
   let next = escapeHtml(value);
   next = next.replace(/(!?\[[^\]]+\]\([^)]+\))/g, '<span class="md-link">$1</span>');
@@ -166,6 +170,10 @@ function highlightInline(value: string) {
   next = next.replace(/(^|[\s(])(\*[^*\n]+\*|_[^_\n]+_)/g, '$1<span class="md-em">$2</span>');
   next = next.replace(/(&lt;\/?(attach|gallery|iframe)\b[^&]*?&gt;)/gi, '<span class="md-tag">$1</span>');
   return next;
+}
+
+function startsWithMarkdownWrapper(value: string, start: number, end: number, before: string, after: string) {
+  return value.slice(start - before.length, start) === before && value.slice(end, end + after.length) === after;
 }
 
 function highlightMarkdown(value: string) {

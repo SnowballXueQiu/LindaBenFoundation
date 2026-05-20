@@ -15,6 +15,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               <Link href="/admin/articles/blogs/new">New Blog</Link>
               <Link href="/admin/articles/newsletter/new">New Newsletter</Link>
               <Link href="/admin/media">Media</Link>
+              <Link href="/admin/contact">Contact Us</Link>
             </nav>
             <form action={logoutAction}>
               <button className="rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium" type="submit">
