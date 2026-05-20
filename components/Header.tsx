@@ -82,7 +82,7 @@ export default function Header() {
       return pathWithoutLocale === "/volunteer";
     }
     if (item.href === "/resources") {
-      return pathWithoutLocale === "/donations" || pathWithoutLocale === "/financials" || pathWithoutLocale === "/our-partners" || pathWithoutLocale === "/resources" || pathWithoutLocale === "/events" || pathWithoutLocale === "/blogs" || pathWithoutLocale === "/newsletter";
+      return pathWithoutLocale === "/donations" || pathWithoutLocale === "/financials" || pathWithoutLocale === "/our-partners" || pathWithoutLocale === "/resources" || pathWithoutLocale === "/events" || pathWithoutLocale === "/blogs" || pathWithoutLocale === "/newsletter" || pathWithoutLocale === "/testimonials";
     }
     if (item.href === "/contact") {
       return pathWithoutLocale === "/contact";

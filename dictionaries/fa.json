@@ -133,6 +133,16 @@
     "send": "ارسال پیام"
   },
   "pages": {
+    "testimonials": {
+      "title": "گواهی‌ها",
+      "metaDescription": "گواهی‌ها و نظرهای Google Business از اعضای جامعه و همکاران LindaBen Foundation را بخوانید.",
+      "reviewsEyebrow": "نظرهای Google Business",
+      "carouselTitle": "صدای جامعه",
+      "unavailableText": "گواهی‌ها در حال حاضر در دسترس نیستند.",
+      "previous": "گواهی قبلی",
+      "next": "گواهی بعدی",
+      "show": "نمایش گواهی"
+    },
     "contact": {
       "heroTitle": "تماس با ما",
       "metaDescription": "با LindaBen Foundation تماس بگیرید. ما برای کمک و شنیدن صدای شما اینجا هستیم.",

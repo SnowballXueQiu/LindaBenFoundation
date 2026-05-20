@@ -133,6 +133,16 @@
     "send": "پیغام بھیجیں"
   },
   "pages": {
+    "testimonials": {
+      "title": "تعریفی بیانات",
+      "metaDescription": "LindaBen Foundation کے کمیونٹی اراکین اور شراکت داروں کی تعریفی آرا اور Google Business جائزے پڑھیں۔",
+      "reviewsEyebrow": "Google Business جائزے",
+      "carouselTitle": "کمیونٹی کی آوازیں",
+      "unavailableText": "تعریفی بیانات فی الحال دستیاب نہیں ہیں۔",
+      "previous": "پچھلا بیان",
+      "next": "اگلا بیان",
+      "show": "بیان دکھائیں"
+    },
     "contact": {
       "heroTitle": "ہم سے رابطہ کریں",
       "metaDescription": "LindaBen Foundation سے رابطہ کریں۔ ہم مدد اور سننے کے لیے حاضر ہیں۔",

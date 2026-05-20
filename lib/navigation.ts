@@ -40,7 +40,7 @@ export function getNavItems(dictionary: Dictionary) {
       { label: nav.blog, href: "/blogs" },
       { label: nav.newsletter, href: "/newsletter" },
       { label: nav.events, href: "/events" },
-      { label: nav.testimonials, href: "#testimonials" },
+      { label: nav.testimonials, href: "/testimonials" },
       { label: nav.ourPartners, href: "/our-partners" },
       { label: nav.financials, href: "/financials" },
       { label: nav.surveys, href: "/resources" },

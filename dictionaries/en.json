@@ -129,6 +129,16 @@
     "send": "Send Message"
   },
   "pages": {
+    "testimonials": {
+      "title": "Testimonials",
+      "metaDescription": "Read testimonials and Google Business reviews from LindaBen Foundation community members and partners.",
+      "reviewsEyebrow": "Google Business Reviews",
+      "carouselTitle": "Community Voices",
+      "unavailableText": "Testimonials are currently unavailable.",
+      "previous": "Previous testimonial",
+      "next": "Next testimonial",
+      "show": "Show testimonial"
+    },
     "contact": {
       "heroTitle": "Contact Us",
       "metaDescription": "Get in touch with LindaBen Foundation. We're here to help and listen. Contact us today!",

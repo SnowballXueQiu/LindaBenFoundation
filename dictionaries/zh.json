@@ -129,6 +129,16 @@
     "send": "发送消息"
   },
   "pages": {
+    "testimonials": {
+      "title": "见证",
+      "metaDescription": "阅读 LindaBen Foundation 社区成员和合作伙伴的见证与 Google Business 评价。",
+      "reviewsEyebrow": "Google Business 评价",
+      "carouselTitle": "社区声音",
+      "unavailableText": "见证内容暂时不可用。",
+      "previous": "上一条见证",
+      "next": "下一条见证",
+      "show": "显示见证"
+    },
     "contact": {
       "heroTitle": "联系我们",
       "metaDescription": "联系 LindaBen Foundation。我们愿意帮助并倾听你的声音。",

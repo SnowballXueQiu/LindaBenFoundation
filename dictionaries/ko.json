@@ -133,6 +133,16 @@
     "send": "메시지 보내기"
   },
   "pages": {
+    "testimonials": {
+      "title": "후기",
+      "metaDescription": "LindaBen Foundation 커뮤니티 구성원과 파트너의 후기 및 Google Business 리뷰를 읽어보세요.",
+      "reviewsEyebrow": "Google Business 리뷰",
+      "carouselTitle": "커뮤니티의 목소리",
+      "unavailableText": "현재 후기를 불러올 수 없습니다.",
+      "previous": "이전 후기",
+      "next": "다음 후기",
+      "show": "후기 보기"
+    },
     "contact": {
       "heroTitle": "문의하기",
       "metaDescription": "LindaBen Foundation에 문의하세요. 우리는 돕고 듣기 위해 여기 있습니다.",

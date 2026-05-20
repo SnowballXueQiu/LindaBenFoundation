@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useI18n } from "@/lib/i18n/client";
+import { withLocale } from "@/lib/i18n/config";
 
 const testimonials = [
   "Thank you for giving back and helping the community.",
@@ -67,7 +68,7 @@ export default function Testimonials() {
   const [fade, setFade] = useState(true);
   const [height, setHeight] = useState<number | undefined>(undefined);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { dictionary } = useI18n();
+  const { locale, dictionary } = useI18n();
   const home = dictionary.home;
 
   const goTo = useCallback((index: number) => {
@@ -178,7 +179,7 @@ export default function Testimonials() {
         {/* Read more button */}
         <div className="text-center mt-10">
           <a
-            href="#"
+            href={withLocale("/testimonials", locale)}
             className="inline-block px-8 py-3.5 rounded-full font-semibold border-2 transition-all duration-200 hover:bg-[--green-pale]"
             style={{
               borderColor: "var(--green-deep)",

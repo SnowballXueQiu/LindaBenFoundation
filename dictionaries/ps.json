@@ -133,6 +133,16 @@
     "send": "پیغام ولېږئ"
   },
   "pages": {
+    "testimonials": {
+      "title": "سپارښتنې",
+      "metaDescription": "د LindaBen Foundation د ټولنې غړو او همکارانو سپارښتنې او د Google Business بیاکتنې ولولئ.",
+      "reviewsEyebrow": "د Google Business بیاکتنې",
+      "carouselTitle": "د ټولنې غږونه",
+      "unavailableText": "سپارښتنې اوس مهال شتون نه لري.",
+      "previous": "مخکينۍ سپارښتنه",
+      "next": "بله سپارښتنه",
+      "show": "سپارښتنه وښایاست"
+    },
     "contact": {
       "heroTitle": "اړیکه ونیسئ",
       "metaDescription": "له LindaBen Foundation سره اړیکه ونیسئ. موږ دلته یو چې مرسته وکړو او واورو.",
