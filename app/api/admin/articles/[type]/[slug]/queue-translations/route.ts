@@ -14,13 +14,15 @@ export async function POST(request: Request, { params }: { params: Promise<{ typ
     return NextResponse.json({ error: "Invalid article type." }, { status: 400 });
   }
 
-  const body = await request.json().catch(() => ({} as { sourceLocale?: string; targetLocales?: string[] }));
-  const sourceLocale = body.sourceLocale || "";
+  const body = (await request.json().catch(() => ({}))) as { sourceLocale?: unknown; targetLocales?: unknown };
+  const sourceLocale = typeof body.sourceLocale === "string" ? body.sourceLocale : "";
   if (!isSupportedLocale(sourceLocale)) {
     return NextResponse.json({ error: "Unsupported source locale." }, { status: 400 });
   }
 
-  const selectedTargets = Array.isArray(body.targetLocales) ? body.targetLocales : [];
+  const selectedTargets = Array.isArray(body.targetLocales)
+    ? body.targetLocales.filter((locale): locale is string => typeof locale === "string")
+    : [];
   const targetLocales = selectedTargets.includes("all")
     ? supportedLocales.filter((locale) => locale !== sourceLocale)
     : selectedTargets
