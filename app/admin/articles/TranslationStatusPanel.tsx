@@ -54,7 +54,9 @@ export default function TranslationStatusPanel({
   type,
   slug,
   currentLocale,
+  sourceTitle,
   locales,
+  availableLocales,
   initialStatuses,
   queued,
   translated,
@@ -62,15 +64,22 @@ export default function TranslationStatusPanel({
   type: ArticleType;
   slug: string;
   currentLocale: string;
+  sourceTitle: string;
   locales: string[];
+  availableLocales: string[];
   initialStatuses: ArticleTranslationStatus[];
   queued?: string;
   translated?: string;
 }) {
   const [statuses, setStatuses] = useState(initialStatuses);
   const [lastUpdated, setLastUpdated] = useState("");
+  const [selectedTargets, setSelectedTargets] = useState<string[]>([]);
+  const [queueing, setQueueing] = useState(false);
+  const [queueMessage, setQueueMessage] = useState("");
+  const [queuedCount, setQueuedCount] = useState(queued ? Number(queued) || 0 : 0);
   const workerInFlightRef = useRef(false);
   const statusByLocale = useMemo(() => new Map(statuses.map((status) => [status.locale, status])), [statuses]);
+  const availableLocaleSet = useMemo(() => new Set(availableLocales), [availableLocales]);
   const activeTranslationCount = statuses.filter((status) => isActiveState(status.state)).length;
   const processingTranslationCount = statuses.filter((status) => status.state === "processing" || status.state === "translating").length;
   const completedTranslationCount = statuses.filter((status) => status.state === "done" || status.state === "origin").length;
@@ -125,6 +134,43 @@ export default function TranslationStatusPanel({
     };
   }, [activeTranslationCount, currentLocale, slug, type]);
 
+  function toggleTarget(locale: string) {
+    setQueueMessage("");
+    setSelectedTargets((items) => (items.includes(locale) ? items.filter((item) => item !== locale) : [...items, locale]));
+  }
+
+  async function queueTranslations() {
+    const targetLocales = selectedTargets.includes("all") ? ["all"] : selectedTargets;
+    if (!targetLocales.length) {
+      setQueueMessage("Select at least one target language.");
+      return;
+    }
+
+    setQueueing(true);
+    setQueueMessage("");
+    try {
+      const response = await fetch(`/api/admin/articles/${type}/${slug}/queue-translations`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sourceLocale: currentLocale, targetLocales }),
+      });
+      const result = (await response.json()) as StatusResponse & { ok?: boolean; queued?: number; error?: string };
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || "Could not queue translations.");
+      }
+
+      setStatuses(result.statuses);
+      setLastUpdated(new Date(result.updatedAt).toLocaleTimeString());
+      setQueuedCount(result.queued || 0);
+      setQueueMessage(result.queued ? `${result.queued} translation${result.queued === 1 ? "" : "s"} queued.` : "No target languages selected.");
+      setSelectedTargets([]);
+    } catch (error) {
+      setQueueMessage(error instanceof Error ? error.message : "Could not queue translations.");
+    } finally {
+      setQueueing(false);
+    }
+  }
+
   return (
     <>
       {activeTranslationCount > 0 && (
@@ -145,9 +191,9 @@ export default function TranslationStatusPanel({
           </p>
         </div>
         {lastUpdated && <p className="text-xs font-semibold text-slate-400">Updated {lastUpdated}</p>}
-        {queued && activeTranslationCount > 0 && (
+        {queuedCount > 0 && activeTranslationCount > 0 && (
           <p className="rounded-full bg-amber-50 px-3 py-1 text-sm font-semibold text-amber-800">
-            {queued} translation{queued === "1" ? "" : "s"} queued
+            {queuedCount} translation{queuedCount === 1 ? "" : "s"} queued
           </p>
         )}
         {translated && activeTranslationCount === 0 && (
@@ -182,7 +228,7 @@ export default function TranslationStatusPanel({
         </div>
       </div>
 
-      <details className="mt-4 rounded-md border border-slate-200 bg-slate-50">
+      <details open className="mt-4 rounded-md border border-slate-200 bg-slate-50">
         <summary className="cursor-pointer px-4 py-3 text-sm font-bold text-slate-800">
           Switch language and view translation status
         </summary>
@@ -219,6 +265,46 @@ export default function TranslationStatusPanel({
           })}
         </div>
       </details>
+
+      <div className="mt-5 rounded-md border border-slate-200 bg-slate-50 p-4">
+        <p className="text-sm font-bold text-slate-700">Translate from</p>
+        <p className="mt-2 text-sm text-slate-600">
+          <span className="font-bold uppercase text-emerald-800">{currentLocale}</span> - {sourceTitle}
+        </p>
+        <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+          <label className="flex items-center gap-2 rounded border border-slate-200 bg-white px-3 py-2 text-sm font-semibold">
+            <input
+              type="checkbox"
+              checked={selectedTargets.includes("all")}
+              onChange={() => setSelectedTargets((items) => (items.includes("all") ? [] : ["all"]))}
+            />
+            All other languages
+          </label>
+          {locales.map((locale) => (
+            <label key={locale} className="flex items-center gap-2 rounded border border-slate-200 bg-white px-3 py-2 text-sm">
+              <input
+                type="checkbox"
+                checked={selectedTargets.includes("all") || selectedTargets.includes(locale)}
+                disabled={locale === currentLocale || selectedTargets.includes("all")}
+                onChange={() => toggleTarget(locale)}
+              />
+              {locale.toUpperCase()}
+              {availableLocaleSet.has(locale) && locale !== currentLocale && <span className="text-xs text-amber-700">overwrite</span>}
+            </label>
+          ))}
+        </div>
+        <div className="mt-4 flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            onClick={queueTranslations}
+            disabled={queueing}
+            className="rounded-md bg-emerald-800 px-4 py-2 text-sm font-bold text-white disabled:opacity-60"
+          >
+            {queueing ? "Queueing..." : "Regenerate selected translations"}
+          </button>
+          {queueMessage && <span className="text-sm font-semibold text-slate-600">{queueMessage}</span>}
+        </div>
+      </div>
     </>
   );
 }
