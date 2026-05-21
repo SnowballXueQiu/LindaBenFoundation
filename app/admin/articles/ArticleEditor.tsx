@@ -157,10 +157,6 @@ function escapeHtml(value: string) {
     .replace(/>/g, "&gt;");
 }
 
-function escapeRegExp(value: string) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
 function highlightInline(value: string) {
   let next = escapeHtml(value);
   next = next.replace(/(!?\[[^\]]+\]\([^)]+\))/g, '<span class="md-link">$1</span>');
@@ -170,10 +166,6 @@ function highlightInline(value: string) {
   next = next.replace(/(^|[\s(])(\*[^*\n]+\*|_[^_\n]+_)/g, '$1<span class="md-em">$2</span>');
   next = next.replace(/(&lt;\/?(attach|gallery|iframe)\b[^&]*?&gt;)/gi, '<span class="md-tag">$1</span>');
   return next;
-}
-
-function startsWithMarkdownWrapper(value: string, start: number, end: number, before: string, after: string) {
-  return value.slice(start - before.length, start) === before && value.slice(end, end + after.length) === after;
 }
 
 function highlightMarkdown(value: string) {
@@ -376,12 +368,45 @@ export default function ArticleEditor({
     restoreEditorViewport(textarea, scrollTop, scrollLeft);
   }
 
+  function commitEditorReplacement(
+    replacement: string,
+    start: number,
+    end: number,
+    selectionStart: number,
+    selectionEnd = selectionStart,
+  ) {
+    const textarea = bodyRef.current;
+    if (!textarea) {
+      const next = `${body.slice(0, start)}${replacement}${body.slice(end)}`;
+      setEditorBody(next, selectionStart);
+      markDirty();
+      return;
+    }
+
+    const scrollTop = textarea.scrollTop;
+    const scrollLeft = textarea.scrollLeft;
+    textarea.focus({ preventScroll: true });
+    textarea.setSelectionRange(start, end);
+
+    const inserted = document.execCommand("insertText", false, replacement);
+    if (!inserted) {
+      const next = `${textarea.value.slice(0, start)}${replacement}${textarea.value.slice(end)}`;
+      commitEditorChange(next, selectionStart, selectionEnd);
+      return;
+    }
+
+    setEditorBody(textarea.value, selectionStart);
+    markDirty();
+    textarea.setSelectionRange(selectionStart, selectionEnd);
+    selectionRef.current = { start: selectionStart, end: selectionEnd };
+    restoreEditorViewport(textarea, scrollTop, scrollLeft);
+  }
+
   function insertMarkdown(value: string) {
     const textarea = bodyRef.current;
     if (!textarea) return;
     const { start, end } = getSavedSelection(textarea);
-    const next = `${textarea.value.slice(0, start)}${value}${textarea.value.slice(end)}`;
-    commitEditorChange(next, start + value.length);
+    commitEditorReplacement(value, start, end, start + value.length);
   }
 
   function setFormField(name: string, value: string) {
@@ -427,8 +452,7 @@ export default function ArticleEditor({
     const textarea = bodyRef.current;
     if (!textarea) return;
     const { start, end } = getSavedSelection(textarea);
-    const next = `${textarea.value.slice(0, start)}${value}${textarea.value.slice(end)}`;
-    commitEditorChange(next, start + cursorOffset);
+    commitEditorReplacement(value, start, end, start + cursorOffset);
   }
 
   function wrapSelection(before: string, after = before, fallback = "text") {
@@ -436,8 +460,14 @@ export default function ArticleEditor({
     if (!textarea) return;
     const { start, end } = getSavedSelection(textarea);
     const selected = textarea.value.slice(start, end) || fallback;
-    const next = `${textarea.value.slice(0, start)}${before}${selected}${after}${textarea.value.slice(end)}`;
-    commitEditorChange(next, start + before.length, start + before.length + selected.length);
+    const replacement = `${before}${selected}${after}`;
+    commitEditorReplacement(
+      replacement,
+      start,
+      end,
+      start + before.length,
+      start + before.length + selected.length,
+    );
   }
 
   function prefixSelection(prefix: string, fallback = "Text") {
@@ -447,8 +477,7 @@ export default function ArticleEditor({
     const selected = textarea.value.slice(start, end) || fallback;
     const lines = selected.split("\n");
     const nextBlock = lines.map((line) => `${prefix}${line}`).join("\n");
-    const next = `${textarea.value.slice(0, start)}${nextBlock}${textarea.value.slice(end)}`;
-    commitEditorChange(next, start, start + nextBlock.length);
+    commitEditorReplacement(nextBlock, start, end, start, start + nextBlock.length);
   }
 
   function insertAttach(key: string) {
@@ -493,10 +522,9 @@ export default function ArticleEditor({
     const textarea = bodyRef.current;
     if (!textarea || !completion) return;
     const end = textarea.selectionStart;
-    const next = `${body.slice(0, completion.start)}${snippet}${body.slice(end)}`;
     const cursor = completion.start + snippet.length;
     setCompletion(null);
-    commitEditorChange(next, cursor);
+    commitEditorReplacement(snippet, completion.start, end, cursor);
   }
 
   function handleBodyChange(event: ChangeEvent<HTMLTextAreaElement>) {
@@ -533,6 +561,35 @@ export default function ArticleEditor({
   }
 
   function handleEditorKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+    const wrapperPairs: Record<string, [string, string]> = {
+      "(": ["(", ")"],
+      "[": ["[", "]"],
+      "{": ["{", "}"],
+      "\"": ["\"", "\""],
+      "'": ["'", "'"],
+      "`": ["`", "`"],
+      "*": ["*", "*"],
+      "_": ["_", "_"],
+    };
+    const pair = wrapperPairs[event.key];
+    if (pair && event.currentTarget.selectionStart !== event.currentTarget.selectionEnd) {
+      event.preventDefault();
+      wrapSelection(pair[0], pair[1], "");
+      return;
+    }
+
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "b") {
+      event.preventDefault();
+      wrapSelection("**", "**", "bold text");
+      return;
+    }
+
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "i") {
+      event.preventDefault();
+      wrapSelection("_", "_", "italic text");
+      return;
+    }
+
     if (completion && filteredCompletions.length && (event.key === "Tab" || event.key === "Enter")) {
       event.preventDefault();
       applyCompletion(filteredCompletions[0].snippet);

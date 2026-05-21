@@ -443,30 +443,35 @@ body {
 }
 
 .editor-highlight-layer {
+  z-index: 1;
   pointer-events: none;
-  color: rgb(15 23 42);
-  display: none;
+  overflow: hidden;
+  color: rgb(71 85 105);
+  background: #fff;
 }
 
 .editor-textarea {
   z-index: 10;
-  background: white;
-  color: rgb(15 23 42);
+  background: transparent !important;
+  color: transparent !important;
   caret-color: rgb(15 23 42);
   outline: none;
+  -webkit-text-fill-color: transparent;
 }
 
 .editor-textarea::selection {
-  background: rgba(16, 185, 129, 0.25);
+  color: transparent;
+  background: rgba(16, 185, 129, 0.28);
+  -webkit-text-fill-color: transparent;
 }
 
 .md-heading {
-  color: var(--green-deep);
+  color: rgb(4 120 87);
   font-weight: 800;
 }
 
 .md-token {
-  color: rgb(14 165 233);
+  color: rgb(37 99 235);
   font-weight: 800;
 }
 
@@ -501,7 +506,7 @@ body {
 }
 
 .md-list {
-  color: rgb(51 65 85);
+  color: rgb(15 23 42);
 }
 
 .md-quote {
