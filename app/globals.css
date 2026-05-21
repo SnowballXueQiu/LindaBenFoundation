@@ -465,6 +465,37 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
+.editor-drop-indicator {
+  position: absolute;
+  left: 1.25rem;
+  right: 1.25rem;
+  z-index: 30;
+  height: 0;
+  border-top: 3px solid var(--green-deep);
+  border-radius: 999px;
+  box-shadow: 0 0 0 4px rgba(64, 145, 108, 0.14);
+  pointer-events: none;
+}
+
+.editor-drop-indicator::before,
+.editor-drop-indicator::after {
+  content: "";
+  position: absolute;
+  top: -7px;
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+  background: var(--green-deep);
+}
+
+.editor-drop-indicator::before {
+  left: -1px;
+}
+
+.editor-drop-indicator::after {
+  right: -1px;
+}
+
 .md-heading {
   color: rgb(4 120 87);
   font-weight: 800;

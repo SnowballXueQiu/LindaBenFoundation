@@ -197,6 +197,67 @@ function highlightMarkdown(value: string) {
   return `${lines.join("\n")}\n`;
 }
 
+function getBlockInsertionRange(source: string, start: number, end: number) {
+  if (start !== end) return { start, end };
+
+  const lineStart = source.lastIndexOf("\n", Math.max(0, start - 1)) + 1;
+  const nextBreak = source.indexOf("\n", start);
+  const lineEnd = nextBreak === -1 ? source.length : nextBreak;
+  const isBlankLine = source.slice(lineStart, lineEnd).trim().length === 0;
+
+  if (!isBlankLine) return { start, end };
+
+  return { start: lineStart, end: lineEnd < source.length ? lineEnd + 1 : lineEnd };
+}
+
+function measureEditorBlockBoundaries(textarea: HTMLTextAreaElement, lines: string[], style: CSSStyleDeclaration) {
+  const mirror = document.createElement("div");
+  mirror.setAttribute("aria-hidden", "true");
+  mirror.style.position = "absolute";
+  mirror.style.visibility = "hidden";
+  mirror.style.pointerEvents = "none";
+  mirror.style.left = "-99999px";
+  mirror.style.top = "0";
+  mirror.style.boxSizing = "border-box";
+  mirror.style.width = `${textarea.clientWidth}px`;
+  mirror.style.padding = style.padding;
+  mirror.style.border = "0";
+  mirror.style.font = style.font;
+  mirror.style.fontSize = style.fontSize;
+  mirror.style.fontFamily = style.fontFamily;
+  mirror.style.fontWeight = style.fontWeight;
+  mirror.style.lineHeight = style.lineHeight;
+  mirror.style.letterSpacing = style.letterSpacing;
+  mirror.style.tabSize = style.tabSize;
+  mirror.style.whiteSpace = "pre-wrap";
+  mirror.style.overflowWrap = style.overflowWrap || "break-word";
+  mirror.style.wordBreak = style.wordBreak;
+
+  const lineHeight = Number.parseFloat(style.lineHeight) || 24;
+  for (const line of lines) {
+    const block = document.createElement("div");
+    block.style.minHeight = `${lineHeight}px`;
+    block.style.whiteSpace = "pre-wrap";
+    block.style.overflowWrap = style.overflowWrap || "break-word";
+    block.style.wordBreak = style.wordBreak;
+    block.textContent = line || "\u00a0";
+    mirror.appendChild(block);
+  }
+
+  document.body.appendChild(mirror);
+  const blocks = Array.from(mirror.children) as HTMLElement[];
+  const boundaries = blocks.map((block) => block.offsetTop);
+  const last = blocks[blocks.length - 1];
+  boundaries.push(last ? last.offsetTop + last.offsetHeight : Number.parseFloat(style.paddingTop) || 0);
+  mirror.remove();
+
+  return boundaries;
+}
+
+function getLineStartIndex(lines: string[], lineIndex: number) {
+  return lines.slice(0, lineIndex).reduce((offset, line) => offset + line.length + 1, 0);
+}
+
 export default function ArticleEditor({
   type,
   article,
@@ -214,16 +275,21 @@ export default function ArticleEditor({
   const currentLocaleRef = useRef(article?.locale || defaultLocale);
   const fileRef = useRef<HTMLInputElement>(null);
   const markdownFileRef = useRef<HTMLInputElement>(null);
+  const dropInsertIndexRef = useRef<number | null>(null);
+  const dropInsertLineRef = useRef<number | null>(null);
   const [body, setBody] = useState(normalizeArticleMarkdown(article?.body || starterMarkdown));
   const [dirty, setDirty] = useState(false);
   const [autoSaving, setAutoSaving] = useState(false);
   const [media, setMedia] = useState<MediaItem[]>([]);
   const [selectedMedia, setSelectedMedia] = useState<string[]>([]);
+  const [mediaSearch, setMediaSearch] = useState("");
   const [uploading, setUploading] = useState(false);
   const [selectedImageName, setSelectedImageName] = useState("");
   const [selectedMarkdownName, setSelectedMarkdownName] = useState("");
   const [draggingImage, setDraggingImage] = useState(false);
   const [draggingMarkdown, setDraggingMarkdown] = useState(false);
+  const [dropIndicatorTop, setDropIndicatorTop] = useState<number | null>(null);
+  const [dropInsertIndex, setDropInsertIndex] = useState<number | null>(null);
   const [previewing, setPreviewing] = useState(false);
   const [previewHtml, setPreviewHtml] = useState("");
   const [showPreview, setShowPreview] = useState(false);
@@ -233,6 +299,11 @@ export default function ArticleEditor({
     () => completionItems.filter((item) => item.label.startsWith(completion?.query.toLowerCase() || "")),
     [completion],
   );
+  const filteredMedia = useMemo(() => {
+    const query = mediaSearch.trim().toLowerCase();
+    if (!query) return media;
+    return media.filter((item) => item.key.toLowerCase().includes(query));
+  }, [media, mediaSearch]);
 
   useEffect(() => {
     fetch("/api/admin/media")
@@ -250,6 +321,23 @@ export default function ArticleEditor({
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
+
+  useEffect(() => {
+    if (!showPreview) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (event.key === "Escape") setShowPreview(false);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showPreview]);
 
   function markDirty() {
     dirtyRef.current = true;
@@ -409,6 +497,19 @@ export default function ArticleEditor({
     commitEditorReplacement(value, start, end, start + value.length);
   }
 
+  function insertMarkdownBlock(value: string) {
+    const textarea = bodyRef.current;
+    if (!textarea) return;
+    const { start, end } = getSavedSelection(textarea);
+    const source = textarea.value;
+    const insertion = getBlockInsertionRange(source, start, end);
+    const needsLeadingBreak = insertion.start > 0 && source[insertion.start - 1] !== "\n";
+    const needsTrailingBreak = insertion.end < source.length && source[insertion.end] !== "\n";
+    const replacement = `${needsLeadingBreak ? "\n" : ""}${value}${needsTrailingBreak ? "\n" : ""}`;
+    const cursor = insertion.start + replacement.length;
+    commitEditorReplacement(replacement, insertion.start, insertion.end, cursor);
+  }
+
   function setFormField(name: string, value: string) {
     const element = formRef.current?.elements.namedItem(name);
     if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement) {
@@ -481,21 +582,48 @@ export default function ArticleEditor({
   }
 
   function insertAttach(key: string) {
-    insertMarkdown(`\n<attach>${key}</attach>\n`);
+    insertMarkdownBlock(`<attach>${key}</attach>`);
+  }
+
+  function insertAttachAtIndex(key: string, index: number) {
+    const value = `<attach>${key}</attach>`;
+    const insertion = getBlockInsertionRange(body, index, index);
+    const suffix = insertion.end < body.length && body[insertion.end] !== "\n" ? "\n" : "";
+    const replacement = `${value}${suffix}`;
+    commitEditorReplacement(replacement, insertion.start, insertion.end, insertion.start + replacement.length);
+  }
+
+  function insertAttachAtLine(key: string, lineIndex: number) {
+    const textarea = bodyRef.current;
+    const source = textarea?.value ?? body;
+    const lines = source.split("\n");
+    const normalizedLineIndex = Math.max(0, Math.min(lines.length, lineIndex));
+    const value = `<attach>${key}</attach>`;
+    const insertAt = getLineStartIndex(lines, normalizedLineIndex);
+    const replacement = normalizedLineIndex < lines.length
+      ? `${value}\n`
+      : `${source.length > 0 && !source.endsWith("\n") ? "\n" : ""}${value}`;
+    const cursor = insertAt + value.length;
+
+    commitEditorReplacement(replacement, insertAt, insertAt, cursor);
   }
 
   function insertIframe() {
     const src = window.prompt("Embed iframe URL");
     if (!src) return;
-    insertMarkdown(
-      `\n<iframe src="${src}" title="Embedded content" width="100%" height="420" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>\n`,
+    insertMarkdownBlock(
+      `<iframe src="${src}" title="Embedded content" width="100%" height="420" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`,
     );
   }
 
   function insertGallery() {
-    if (!selectedMedia.length) return;
-    const body = selectedMedia.map((key) => `  <attach>${key}</attach>`).join("\n");
-    insertMarkdown(`\n<gallery>\n${body}\n</gallery>\n`);
+    const galleryBody = selectedMedia.length
+      ? selectedMedia.map((key) => `  <attach>${key}</attach>`).join("\n")
+      : [
+          "  <attach alt=\"First image\">media/path/first.jpg</attach>",
+          "  <attach alt=\"Second image\">media/path/second.jpg</attach>",
+        ].join("\n");
+    insertMarkdownBlock(`<gallery>\n${galleryBody}\n</gallery>`);
   }
 
   function insertLink() {
@@ -685,6 +813,65 @@ export default function ArticleEditor({
     await uploadImageFile(file);
   }
 
+  function getEditorDropPosition(clientY: number) {
+    const textarea = bodyRef.current;
+    if (!textarea) return null;
+
+    const rect = textarea.getBoundingClientRect();
+    const style = window.getComputedStyle(textarea);
+    const lines = textarea.value.split("\n");
+    const boundaries = measureEditorBlockBoundaries(textarea, lines, style);
+    const contentY = clientY - rect.top + textarea.scrollTop;
+    let lineIndex = 0;
+    let nearestDistance = Number.POSITIVE_INFINITY;
+
+    boundaries.forEach((boundaryTop, index) => {
+      const distance = Math.abs(contentY - boundaryTop);
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        lineIndex = index;
+      }
+    });
+
+    lineIndex = Math.max(0, Math.min(lines.length, lineIndex));
+    const index = lines.slice(0, lineIndex).reduce((offset, line) => offset + line.length + 1, 0);
+    const top = (boundaries[lineIndex] ?? boundaries[boundaries.length - 1] ?? 0) - textarea.scrollTop;
+    return { index, lineIndex, top: Math.max(0, top) };
+  }
+
+  function handleEditorDragOver(event: DragEvent<HTMLDivElement>) {
+    if (!Array.from(event.dataTransfer.types).includes("application/x-lbf-media-key")) return;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "copy";
+    const position = getEditorDropPosition(event.clientY);
+    if (!position) return;
+    dropInsertIndexRef.current = position.index;
+    dropInsertLineRef.current = position.lineIndex;
+    setDropIndicatorTop(position.top);
+    setDropInsertIndex(position.index);
+  }
+
+  function handleEditorDrop(event: DragEvent<HTMLDivElement>) {
+    const mediaKey = event.dataTransfer.getData("application/x-lbf-media-key");
+    if (!mediaKey) return;
+    event.preventDefault();
+    if (dropInsertLineRef.current !== null) {
+      insertAttachAtLine(mediaKey, dropInsertLineRef.current);
+    } else {
+      insertAttachAtIndex(mediaKey, dropInsertIndexRef.current ?? dropInsertIndex ?? body.length);
+    }
+    dropInsertIndexRef.current = null;
+    dropInsertLineRef.current = null;
+    setDropIndicatorTop(null);
+    setDropInsertIndex(null);
+  }
+
+  function handleMediaDragStart(event: DragEvent<HTMLDivElement>, key: string) {
+    event.dataTransfer.effectAllowed = "copy";
+    event.dataTransfer.setData("application/x-lbf-media-key", key);
+    event.dataTransfer.setData("text/plain", `<attach>${key}</attach>`);
+  }
+
   return (
     <form
       ref={formRef}
@@ -744,6 +931,80 @@ export default function ArticleEditor({
               </select>
             </div>
           </div>
+
+          <details className="mt-5 rounded-lg border border-slate-200 bg-slate-50/70 p-4">
+            <summary className="cursor-pointer text-sm font-bold uppercase tracking-wide text-slate-700">
+              Publishing
+            </summary>
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
+              <div>
+                <label className="block text-sm font-medium text-slate-700" htmlFor="status">Status</label>
+                <select id="status" name="status" defaultValue={article?.status || "draft"} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2">
+                  <option value="draft">Draft</option>
+                  <option value="published">Published</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700" htmlFor="publishedAt">Publish date</label>
+                <input id="publishedAt" name="publishedAt" type="date" defaultValue={article?.publishedAt || ""} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700" htmlFor="author">Author</label>
+                <input id="author" name="author" defaultValue={article?.author || ""} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2" />
+              </div>
+            </div>
+            <label className="mt-4 block text-sm font-medium text-slate-700" htmlFor="markdownUpload">Upload Markdown</label>
+            <label
+              htmlFor="markdownUpload"
+              onDragOver={(event) => {
+                event.preventDefault();
+                setDraggingMarkdown(true);
+              }}
+              onDragLeave={() => setDraggingMarkdown(false)}
+              onDrop={handleMarkdownDrop}
+              className={`mt-2 flex cursor-pointer flex-col rounded-lg border-2 border-dashed p-4 text-sm transition-colors ${
+                draggingMarkdown ? "border-emerald-700 bg-emerald-50" : "border-slate-300 bg-white hover:border-emerald-700 hover:bg-emerald-50/60"
+              }`}
+            >
+              <span className="font-bold text-emerald-800">Choose Markdown file</span>
+              <span className="mt-1 truncate text-xs text-slate-500">{selectedMarkdownName || "Drop .md here or click to browse"}</span>
+            </label>
+            <input
+              ref={markdownFileRef}
+              id="markdownUpload"
+              type="file"
+              accept=".md,text/markdown,text/plain"
+              className="sr-only"
+              onChange={(event) => chooseMarkdownFile(event.target.files)}
+            />
+            <button type="button" onClick={uploadMarkdownFile} disabled={!selectedMarkdownName} className="mt-3 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold disabled:opacity-50">
+              Load Markdown into editor
+            </button>
+          </details>
+
+          <details className="mt-4 rounded-lg border border-slate-200 bg-slate-50/70 p-4">
+            <summary className="cursor-pointer text-sm font-bold uppercase tracking-wide text-slate-700">
+              Metadata
+            </summary>
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-slate-700" htmlFor="excerpt">Excerpt</label>
+                <textarea id="excerpt" name="excerpt" defaultValue={article?.excerpt || ""} rows={3} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700" htmlFor="category">Category</label>
+                <input id="category" name="category" defaultValue={article?.category || ""} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700" htmlFor="tags">Tags</label>
+                <input id="tags" name="tags" defaultValue={article?.tags.join(", ") || ""} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2" />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-slate-700" htmlFor="coverImage">Cover image URL</label>
+                <input id="coverImage" name="coverImage" defaultValue={article?.coverImage || ""} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2" />
+              </div>
+            </div>
+          </details>
         </section>
 
         <section className="rounded-lg border border-slate-200 bg-white shadow-sm">
@@ -761,12 +1022,12 @@ export default function ArticleEditor({
             <button type="button" onClick={() => prefixSelection("- ", "List item")} className="editor-toolbar-button">UL</button>
             <button type="button" onClick={() => prefixSelection("1. ", "List item")} className="editor-toolbar-button">OL</button>
             <button type="button" onClick={() => prefixSelection("> ", "Quote")} className="editor-toolbar-button">Quote</button>
-            <button type="button" onClick={() => insertMarkdown("\n---\n")} className="editor-toolbar-button">HR</button>
+            <button type="button" onClick={() => insertMarkdownBlock("---")} className="editor-toolbar-button">HR</button>
             <span className="h-8 w-px bg-slate-200" />
             <button type="button" onClick={insertLink} className="editor-toolbar-button">Link</button>
             <button type="button" onClick={insertMarkdownImage} className="editor-toolbar-button">Image</button>
-            <button type="button" onClick={() => insertMarkdown("\n<attach alt=\"Image description\">media/path/image.jpg</attach>\n")} className="editor-toolbar-button">Attach</button>
-            <button type="button" onClick={insertGallery} disabled={!selectedMedia.length} className="editor-toolbar-button disabled:opacity-40">Gallery</button>
+            <button type="button" onClick={() => insertMarkdownBlock("<attach alt=\"Image description\">media/path/image.jpg</attach>")} className="editor-toolbar-button">Attach</button>
+            <button type="button" onClick={insertGallery} className="editor-toolbar-button">Gallery</button>
             <button type="button" onClick={insertIframe} className="editor-toolbar-button">Iframe</button>
             <button type="button" onClick={insertTable} className="editor-toolbar-button">Table</button>
             <button type="button" onClick={insertCodeBlock} className="editor-toolbar-button">Block</button>
@@ -782,7 +1043,19 @@ export default function ArticleEditor({
               {previewing ? "Previewing..." : "Preview"}
             </button>
           </div>
-          <div className="relative min-h-[620px] bg-white">
+          <div
+            className="relative min-h-[620px] bg-white"
+            onDragOver={handleEditorDragOver}
+            onDragLeave={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                dropInsertIndexRef.current = null;
+                dropInsertLineRef.current = null;
+                setDropIndicatorTop(null);
+                setDropInsertIndex(null);
+              }
+            }}
+            onDrop={handleEditorDrop}
+          >
             <pre
               ref={highlightRef}
               aria-hidden="true"
@@ -811,6 +1084,13 @@ export default function ArticleEditor({
               spellCheck={false}
               required
             />
+            {dropIndicatorTop !== null && (
+              <div
+                aria-hidden="true"
+                className="editor-drop-indicator"
+                style={{ top: `${dropIndicatorTop}px` }}
+              />
+            )}
             {completion && filteredCompletions.length > 0 && (
               <div className="absolute left-5 top-5 z-20 w-72 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-xl">
                 <div className="border-b border-slate-100 px-3 py-2 text-xs font-bold uppercase tracking-wide text-slate-500">
@@ -833,18 +1113,6 @@ export default function ArticleEditor({
           </div>
         </section>
 
-        {showPreview && (
-          <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-            <div className="mb-5 flex items-center justify-between gap-4">
-              <h2 className="text-lg font-bold text-slate-950">Preview</h2>
-              <button type="button" onClick={() => setShowPreview(false)} className="rounded border border-slate-300 px-3 py-1.5 text-sm font-semibold">
-                Close
-              </button>
-            </div>
-            <ArticleBody html={previewHtml} className="article-prose max-w-none" />
-          </section>
-        )}
-
         {state.message && <p className="text-sm text-red-700">{state.message}</p>}
         <div className="flex flex-wrap items-center gap-3">
           <button
@@ -860,61 +1128,18 @@ export default function ArticleEditor({
       </div>
 
       <aside className="space-y-6">
-        <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 className="text-sm font-bold uppercase tracking-wide text-slate-700">Publishing</h2>
-          <label className="mt-4 block text-sm font-medium text-slate-700" htmlFor="markdownUpload">Upload Markdown</label>
-          <label
-            htmlFor="markdownUpload"
-            onDragOver={(event) => {
-              event.preventDefault();
-              setDraggingMarkdown(true);
-            }}
-            onDragLeave={() => setDraggingMarkdown(false)}
-            onDrop={handleMarkdownDrop}
-            className={`mt-2 flex cursor-pointer flex-col rounded-lg border-2 border-dashed p-4 text-sm transition-colors ${
-              draggingMarkdown ? "border-emerald-700 bg-emerald-50" : "border-slate-300 bg-slate-50 hover:border-emerald-700 hover:bg-emerald-50/60"
-            }`}
-          >
-            <span className="font-bold text-emerald-800">Choose Markdown file</span>
-            <span className="mt-1 truncate text-xs text-slate-500">{selectedMarkdownName || "Drop .md here or click to browse"}</span>
-          </label>
-          <input
-            ref={markdownFileRef}
-            id="markdownUpload"
-            type="file"
-            accept=".md,text/markdown,text/plain"
-            className="sr-only"
-            onChange={(event) => chooseMarkdownFile(event.target.files)}
-          />
-          <button type="button" onClick={uploadMarkdownFile} disabled={!selectedMarkdownName} className="mt-3 w-full rounded-md border border-slate-300 px-3 py-2 text-sm font-semibold disabled:opacity-50">
-            Load Markdown into editor
-          </button>
-          <label className="mt-4 block text-sm font-medium text-slate-700" htmlFor="status">Status</label>
-          <select id="status" name="status" defaultValue={article?.status || "draft"} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2">
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
-          </select>
-          <label className="mt-4 block text-sm font-medium text-slate-700" htmlFor="publishedAt">Publish date</label>
-          <input id="publishedAt" name="publishedAt" type="date" defaultValue={article?.publishedAt || ""} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2" />
-          <label className="mt-4 block text-sm font-medium text-slate-700" htmlFor="author">Author</label>
-          <input id="author" name="author" defaultValue={article?.author || ""} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2" />
-        </section>
-
-        <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 className="text-sm font-bold uppercase tracking-wide text-slate-700">Metadata</h2>
-          <label className="mt-4 block text-sm font-medium text-slate-700" htmlFor="excerpt">Excerpt</label>
-          <textarea id="excerpt" name="excerpt" defaultValue={article?.excerpt || ""} rows={4} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2" />
-          <label className="mt-4 block text-sm font-medium text-slate-700" htmlFor="category">Category</label>
-          <input id="category" name="category" defaultValue={article?.category || ""} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2" />
-          <label className="mt-4 block text-sm font-medium text-slate-700" htmlFor="tags">Tags</label>
-          <input id="tags" name="tags" defaultValue={article?.tags.join(", ") || ""} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2" />
-          <label className="mt-4 block text-sm font-medium text-slate-700" htmlFor="coverImage">Cover image URL</label>
-          <input id="coverImage" name="coverImage" defaultValue={article?.coverImage || ""} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2" />
-        </section>
-
-        <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <section className="sticky top-24 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
           <h2 className="text-sm font-bold uppercase tracking-wide text-slate-700">Local media library</h2>
-          <p className="mt-1 text-xs text-slate-500">Click Insert to add an attach tag. Select multiple images, then use Gallery.</p>
+          <p className="mt-1 text-xs text-slate-500">Drag an image into the editor to insert an attach tag at the line marker. Select multiple images, then use Gallery.</p>
+          <label className="mt-4 block text-sm font-medium text-slate-700" htmlFor="mediaSearch">Search media</label>
+          <input
+            id="mediaSearch"
+            type="search"
+            value={mediaSearch}
+            onChange={(event) => setMediaSearch(event.target.value)}
+            placeholder="Search by filename..."
+            className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-emerald-700"
+          />
           <label
             htmlFor="articleImageUpload"
             onDragOver={(event) => {
@@ -941,12 +1166,22 @@ export default function ArticleEditor({
           <button type="button" onClick={uploadSelectedFile} disabled={uploading || !selectedImageName} className="mt-3 w-full rounded-md bg-emerald-800 px-3 py-2.5 text-sm font-bold text-white shadow-sm disabled:opacity-50">
             {uploading ? "Uploading..." : "Upload and insert attach"}
           </button>
-          <button type="button" onClick={insertGallery} disabled={!selectedMedia.length} className="mt-3 w-full rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white disabled:opacity-40">
+          <button type="button" onClick={insertGallery} className="mt-3 w-full rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white">
             Insert gallery ({selectedMedia.length})
           </button>
-          <div className="mt-5 grid grid-cols-2 gap-3">
-            {media.slice(0, 20).map((item) => (
-              <div key={item.key} className="overflow-hidden rounded border border-slate-200 bg-white">
+          <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
+            <span>{filteredMedia.length} image{filteredMedia.length === 1 ? "" : "s"}</span>
+            <span>{selectedMedia.length} selected</span>
+          </div>
+          <div className="mt-3 grid max-h-[56vh] grid-cols-2 gap-3 overflow-y-auto pr-1">
+            {filteredMedia.map((item) => (
+              <div
+                key={item.key}
+                draggable
+                onDragStart={(event) => handleMediaDragStart(event, item.key)}
+                className="cursor-grab overflow-hidden rounded border border-slate-200 bg-white active:cursor-grabbing"
+                title="Drag into the editor to insert"
+              >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={item.url} alt="" className="aspect-video w-full object-cover" />
                 <div className="space-y-2 p-2">
@@ -960,9 +1195,34 @@ export default function ArticleEditor({
                 </div>
               </div>
             ))}
+            {filteredMedia.length === 0 && (
+              <p className="col-span-2 rounded-md bg-slate-50 p-4 text-sm text-slate-500">
+                No images match this search.
+              </p>
+            )}
           </div>
         </section>
       </aside>
+      {showPreview && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/70 p-4"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setShowPreview(false);
+          }}
+        >
+          <section className="max-h-[90vh] w-full max-w-5xl overflow-hidden rounded-xl bg-white shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="article-preview-title">
+            <div className="flex items-center justify-between gap-4 border-b border-slate-200 px-5 py-4">
+              <h2 id="article-preview-title" className="text-lg font-bold text-slate-950">Preview</h2>
+              <button type="button" onClick={() => setShowPreview(false)} className="rounded border border-slate-300 px-3 py-1.5 text-sm font-semibold">
+                Close
+              </button>
+            </div>
+            <div className="max-h-[calc(90vh-4rem)] overflow-y-auto p-6">
+              <ArticleBody html={previewHtml} className="article-prose max-w-none" />
+            </div>
+          </section>
+        </div>
+      )}
     </form>
   );
 }
