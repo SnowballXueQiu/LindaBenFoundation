@@ -133,7 +133,7 @@ export default function TestimonialsPageCarousel({
 
         <article
           aria-live="polite"
-          className="relative min-h-[360px] overflow-hidden rounded-lg bg-white px-6 py-10 text-center shadow-sm ring-1 ring-black/5 lg:px-16 lg:py-14"
+          className="relative min-h-90 overflow-hidden rounded-lg bg-white px-6 py-10 text-center shadow-sm ring-1 ring-black/5 lg:px-16 lg:py-14"
         >
           <div
             aria-hidden="true"
