@@ -31,57 +31,68 @@ function parseStatus(value: string): ArticleStatus {
 
 export async function saveArticleAction(_state: AdminActionState, formData: FormData): Promise<AdminActionState> {
   await requireAdmin();
+  let redirectTo = "";
 
-  const type = parseType(stringValue(formData, "type"));
-  const title = stringValue(formData, "title");
-  const existingSlug = stringValue(formData, "existingSlug");
-  const slug = stringValue(formData, "slug") || existingSlug || makeSlug(title);
-  const locale = stringValue(formData, "locale") || defaultLocale;
-  const body = normalizeArticleMarkdown(stringValue(formData, "body"));
+  try {
+    const type = parseType(stringValue(formData, "type"));
+    const title = stringValue(formData, "title");
+    const existingSlug = stringValue(formData, "existingSlug");
+    const slug = stringValue(formData, "slug") || existingSlug || makeSlug(title);
+    const locale = stringValue(formData, "locale") || defaultLocale;
+    const body = normalizeArticleMarkdown(stringValue(formData, "body"));
 
-  if (!title || !slug || !body) {
-    return { ok: false, message: "Title, slug, and content are required." };
+    if (!title || !slug || !body) {
+      return { ok: false, message: "Title, slug, and content are required." };
+    }
+
+    if (!isSupportedLocale(locale)) {
+      return { ok: false, message: "Unsupported locale." };
+    }
+
+    const now = new Date().toISOString();
+    const article: Article = {
+      type,
+      slug,
+      locale,
+      title,
+      excerpt: stringValue(formData, "excerpt"),
+      status: parseStatus(stringValue(formData, "status")),
+      coverImage: stringValue(formData, "coverImage") || undefined,
+      author: stringValue(formData, "author") || undefined,
+      publishedAt: stringValue(formData, "publishedAt") || undefined,
+      updatedAt: now,
+      tags: stringValue(formData, "tags")
+        .split(",")
+        .map((tag) => tag.trim())
+        .filter(Boolean),
+      category: stringValue(formData, "category") || undefined,
+      body,
+    };
+
+    const originLocale = existingSlug ? await getArticleOriginLocale(type, slug, locale) : locale;
+    const shouldTranslateFromOrigin = locale === originLocale;
+    const saved = await saveArticle(article, { translateMissing: shouldTranslateFromOrigin });
+    const queuedCount = shouldTranslateFromOrigin ? supportedLocales.filter((targetLocale) => targetLocale !== saved.locale).length : 0;
+
+    revalidatePath("/");
+    revalidatePath(`/${locale}`);
+    revalidatePath(`/${locale}/${type}`);
+    revalidatePath(`/${locale}/${type}/${slug}`);
+    if (type === "newsletter") {
+      revalidatePath(`/${locale}/newsletter`);
+      revalidatePath(`/${locale}/newsletter/${slug}`);
+    }
+    revalidatePath("/admin");
+    redirectTo = `/admin/articles/${type}/${slug}?locale=${locale}${queuedCount ? `&queued=${queuedCount}` : ""}`;
+  } catch (error) {
+    console.error("saveArticleAction failed", error);
+    return {
+      ok: false,
+      message: error instanceof Error ? error.message : "Unable to save article.",
+    };
   }
 
-  if (!isSupportedLocale(locale)) {
-    return { ok: false, message: "Unsupported locale." };
-  }
-
-  const now = new Date().toISOString();
-  const article: Article = {
-    type,
-    slug,
-    locale,
-    title,
-    excerpt: stringValue(formData, "excerpt"),
-    status: parseStatus(stringValue(formData, "status")),
-    coverImage: stringValue(formData, "coverImage") || undefined,
-    author: stringValue(formData, "author") || undefined,
-    publishedAt: stringValue(formData, "publishedAt") || undefined,
-    updatedAt: now,
-    tags: stringValue(formData, "tags")
-      .split(",")
-      .map((tag) => tag.trim())
-      .filter(Boolean),
-    category: stringValue(formData, "category") || undefined,
-    body,
-  };
-
-  const originLocale = existingSlug ? await getArticleOriginLocale(type, slug, locale) : locale;
-  const shouldTranslateFromOrigin = locale === originLocale;
-  const saved = await saveArticle(article, { translateMissing: shouldTranslateFromOrigin });
-  const queuedCount = shouldTranslateFromOrigin ? supportedLocales.filter((targetLocale) => targetLocale !== saved.locale).length : 0;
-
-  revalidatePath("/");
-  revalidatePath(`/${locale}`);
-  revalidatePath(`/${locale}/${type}`);
-  revalidatePath(`/${locale}/${type}/${slug}`);
-  if (type === "newsletter") {
-    revalidatePath(`/${locale}/newsletter`);
-    revalidatePath(`/${locale}/newsletter/${slug}`);
-  }
-  revalidatePath("/admin");
-  redirect(`/admin/articles/${type}/${slug}?locale=${locale}${queuedCount ? `&queued=${queuedCount}` : ""}`);
+  redirect(redirectTo);
 }
 
 export async function translateArticleAction(formData: FormData) {

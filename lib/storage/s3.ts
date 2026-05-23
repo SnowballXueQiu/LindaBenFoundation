@@ -1,6 +1,6 @@
 import "server-only";
 
-import { DeleteObjectCommand, GetObjectCommand, ListObjectsV2Command, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { DeleteObjectCommand, GetObjectCommand, ListObjectsV2Command, PutObjectCommand, S3Client, type S3ClientConfig } from "@aws-sdk/client-s3";
 
 export type S3Object = {
   key: string;
@@ -33,15 +33,23 @@ export function getS3PublicUrl(key: string) {
   return `/api/media/${key.split("/").map(encodeURIComponent).join("/")}`;
 }
 
-export const s3 = new S3Client({
-  endpoint: process.env.S3_ENDPOINT || "http://127.0.0.1:3900",
-  region: process.env.S3_REGION || "garage",
+const s3Config: S3ClientConfig = {
+  region: process.env.S3_REGION || process.env.AWS_REGION || "us-east-1",
   credentials: {
     accessKeyId: process.env.S3_ACCESS_KEY_ID || "missing",
     secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || "missing",
   },
-  forcePathStyle: process.env.S3_FORCE_PATH_STYLE !== "false",
-});
+};
+
+if (process.env.S3_ENDPOINT) {
+  s3Config.endpoint = process.env.S3_ENDPOINT;
+}
+
+if (process.env.S3_FORCE_PATH_STYLE) {
+  s3Config.forcePathStyle = process.env.S3_FORCE_PATH_STYLE === "true";
+}
+
+export const s3 = new S3Client(s3Config);
 
 export async function getObjectText(key: string) {
   const response = await s3.send(new GetObjectCommand({ Bucket: getS3Bucket(), Key: key }));
