@@ -424,6 +424,7 @@ body {
   color: rgb(148 163 184);
 }
 
+.editor-line-numbers,
 .editor-highlight-layer,
 .editor-textarea {
   position: absolute;
@@ -442,34 +443,69 @@ body {
   tab-size: 2;
 }
 
+.editor-line-numbers {
+  z-index: 70;
+  pointer-events: none;
+  overflow: hidden;
+  color: rgb(148 163 184);
+  background: transparent;
+  user-select: none;
+  right: auto;
+  width: 4.75rem;
+  padding-right: 0;
+}
+
+.editor-line-number-row {
+  display: flex;
+  align-items: flex-start;
+  min-height: 1.5rem;
+  width: 100%;
+}
+
+.editor-line-number-value {
+  display: block;
+  width: 3rem;
+  padding-right: 0.75rem;
+  text-align: right;
+  color: rgb(148 163 184);
+}
+
 .editor-highlight-layer {
-  z-index: 1;
+  z-index: 60;
   pointer-events: none;
   overflow: hidden;
   color: rgb(71 85 105);
-  background: #fff;
+  background: transparent;
+  padding-left: 4.75rem;
+  -webkit-text-fill-color: currentColor;
+}
+
+.editor-highlight-layer * {
+  -webkit-text-fill-color: currentColor;
 }
 
 .editor-textarea {
   z-index: 10;
   background: transparent !important;
-  color: transparent !important;
+  color: rgba(0, 0, 0, 0) !important;
   caret-color: rgb(15 23 42);
   outline: none;
-  -webkit-text-fill-color: transparent;
+  text-shadow: none !important;
+  -webkit-text-fill-color: rgba(0, 0, 0, 0) !important;
+  padding-left: 4.75rem;
 }
 
 .editor-textarea::selection {
-  color: transparent;
+  color: rgba(0, 0, 0, 0);
   background: rgba(16, 185, 129, 0.28);
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: rgba(0, 0, 0, 0) !important;
 }
 
 .editor-drop-indicator {
   position: absolute;
   left: 1.25rem;
   right: 1.25rem;
-  z-index: 30;
+  z-index: 80;
   height: 0;
   border-top: 3px solid var(--green-deep);
   border-radius: 999px;
@@ -497,59 +533,59 @@ body {
 }
 
 .md-heading {
-  color: rgb(4 120 87);
-  font-weight: 800;
+  color: rgb(4 120 87) !important;
+  font-weight: 800 !important;
 }
 
 .md-token {
-  color: rgb(37 99 235);
-  font-weight: 800;
+  color: rgb(37 99 235) !important;
+  font-weight: 800 !important;
 }
 
 .md-strong {
-  color: rgb(126 34 206);
-  font-weight: 800;
+  color: rgb(126 34 206) !important;
+  font-weight: 800 !important;
 }
 
 .md-em {
-  color: rgb(194 65 12);
-  font-style: italic;
+  color: rgb(194 65 12) !important;
+  font-style: italic !important;
 }
 
 .md-strike {
-  color: rgb(100 116 139);
+  color: rgb(100 116 139) !important;
   text-decoration: line-through;
 }
 
 .md-link {
-  color: rgb(29 78 216);
+  color: rgb(29 78 216) !important;
   text-decoration: underline;
 }
 
 .md-code,
 .md-codeblock {
-  color: rgb(190 24 93);
+  color: rgb(190 24 93) !important;
 }
 
 .md-tag {
-  color: rgb(4 120 87);
-  font-weight: 800;
+  color: rgb(4 120 87) !important;
+  font-weight: 800 !important;
 }
 
 .md-list {
-  color: rgb(15 23 42);
+  color: rgb(15 23 42) !important;
 }
 
 .md-quote {
-  color: rgb(71 85 105);
-  font-style: italic;
+  color: rgb(71 85 105) !important;
+  font-style: italic !important;
 }
 
 .md-table {
-  color: rgb(3 105 161);
+  color: rgb(3 105 161) !important;
 }
 
 .md-hr {
-  color: rgb(148 163 184);
+  color: rgb(148 163 184) !important;
   letter-spacing: 0.08em;
 }

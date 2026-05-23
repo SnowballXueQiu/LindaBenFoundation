@@ -1,6 +1,7 @@
 "use client";
 
-import { type ChangeEvent, type DragEvent, type KeyboardEvent, type UIEvent, useActionState, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { type ChangeEvent, type DragEvent, type KeyboardEvent, type UIEvent, useActionState, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { useRouter } from "next/navigation";
 import { saveArticleAction, type AdminActionState } from "@/app/admin/actions";
 import ArticleBody from "@/components/ArticleBody";
@@ -118,6 +119,7 @@ function stripQuotes(value: string) {
 }
 
 function parseMarkdownUpload(markdown: string) {
+  markdown = markdown.replace(/^\uFEFF/, "").replace(/\r\n?/g, "\n");
   if (!markdown.startsWith("---")) return { metadata: new Map<string, string>(), body: markdown };
 
   const end = markdown.indexOf("\n---", 3);
@@ -150,6 +152,49 @@ function parseMarkdownUpload(markdown: string) {
   return { metadata, body };
 }
 
+function normalizeImportedMarkdown(markdown: string) {
+  const normalized = normalizeArticleMarkdown(markdown)
+    .replace(/^\uFEFF/, "")
+    .replace(/\r\n?/g, "\n")
+    .replace(/[\u200B-\u200D\u2060]/g, "")
+    .replace(/\u00a0/g, " ")
+    .replace(/[ \t]+$/gm, "");
+
+  let inFence = false;
+  const lines = normalized.split("\n").map((rawLine) => {
+    const line = rawLine.replace(/\t/g, "  ");
+    const trimmedStart = line.trimStart();
+
+    if (/^```/.test(trimmedStart)) {
+      inFence = !inFence;
+      return trimmedStart;
+    }
+    if (inFence) return line;
+
+    const heading = trimmedStart.match(/^(#{1,6})(?!#)\s*(.*)$/);
+    if (heading) return `${heading[1]} ${heading[2].trim()}`.trimEnd();
+
+    if (/^[-*_]{3,}$/.test(trimmedStart.replace(/\s+/g, ""))) return "---";
+
+    const unordered = trimmedStart.match(/^[-*+]\s+(.*)$/);
+    if (unordered) return `- ${unordered[1].trim()}`;
+
+    const ordered = trimmedStart.match(/^(\d+)[.)]\s+(.*)$/);
+    if (ordered) return `${ordered[1]}. ${ordered[2].trim()}`;
+
+    const quote = trimmedStart.match(/^>\s?(.*)$/);
+    if (quote) return `> ${quote[1].trim()}`;
+
+    return line;
+  });
+
+  return lines
+    .join("\n")
+    .replace(/\n{4,}/g, "\n\n\n")
+    .trim()
+    .concat("\n");
+}
+
 function escapeHtml(value: string) {
   return value
     .replace(/&/g, "&amp;")
@@ -179,15 +224,15 @@ function highlightMarkdown(value: string) {
 
     if (/^\s*\|.*\|\s*$/.test(line)) return `<span class="md-table">${highlightInline(line)}</span>`;
 
-    const heading = line.match(/^(#{1,6})(\s+.*)$/);
+    const heading = line.match(/^(\s*)(#{1,6})(\s+.*)$/);
     if (heading) {
-      return `<span class="md-heading"><span class="md-token">${heading[1]}</span>${highlightInline(heading[2])}</span>`;
+      return `${escapeHtml(heading[1])}<span class="md-heading"><span class="md-token">${heading[2]}</span>${highlightInline(heading[3])}</span>`;
     }
 
     const quote = line.match(/^(\s*&gt;|\s*>)(\s?.*)$/);
     if (quote) return `<span class="md-quote"><span class="md-token">${escapeHtml(quote[1])}</span>${highlightInline(quote[2])}</span>`;
 
-    const list = line.match(/^(\s*)([-*+]|\d+\.)(\s+.*)$/);
+    const list = line.match(/^(\s*)([-*+]|\d+\.|\d+\))(\s+.*)$/);
     if (list) return `${escapeHtml(list[1])}<span class="md-list"><span class="md-token">${escapeHtml(list[2])}</span>${highlightInline(list[3])}</span>`;
 
     if (/^\s*---+\s*$/.test(line)) return `<span class="md-hr">${escapeHtml(line)}</span>`;
@@ -210,7 +255,7 @@ function getBlockInsertionRange(source: string, start: number, end: number) {
   return { start: lineStart, end: lineEnd < source.length ? lineEnd + 1 : lineEnd };
 }
 
-function measureEditorBlockBoundaries(textarea: HTMLTextAreaElement, lines: string[], style: CSSStyleDeclaration) {
+function measureEditorBlocks(textarea: HTMLTextAreaElement, lines: string[], style: CSSStyleDeclaration) {
   const mirror = document.createElement("div");
   mirror.setAttribute("aria-hidden", "true");
   mirror.style.position = "absolute";
@@ -247,15 +292,28 @@ function measureEditorBlockBoundaries(textarea: HTMLTextAreaElement, lines: stri
   document.body.appendChild(mirror);
   const blocks = Array.from(mirror.children) as HTMLElement[];
   const boundaries = blocks.map((block) => block.offsetTop);
+  const heights = blocks.map((block) => block.offsetHeight);
   const last = blocks[blocks.length - 1];
   boundaries.push(last ? last.offsetTop + last.offsetHeight : Number.parseFloat(style.paddingTop) || 0);
   mirror.remove();
 
-  return boundaries;
+  return { boundaries, heights };
 }
 
 function getLineStartIndex(lines: string[], lineIndex: number) {
   return lines.slice(0, lineIndex).reduce((offset, line) => offset + line.length + 1, 0);
+}
+
+function slugFromEnglishTitle(title: string) {
+  const trimmed = title.trim();
+  if (!trimmed || /[^\x00-\x7F]/.test(trimmed)) return "";
+  if (!/[A-Za-z]/.test(trimmed)) return "";
+
+  return trimmed
+    .toLowerCase()
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 export default function ArticleEditor({
@@ -270,14 +328,20 @@ export default function ArticleEditor({
   const formRef = useRef<HTMLFormElement>(null);
   const bodyRef = useRef<HTMLTextAreaElement>(null);
   const highlightRef = useRef<HTMLPreElement>(null);
+  const lineNumberRef = useRef<HTMLPreElement>(null);
   const selectionRef = useRef<{ start: number; end: number } | null>(null);
   const dirtyRef = useRef(false);
+  const slugTouchedRef = useRef(Boolean(article?.slug));
+  const autoSlugEnabledRef = useRef(!article?.slug);
   const currentLocaleRef = useRef(article?.locale || defaultLocale);
   const fileRef = useRef<HTMLInputElement>(null);
   const markdownFileRef = useRef<HTMLInputElement>(null);
   const dropInsertIndexRef = useRef<number | null>(null);
   const dropInsertLineRef = useRef<number | null>(null);
-  const [body, setBody] = useState(normalizeArticleMarkdown(article?.body || starterMarkdown));
+  const initialBody = normalizeArticleMarkdown(article?.body || starterMarkdown);
+  const [body, setBody] = useState(initialBody);
+  const [highlightedBody, setHighlightedBody] = useState(() => highlightMarkdown(initialBody));
+  const [editorRevision, setEditorRevision] = useState(0);
   const [dirty, setDirty] = useState(false);
   const [autoSaving, setAutoSaving] = useState(false);
   const [media, setMedia] = useState<MediaItem[]>([]);
@@ -286,6 +350,7 @@ export default function ArticleEditor({
   const [uploading, setUploading] = useState(false);
   const [selectedImageName, setSelectedImageName] = useState("");
   const [selectedMarkdownName, setSelectedMarkdownName] = useState("");
+  const [selectedMarkdownFile, setSelectedMarkdownFile] = useState<File | null>(null);
   const [draggingImage, setDraggingImage] = useState(false);
   const [draggingMarkdown, setDraggingMarkdown] = useState(false);
   const [dropIndicatorTop, setDropIndicatorTop] = useState<number | null>(null);
@@ -294,7 +359,8 @@ export default function ArticleEditor({
   const [previewHtml, setPreviewHtml] = useState("");
   const [showPreview, setShowPreview] = useState(false);
   const [completion, setCompletion] = useState<{ start: number; query: string } | null>(null);
-  const highlightedBody = useMemo(() => highlightMarkdown(body), [body]);
+  const [lineMetrics, setLineMetrics] = useState<number[]>([]);
+  const editorLines = useMemo(() => body.split("\n"), [body]);
   const filteredCompletions = useMemo(
     () => completionItems.filter((item) => item.label.startsWith(completion?.query.toLowerCase() || "")),
     [completion],
@@ -311,6 +377,17 @@ export default function ArticleEditor({
       .then((items) => setMedia(items))
       .catch(() => setMedia([]));
   }, []);
+
+  useLayoutEffect(() => {
+    const textarea = bodyRef.current;
+    if (!textarea) {
+      setLineMetrics(editorLines.map(() => 24));
+      return;
+    }
+    const style = window.getComputedStyle(textarea);
+    const { heights } = measureEditorBlocks(textarea, editorLines, style);
+    setLineMetrics(heights);
+  }, [editorLines]);
 
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -409,7 +486,29 @@ export default function ArticleEditor({
 
   function setEditorBody(value: string, cursor?: number) {
     setBody(value);
+    setHighlightedBody(highlightMarkdown(value));
     if (typeof cursor === "number") updateCompletion(value, cursor);
+  }
+
+  function replaceEditorBody(value: string) {
+    flushSync(() => {
+      setBody(value);
+      setHighlightedBody(highlightMarkdown(value));
+      setLineMetrics([]);
+      setCompletion(null);
+      setEditorRevision((revision) => revision + 1);
+    });
+    dirtyRef.current = true;
+    setDirty(true);
+    selectionRef.current = { start: 0, end: 0 };
+
+    window.requestAnimationFrame(() => {
+      if (!bodyRef.current) return;
+      bodyRef.current.scrollTop = 0;
+      bodyRef.current.scrollLeft = 0;
+      bodyRef.current.setSelectionRange(0, 0);
+      syncEditorMirrors(0, 0);
+    });
   }
 
   function rememberSelection(textarea = bodyRef.current) {
@@ -428,12 +527,20 @@ export default function ArticleEditor({
       highlightRef.current.scrollTop = scrollTop;
       highlightRef.current.scrollLeft = scrollLeft;
     }
+    if (lineNumberRef.current) {
+      lineNumberRef.current.scrollTop = scrollTop;
+      lineNumberRef.current.scrollLeft = scrollLeft;
+    }
     window.requestAnimationFrame(() => {
       textarea.scrollTop = scrollTop;
       textarea.scrollLeft = scrollLeft;
       if (highlightRef.current) {
         highlightRef.current.scrollTop = scrollTop;
         highlightRef.current.scrollLeft = scrollLeft;
+      }
+      if (lineNumberRef.current) {
+        lineNumberRef.current.scrollTop = scrollTop;
+        lineNumberRef.current.scrollLeft = scrollLeft;
       }
     });
   }
@@ -517,6 +624,35 @@ export default function ArticleEditor({
     }
   }
 
+  function handleTitleChange(event: ChangeEvent<HTMLInputElement>) {
+    if (slugTouchedRef.current || !autoSlugEnabledRef.current) return;
+    const slug = slugFromEnglishTitle(event.currentTarget.value);
+    const slugInput = formRef.current?.elements.namedItem("slug");
+    if (slugInput instanceof HTMLInputElement) slugInput.value = slug;
+  }
+
+  function stopAutoSlug() {
+    const slugInput = formRef.current?.elements.namedItem("slug");
+    if (slugInput instanceof HTMLInputElement && slugInput.value.trim()) {
+      slugTouchedRef.current = true;
+      autoSlugEnabledRef.current = false;
+    }
+  }
+
+  function generateSlugFromTitle() {
+    const titleInput = formRef.current?.elements.namedItem("title");
+    const slugInput = formRef.current?.elements.namedItem("slug");
+    if (!(titleInput instanceof HTMLInputElement) || !(slugInput instanceof HTMLInputElement)) return;
+
+    const slug = slugFromEnglishTitle(titleInput.value);
+    if (!slug) return;
+
+    slugInput.value = slug;
+    slugTouchedRef.current = true;
+    autoSlugEnabledRef.current = false;
+    markDirty();
+  }
+
   async function loadMarkdownFile(file: File) {
     const text = await file.text();
     const { metadata, body } = parseMarkdownUpload(text);
@@ -536,17 +672,23 @@ export default function ArticleEditor({
       if (value) setFormField(fieldName, value);
     }
 
-    setEditorBody(normalizeArticleMarkdown(body));
-    markDirty();
+    replaceEditorBody(normalizeImportedMarkdown(body));
     setSelectedMarkdownName(file.name);
+    setSelectedMarkdownFile(null);
   }
 
   async function uploadMarkdownFile() {
-    const file = markdownFileRef.current?.files?.[0];
-    if (!file) return;
+    const file = selectedMarkdownFile || markdownFileRef.current?.files?.[0];
+    if (!file) {
+      window.alert("Choose a Markdown file first.");
+      return;
+    }
+    if (body.trim() && !window.confirm("Load this Markdown file into the editor? This will overwrite the current editor content.")) return;
 
     await loadMarkdownFile(file);
     if (markdownFileRef.current) markdownFileRef.current.value = "";
+    setSelectedMarkdownFile(null);
+    setSelectedMarkdownName("");
   }
 
   function replaceSelection(value: string, cursorOffset = value.length) {
@@ -736,9 +878,18 @@ export default function ArticleEditor({
   }
 
   function syncHighlightScroll(event: UIEvent<HTMLTextAreaElement>) {
-    if (!highlightRef.current) return;
-    highlightRef.current.scrollTop = event.currentTarget.scrollTop;
-    highlightRef.current.scrollLeft = event.currentTarget.scrollLeft;
+    syncEditorMirrors(event.currentTarget.scrollTop, event.currentTarget.scrollLeft);
+  }
+
+  function syncEditorMirrors(scrollTop: number, scrollLeft: number) {
+    if (highlightRef.current) {
+      highlightRef.current.scrollTop = scrollTop;
+      highlightRef.current.scrollLeft = scrollLeft;
+    }
+    if (lineNumberRef.current) {
+      lineNumberRef.current.scrollTop = scrollTop;
+      lineNumberRef.current.scrollLeft = scrollLeft;
+    }
   }
 
   async function uploadImageFile(file: File) {
@@ -790,7 +941,9 @@ export default function ArticleEditor({
   }
 
   function chooseMarkdownFile(files: FileList | null) {
-    setSelectedMarkdownName(files?.[0]?.name || "");
+    const file = files?.[0];
+    setSelectedMarkdownName(file?.name || "");
+    setSelectedMarkdownFile(file || null);
   }
 
   async function handleMarkdownDrop(event: DragEvent<HTMLLabelElement>) {
@@ -799,7 +952,8 @@ export default function ArticleEditor({
     setDraggingMarkdown(false);
     const file = Array.from(event.dataTransfer.files).find((item) => item.name.endsWith(".md") || item.type.startsWith("text/"));
     if (!file) return;
-    await loadMarkdownFile(file);
+    setSelectedMarkdownFile(file);
+    setSelectedMarkdownName(file.name);
     if (markdownFileRef.current) markdownFileRef.current.value = "";
   }
 
@@ -820,7 +974,7 @@ export default function ArticleEditor({
     const rect = textarea.getBoundingClientRect();
     const style = window.getComputedStyle(textarea);
     const lines = textarea.value.split("\n");
-    const boundaries = measureEditorBlockBoundaries(textarea, lines, style);
+    const { boundaries } = measureEditorBlocks(textarea, lines, style);
     const contentY = clientY - rect.top + textarea.scrollTop;
     let lineIndex = 0;
     let nearestDistance = Number.POSITIVE_INFINITY;
@@ -898,6 +1052,8 @@ export default function ArticleEditor({
             id="title"
             name="title"
             defaultValue={article?.title || ""}
+            onChange={handleTitleChange}
+            onBlur={stopAutoSlug}
             className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2 text-lg font-semibold outline-none focus:border-emerald-700"
             required
           />
@@ -906,13 +1062,26 @@ export default function ArticleEditor({
               <label className="block text-sm font-medium text-slate-700" htmlFor="slug">
                 Slug
               </label>
-              <input
-                id="slug"
-                name="slug"
-                defaultValue={article?.slug || ""}
-                placeholder="auto-generated from title"
-                className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-emerald-700"
-              />
+              <div className="mt-2 flex gap-2">
+                <input
+                  id="slug"
+                  name="slug"
+                  defaultValue={article?.slug || ""}
+                  onChange={() => {
+                    slugTouchedRef.current = true;
+                    autoSlugEnabledRef.current = false;
+                  }}
+                  placeholder="auto-generated from title"
+                  className="min-w-0 flex-1 rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-emerald-700"
+                />
+                <button
+                  type="button"
+                  onClick={generateSlugFromTitle}
+                  className="rounded-md border border-emerald-700 px-4 py-2 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50"
+                >
+                  Generate
+                </button>
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-700" htmlFor="locale">
@@ -1044,6 +1213,7 @@ export default function ArticleEditor({
             </button>
           </div>
           <div
+            key={editorRevision}
             className="relative min-h-[620px] bg-white"
             onDragOver={handleEditorDragOver}
             onDragLeave={(event) => {
@@ -1056,6 +1226,17 @@ export default function ArticleEditor({
             }}
             onDrop={handleEditorDrop}
           >
+            <pre
+              ref={lineNumberRef}
+              aria-hidden="true"
+              className="editor-line-numbers"
+            >
+              {editorLines.map((_, index) => (
+                <span key={index} className="editor-line-number-row" style={{ height: `${lineMetrics[index] || 24}px` }}>
+                  <span className="editor-line-number-value">{index + 1}</span>
+                </span>
+              ))}
+            </pre>
             <pre
               ref={highlightRef}
               aria-hidden="true"
