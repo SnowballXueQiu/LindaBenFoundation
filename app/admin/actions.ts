@@ -29,6 +29,33 @@ function parseStatus(value: string): ArticleStatus {
   return value === "published" ? "published" : "draft";
 }
 
+function validateArticleInput(input: {
+  title: string;
+  slug: string;
+  body: string;
+  locale: string;
+  status: ArticleStatus;
+  excerpt: string;
+  category: string;
+  tags: string[];
+}) {
+  const errors: string[] = [];
+  if (!input.title) errors.push("title is required");
+  if (!input.slug) errors.push("slug is required");
+  if (!input.body) errors.push("body is required");
+  if (!isSupportedLocale(input.locale)) errors.push(`locale "${input.locale || "empty"}" is not supported`);
+  if (!["draft", "published"].includes(input.status)) errors.push(`status "${input.status}" is not supported`);
+  if (input.status === "published") {
+    const missing = [
+      !input.excerpt && "excerpt",
+      !input.category && "category",
+      input.tags.length === 0 && "tags",
+    ].filter(Boolean);
+    if (missing.length) errors.push(`published articles require metadata fields: ${missing.join(", ")}`);
+  }
+  return errors;
+}
+
 export async function saveArticleAction(_state: AdminActionState, formData: FormData): Promise<AdminActionState> {
   await requireAdmin();
   let redirectTo = "";
@@ -40,14 +67,15 @@ export async function saveArticleAction(_state: AdminActionState, formData: Form
     const slug = stringValue(formData, "slug") || existingSlug || makeSlug(title);
     const locale = stringValue(formData, "locale") || defaultLocale;
     const body = normalizeArticleMarkdown(stringValue(formData, "body"));
-
-    if (!title || !slug || !body) {
-      return { ok: false, message: "Title, slug, and content are required." };
-    }
-
-    if (!isSupportedLocale(locale)) {
-      return { ok: false, message: "Unsupported locale." };
-    }
+    const status = parseStatus(stringValue(formData, "status"));
+    const excerpt = stringValue(formData, "excerpt");
+    const category = stringValue(formData, "category");
+    const tags = stringValue(formData, "tags")
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+    const validationErrors = validateArticleInput({ title, slug, body, locale, status, excerpt, category, tags });
+    if (validationErrors.length) return { ok: false, message: `Cannot save article: ${validationErrors.join("; ")}.` };
 
     const now = new Date().toISOString();
     const article: Article = {
@@ -55,17 +83,14 @@ export async function saveArticleAction(_state: AdminActionState, formData: Form
       slug,
       locale,
       title,
-      excerpt: stringValue(formData, "excerpt"),
-      status: parseStatus(stringValue(formData, "status")),
+      excerpt,
+      status,
       coverImage: stringValue(formData, "coverImage") || undefined,
-      author: stringValue(formData, "author") || undefined,
+      author: stringValue(formData, "author") || "LindaBen Foundation",
       publishedAt: stringValue(formData, "publishedAt") || undefined,
       updatedAt: now,
-      tags: stringValue(formData, "tags")
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter(Boolean),
-      category: stringValue(formData, "category") || undefined,
+      tags,
+      category: category || undefined,
       body,
     };
 

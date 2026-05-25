@@ -1,6 +1,6 @@
 "use client";
 
-import { type ChangeEvent, type DragEvent, type KeyboardEvent, type UIEvent, useActionState, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { type ChangeEvent, type DragEvent, type FormEvent, type KeyboardEvent, type UIEvent, useActionState, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { useRouter } from "next/navigation";
 import { saveArticleAction, type AdminActionState } from "@/app/admin/actions";
@@ -8,10 +8,22 @@ import ArticleBody from "@/components/ArticleBody";
 import { normalizeArticleMarkdown } from "@/lib/content/normalize-markdown";
 import { defaultLocale, supportedLocales } from "@/lib/i18n/config";
 import type { Article } from "@/lib/content/types";
+import { useEditorValidationStore } from "./editorStore";
 
 type MediaItem = {
   key: string;
   url: string;
+};
+
+type ImportedMarkdown = {
+  metadata: Record<string, string>;
+  body: string;
+};
+
+type MetadataSuggestion = {
+  excerpt: string;
+  category: string;
+  tags: string[];
 };
 
 const initialState: AdminActionState = {};
@@ -113,44 +125,6 @@ const starterMarkdown = [
   "",
   "<iframe src=\"https://www.youtube.com/embed/dQw4w9WgXcQ\" title=\"Embedded video\" width=\"100%\" height=\"420\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>",
 ].join("\n");
-
-function stripQuotes(value: string) {
-  return value.trim().replace(/^["']|["']$/g, "");
-}
-
-function parseMarkdownUpload(markdown: string) {
-  markdown = markdown.replace(/^\uFEFF/, "").replace(/\r\n?/g, "\n");
-  if (!markdown.startsWith("---")) return { metadata: new Map<string, string>(), body: markdown };
-
-  const end = markdown.indexOf("\n---", 3);
-  if (end === -1) return { metadata: new Map<string, string>(), body: markdown };
-
-  const metadata = new Map<string, string>();
-  const frontmatter = markdown.slice(3, end).trim();
-  const body = markdown.slice(end + 4).trimStart();
-
-  for (const line of frontmatter.split("\n")) {
-    const match = line.match(/^([A-Za-z][A-Za-z0-9_-]*):\s*(.*)$/);
-    if (!match) continue;
-    const [, key, rawValue] = match;
-    const value = rawValue.trim();
-    if (value.startsWith("[") && value.endsWith("]")) {
-      metadata.set(
-        key,
-        value
-          .slice(1, -1)
-          .split(",")
-          .map((item) => stripQuotes(item))
-          .filter(Boolean)
-          .join(", "),
-      );
-    } else {
-      metadata.set(key, stripQuotes(value));
-    }
-  }
-
-  return { metadata, body };
-}
 
 function normalizeImportedMarkdown(markdown: string) {
   const normalized = normalizeArticleMarkdown(markdown)
@@ -325,6 +299,11 @@ export default function ArticleEditor({
 }) {
   const router = useRouter();
   const [state, action, pending] = useActionState(saveArticleAction, initialState);
+  const notifications = useEditorValidationStore((store) => store.notifications);
+  const notify = useEditorValidationStore((store) => store.notify);
+  const dismissNotification = useEditorValidationStore((store) => store.dismiss);
+  const setStoreDirty = useEditorValidationStore((store) => store.setDirty);
+  const setLatestError = useEditorValidationStore((store) => store.setLatestError);
   const formRef = useRef<HTMLFormElement>(null);
   const bodyRef = useRef<HTMLTextAreaElement>(null);
   const highlightRef = useRef<HTMLPreElement>(null);
@@ -353,6 +332,7 @@ export default function ArticleEditor({
   const [selectedMarkdownFile, setSelectedMarkdownFile] = useState<File | null>(null);
   const [draggingImage, setDraggingImage] = useState(false);
   const [draggingMarkdown, setDraggingMarkdown] = useState(false);
+  const [generatingMetadata, setGeneratingMetadata] = useState(false);
   const [dropIndicatorTop, setDropIndicatorTop] = useState<number | null>(null);
   const [dropInsertIndex, setDropInsertIndex] = useState<number | null>(null);
   const [previewing, setPreviewing] = useState(false);
@@ -377,6 +357,12 @@ export default function ArticleEditor({
       .then((items) => setMedia(items))
       .catch(() => setMedia([]));
   }, []);
+
+  useEffect(() => {
+    if (!state.message) return;
+    setLatestError(state.message);
+    notify({ kind: state.ok ? "success" : "error", message: state.ok ? "Article saved" : "Article save failed", detail: state.message });
+  }, [notify, setLatestError, state.message, state.ok]);
 
   useLayoutEffect(() => {
     const textarea = bodyRef.current;
@@ -419,6 +405,7 @@ export default function ArticleEditor({
   function markDirty() {
     dirtyRef.current = true;
     setDirty(true);
+    setStoreDirty(true);
   }
 
   const buildArticleFormData = useCallback((localeOverride?: string) => {
@@ -446,12 +433,13 @@ export default function ArticleEditor({
 
       dirtyRef.current = false;
       setDirty(false);
+      setStoreDirty(false);
       currentLocaleRef.current = result.locale;
       return { slug: result.slug, locale: result.locale };
     } finally {
       setAutoSaving(false);
     }
-  }, [buildArticleFormData]);
+  }, [buildArticleFormData, setStoreDirty]);
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
@@ -500,6 +488,7 @@ export default function ArticleEditor({
     });
     dirtyRef.current = true;
     setDirty(true);
+    setStoreDirty(true);
     selectionRef.current = { start: 0, end: 0 };
 
     window.requestAnimationFrame(() => {
@@ -624,6 +613,14 @@ export default function ArticleEditor({
     }
   }
 
+  function getFormField(name: string) {
+    const element = formRef.current?.elements.namedItem(name);
+    if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement) {
+      return element.value.trim();
+    }
+    return "";
+  }
+
   function handleTitleChange(event: ChangeEvent<HTMLInputElement>) {
     if (slugTouchedRef.current || !autoSlugEnabledRef.current) return;
     const slug = slugFromEnglishTitle(event.currentTarget.value);
@@ -655,7 +652,16 @@ export default function ArticleEditor({
 
   async function loadMarkdownFile(file: File) {
     const text = await file.text();
-    const { metadata, body } = parseMarkdownUpload(text);
+    const response = await fetch("/api/admin/articles/import-markdown", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ markdown: text }),
+    });
+    const result = (await response.json()) as ImportedMarkdown & { error?: string };
+    if (!response.ok) {
+      throw new Error(result.error || "Unable to parse Markdown frontmatter.");
+    }
+    const { metadata, body } = result;
     const fieldMap: Record<string, string> = {
       title: "title",
       excerpt: "excerpt",
@@ -668,27 +674,34 @@ export default function ArticleEditor({
     };
 
     for (const [metadataKey, fieldName] of Object.entries(fieldMap)) {
-      const value = metadata.get(metadataKey);
+      const value = metadata[metadataKey];
       if (value) setFormField(fieldName, value);
     }
 
     replaceEditorBody(normalizeImportedMarkdown(body));
     setSelectedMarkdownName(file.name);
     setSelectedMarkdownFile(null);
+    notify({ kind: "success", message: "Markdown loaded", detail: "Frontmatter and body were imported into the editor." });
   }
 
   async function uploadMarkdownFile() {
     const file = selectedMarkdownFile || markdownFileRef.current?.files?.[0];
     if (!file) {
-      window.alert("Choose a Markdown file first.");
+      notify({ kind: "warning", message: "Choose a Markdown file first." });
       return;
     }
     if (body.trim() && !window.confirm("Load this Markdown file into the editor? This will overwrite the current editor content.")) return;
 
-    await loadMarkdownFile(file);
-    if (markdownFileRef.current) markdownFileRef.current.value = "";
-    setSelectedMarkdownFile(null);
-    setSelectedMarkdownName("");
+    try {
+      await loadMarkdownFile(file);
+      if (markdownFileRef.current) markdownFileRef.current.value = "";
+      setSelectedMarkdownFile(null);
+      setSelectedMarkdownName("");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unable to load Markdown.";
+      setLatestError(message);
+      notify({ kind: "error", message: "Markdown import failed", detail: message });
+    }
   }
 
   function replaceSelection(value: string, cursorOffset = value.length) {
@@ -932,6 +945,91 @@ export default function ArticleEditor({
     }
   }
 
+  function validateArticleForm() {
+    const title = getFormField("title");
+    const slug = getFormField("slug");
+    const locale = getFormField("locale");
+    const status = getFormField("status");
+    const excerpt = getFormField("excerpt");
+    const category = getFormField("category");
+    const tags = getFormField("tags");
+    const content = bodyRef.current?.value.trim() || body.trim();
+    const errors: string[] = [];
+
+    if (!title) errors.push("title is required");
+    if (!slug) errors.push("slug is required");
+    if (!content) errors.push("body is required");
+    if (!["draft", "published"].includes(status)) errors.push(`status must be draft or published, received "${status || "empty"}"`);
+    if (!supportedLocales.includes(locale as (typeof supportedLocales)[number])) errors.push(`locale "${locale || "empty"}" is not supported`);
+    if (status === "published") {
+      const missingMetadata = [
+        !excerpt && "excerpt",
+        !category && "category",
+        !tags && "tags",
+      ].filter(Boolean);
+      if (missingMetadata.length) errors.push(`published articles require ${missingMetadata.join(", ")}`);
+    }
+
+    return errors;
+  }
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    const errors = validateArticleForm();
+    if (!errors.length) return;
+
+    event.preventDefault();
+    const detail = errors.join("; ");
+    setLatestError(detail);
+    notify({
+      kind: "error",
+      message: "Cannot save article",
+      detail,
+    });
+  }
+
+  async function generateMetadata() {
+    const existing = [getFormField("excerpt"), getFormField("category"), getFormField("tags")].some(Boolean);
+    if (existing && !window.confirm("Generate metadata with AI? This will overwrite the current excerpt, category, and tags.")) return;
+
+    const title = getFormField("title");
+    const locale = getFormField("locale") || currentLocaleRef.current;
+    const content = bodyRef.current?.value || body;
+    if (!title || !content.trim()) {
+      notify({ kind: "warning", message: "Title and body are required before generating metadata." });
+      return;
+    }
+
+    setGeneratingMetadata(true);
+    try {
+      const response = await fetch("/api/admin/articles/metadata", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          locale,
+          title,
+          body: content,
+          excerpt: getFormField("excerpt"),
+          category: getFormField("category"),
+          tags: getFormField("tags"),
+        }),
+      });
+      const result = (await response.json()) as MetadataSuggestion & { error?: string };
+      if (!response.ok) throw new Error(result.error || "Unable to generate metadata.");
+
+      setFormField("excerpt", result.excerpt || "");
+      setFormField("category", result.category || "");
+      setFormField("tags", Array.isArray(result.tags) ? result.tags.join(", ") : "");
+      markDirty();
+      notify({ kind: "success", message: "Metadata generated", detail: "AI filled excerpt, category, and tags for the current language." });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unable to generate metadata.";
+      setLatestError(message);
+      notify({ kind: "error", message: "Metadata generation failed", detail: message });
+    } finally {
+      setGeneratingMetadata(false);
+    }
+  }
+
   function toggleSelectedMedia(key: string) {
     setSelectedMedia((items) => (items.includes(key) ? items.filter((item) => item !== key) : [...items, key]));
   }
@@ -1030,6 +1128,7 @@ export default function ArticleEditor({
     <form
       ref={formRef}
       action={action}
+      onSubmit={handleSubmit}
       onInputCapture={(event) => {
         const target = event.target;
         if (target instanceof HTMLInputElement && target.type === "file") return;
@@ -1042,6 +1141,44 @@ export default function ArticleEditor({
     >
       <input type="hidden" name="type" value={type} />
       <input type="hidden" name="existingSlug" value={article?.slug || ""} />
+      {notifications.length > 0 && (
+        <div className="fixed right-5 top-5 z-[120] w-[min(420px,calc(100vw-2.5rem))] space-y-3">
+          {notifications.map((notification) => (
+            <div
+              key={notification.id}
+              className={`rounded-lg border bg-white p-4 shadow-xl ${
+                notification.kind === "error"
+                  ? "border-red-200"
+                  : notification.kind === "warning"
+                    ? "border-amber-200"
+                    : notification.kind === "success"
+                      ? "border-emerald-200"
+                      : "border-slate-200"
+              }`}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className={`text-sm font-bold ${
+                    notification.kind === "error"
+                      ? "text-red-700"
+                      : notification.kind === "warning"
+                        ? "text-amber-700"
+                        : notification.kind === "success"
+                          ? "text-emerald-800"
+                          : "text-slate-800"
+                  }`}>
+                    {notification.message}
+                  </p>
+                  {notification.detail && <p className="mt-1 text-xs leading-5 text-slate-600">{notification.detail}</p>}
+                </div>
+                <button type="button" onClick={() => dismissNotification(notification.id)} className="text-sm font-bold text-slate-400 hover:text-slate-700">
+                  X
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className="space-y-6">
         <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
@@ -1119,7 +1256,7 @@ export default function ArticleEditor({
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700" htmlFor="author">Author</label>
-                <input id="author" name="author" defaultValue={article?.author || ""} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2" />
+                <input id="author" name="author" defaultValue={article?.author || "LindaBen Foundation"} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2" />
               </div>
             </div>
             <label className="mt-4 block text-sm font-medium text-slate-700" htmlFor="markdownUpload">Upload Markdown</label>
@@ -1155,6 +1292,17 @@ export default function ArticleEditor({
             <summary className="cursor-pointer text-sm font-bold uppercase tracking-wide text-slate-700">
               Metadata
             </summary>
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+              <p className="text-sm text-slate-500">Generate excerpt, category, and tags for the current language.</p>
+              <button
+                type="button"
+                onClick={generateMetadata}
+                disabled={generatingMetadata}
+                className="rounded-md bg-emerald-800 px-4 py-2 text-sm font-bold text-white shadow-sm disabled:opacity-60"
+              >
+                {generatingMetadata ? "Generating..." : "Generate metadata with AI"}
+              </button>
+            </div>
             <div className="mt-4 grid gap-4 md:grid-cols-2">
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-slate-700" htmlFor="excerpt">Excerpt</label>
