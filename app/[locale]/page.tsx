@@ -8,6 +8,7 @@ import BibleQuote from "@/components/BibleQuote";
 import Testimonials from "@/components/Testimonials";
 import AboutUs from "@/components/AboutUs";
 import Blog from "@/components/Blog";
+import FacebookPageEmbed from "@/components/FacebookPageEmbed";
 import Partners from "@/components/Partners";
 import DonationCTA from "@/components/DonationCTA";
 import ContactForm from "@/components/ContactForm";
@@ -37,6 +38,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <Testimonials />
         <AboutUs />
         <Blog posts={posts.slice(0, 3)} locale={locale} dictionary={dictionary} />
+        <FacebookPageEmbed />
         <Partners />
         <DonationCTA />
         <ContactForm />
